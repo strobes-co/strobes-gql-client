@@ -10,5 +10,7 @@ class StrobesGQLClient(BaseClient):
         super().__init__(*args, **kwargs)
         self.grapqhl_url = f'{self.app_url}api/graphql/'
         self.endpoint = RequestsEndpoint(self.grapqhl_url, self.headers)
-        self.op = Operation(schema.Query)
+    
+    def get_op(self):
+        return Operation(schema.Query)
 
