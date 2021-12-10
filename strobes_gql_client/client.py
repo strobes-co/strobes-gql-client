@@ -14,3 +14,7 @@ class StrobesGQLClient(BaseClient):
     def get_op(self):
         self.op = Operation(schema.Query)
         return self.op
+    
+    def get_mutation_op(self):
+        self.op = Operation(schema.Mutation)
+        return self.op
