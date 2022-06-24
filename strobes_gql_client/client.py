@@ -11,7 +11,6 @@ class StrobesGQLClient(BaseClient):
         super().__init__(*args, **kwargs)
         session = requests.Session()
         session.verify = kwargs.get('verify', True)
-        print(session.verify)
         self.grapqhl_url = f'{self.app_url}api/graphql/'
         self.endpoint = RequestsEndpoint(self.grapqhl_url, self.headers, session=session)
     
