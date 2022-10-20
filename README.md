@@ -32,6 +32,9 @@ StrobesGQL client is a python wrapper around Strobes graphql
     * [BulkUpdateBugTagMutation](#bulkupdatebugtagmutation)
     * [BulkUpdateOrgMemberRoleMutation](#bulkupdateorgmemberrolemutation)
     * [BulkUpdateTeamMemberRoleMutation](#bulkupdateteammemberrolemutation)
+    * [UpdateEngagementMutation](#updateengagementmutation)
+    * [UpdateAssessmentMutation](#updateassessmentmutation)
+    * [BulkAssessmentMutation](#bulkassessmentmutation)
     * [CVEType](#cvetype)
     * [CWEType](#cwetype)
     * [ConfigurationType](#configurationtype)
@@ -47,11 +50,20 @@ StrobesGQL client is a python wrapper around Strobes graphql
     * [TenantOrganizationType](#tenantorganizationtype)
     * [UpdateGroupMutation](#updategroupmutation)
     * [UserType](#usertype)
+    * [EngagementCommentPaginatedType](#engagementcommentpaginatedtype)
+    * [EngagementActivityType](#engagementactivitytype)
+    * [EngagementCommentType](#engagementcommenttype)
+    * [AssessmentPaginatedType](#assessmentpaginatedtype)
+    * [AssessmentType](#assessmenttype)
+    * [ApprovalUserType](#approvalusertype)
+    * [ApprovalType](#approvaltype)
+    * [AttachmentType](#attachmenttype)
   * [Enums](#enums)
     * [ParentConnectorsType](#parentconnectorstype)
   * [Scalars](#scalars)
     * [Boolean](#boolean)
     * [DateTime](#datetime)
+    * [Date](#date)
     * [Float](#float)
     * [ID](#id)
     * [Int](#int)
@@ -207,6 +219,86 @@ StrobesGQL client is a python wrapper around Strobes graphql
 <td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
+
+<tr>
+<td colspan="2" valign="top"><strong>allEngagementActivities</strong></td>
+<td valign="top"><a href="#engagementcommentpaginatedtype">EngagementCommentPaginatedType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">organizationId</td>
+<td valign="top"><a href="#uuid">UUID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">engagementId</td>
+<td valign="top"><a href="#uuid">UUID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">searchQuery</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">orderBy</td>
+<td valign="top">[<a href="#string">String</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">page</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">pageSize</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+
+
+
+<tr>
+<td colspan="2" valign="top"><strong>allAssessments</strong></td>
+<td valign="top"><a href="#assessmentpaginatedtype">AssessmentPaginatedType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">organizationId</td>
+<td valign="top"><a href="#uuid">UUID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">engagementId</td>
+<td valign="top"><a href="#uuid">UUID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">searchQuery</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">orderBy</td>
+<td valign="top">[<a href="#string">String</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">assetId</td>
+<td valign="top">[<a href="#int">Int</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">page</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">pageSize</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>€
+
 </tbody>
 </table>
 
@@ -589,6 +681,168 @@ StrobesGQL client is a python wrapper around Strobes graphql
 <tr>
 <td colspan="2" align="right" valign="top">organizationId</td>
 <td valign="top"><a href="#uuid">UUID</a></td>
+<td></td>
+</tr>
+
+
+<tr>
+<td colspan="2" valign="top"><strong>updateEngagement</strong></td>
+<td valign="top"><a href="#updateengagementmutation">UpdateEngagementMutation</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">addAssetIds</td>
+<td valign="top">[<a href="#int">Int</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">addDocumentIds</td>
+<td valign="top">[<a href="#int">Int</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">commentAttachments</td>
+<td valign="top">[<a href="#int">Int</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">deliveryDate</td>
+<td valign="top"><a href="#date">Date</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">scheduledDate</td>
+<td valign="top"><a href="#date">Date</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">engagementId</td>
+<td valign="top"><a href="#uuid">UUID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">instructions</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">name</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">organizationId</td>
+<td valign="top"><a href="#uuid">UUID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">service</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">package</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">removeAssetIds</td>
+<td valign="top">[<a href="#int">Int</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">removeDocumentIds</td>
+<td valign="top">[<a href="#int">Int</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">subscribedServices</td>
+<td valign="top">[<a href="#int">Int</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">testAccounts</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">vpnAccounts</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>updateAssessments</strong></td>
+<td valign="top"><a href="#updateassessmentmutation">UpdateAssessmentMutation</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">assessmentId</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">assignedTo</td>
+<td valign="top">[<a href="#int">Int</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">engagementId</td>
+<td valign="top"><a href="#uuid">UUID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">instructions</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">organizationId</td>
+<td valign="top"><a href="#uuid">UUID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">state</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">testAccounts</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">vpnAccounts</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>bulkUpdateAssessment</strong></td>
+<td valign="top"><a href="#bulkassessmentmutation">BulkAssessmentMutation</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">engagementId</td>
+<td valign="top"><a href="#uuid">UUID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">organizationId</td>
+<td valign="top"><a href="#uuid">UUID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">state</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">searchQuery</td>
+<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 </tbody>
@@ -1436,6 +1690,67 @@ StrobesGQL client is a python wrapper around Strobes graphql
 </tbody>
 </table>
 
+
+### UpdateEngagementMutation
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>engagement</strong></td>
+<td valign="top">[<a href="#engagementtype">EngagementType</a>]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### UpdateAssessmentMutation
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>assessment</strong></td>
+<td valign="top">[<a href="#assessmenttype">AssessmentType</a>]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### BulkAssessmentMutation
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>assessment</strong></td>
+<td valign="top">[<a href="#assessmenttype">AssessmentType</a>]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
 ### CVEType
 
 <table>
@@ -1859,23 +2174,13 @@ StrobesGQL client is a python wrapper around Strobes graphql
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>service</strong></td>
+<td colspan="2" valign="top"><strong>engagementCustomId</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>name</strong></td>
 <td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>package</strong></td>
-<td valign="top"><a href="#string">String</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>assessmentData</strong></td>
-<td valign="top"><a href="#jsonstring">JSONString</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>state</strong></td>
-<td valign="top"><a href="#int">Int</a>!</td>
 <td></td>
 </tr>
 <tr>
@@ -1884,13 +2189,38 @@ StrobesGQL client is a python wrapper around Strobes graphql
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>assets</strong></td>
-<td valign="top">[<a href="#assettype">AssetType</a>!]!</td>
+<td colspan="2" valign="top"><strong>subscribedServices</strong></td>
+<td valign="top"><a href="#jsonstring">JSONString</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>checkedTermsAndConditions</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>assessmentsCount</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>engagementCompletion</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>assessmentsPerService</strong></td>
+<td valign="top"><a href="#jsonstring">JSONString</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>engagementAssessment</strong></td>
+<td valign="top">[<a href="#assessmenttype">AssessmentType</a>!]!</td>
 <td></td>
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>createdBy</strong></td>
-<td valign="top"><a href="#usertype">UserType</a></td>
+<td valign="top"><a href="#approvalusertype">ApprovalUserType</a></td>
 <td></td>
 </tr>
 <tr>
@@ -1900,7 +2230,17 @@ StrobesGQL client is a python wrapper around Strobes graphql
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>scheduledDate</strong></td>
-<td valign="top"><a href="#datetime">DateTime</a></td>
+<td valign="top"><a href="#date">Date</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>deliveryDate</strong></td>
+<td valign="top"><a href="#date">Date</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>documents</strong></td>
+<td valign="top">[<a href="#attachmenttype">AttachmentType</a>!]!</td>
 <td></td>
 </tr>
 <tr>
@@ -1918,8 +2258,575 @@ StrobesGQL client is a python wrapper around Strobes graphql
 <td valign="top">[<a href="#bugtype">BugType</a>!]!</td>
 <td></td>
 </tr>
+<tr>
+<td colspan="2" valign="top"><strong>activityEngagement</strong></td>
+<td valign="top">[<a href="#engagementactivitytype">EngagementActivityType</a>!]!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>commentsEngagement</strong></td>
+<td valign="top">[<a href="#engagementcommenttype">EngagementCommentType</a>!]!</td>
+<td></td>
+</tr>
 </tbody>
 </table>
+
+### EngagementActivityType
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>id</strong></td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td></td>
+</tr>
+<td colspan="2" valign="top"><strong>data</strong></td>
+<td valign="top"><a href="#jsonstring">JSONString</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>action</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>user</strong></td>
+<td valign="top"><a href="#approvalusertype">ApprovalUserType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>team</strong></td>
+<td valign="top"><a href="#teamtype">TeamType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>bug</strong></td>
+<td valign="top"><a href="#bugtype">BugType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>asset</strong></td>
+<td valign="top"><a href="#assettype">AssetType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>connectorConfig</strong></td>
+<td valign="top"><a href="#configurationtype">ConfigurationType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>engagement</strong></td>
+<td valign="top"><a href="#engagementtype">EngagementType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>connector</strong></td>
+<td valign="top"><a href="#connectortype">ConnectorType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>task</strong></td>
+<td valign="top"><a href="#scanlog">ScanLog</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>approval</strong></td>
+<td valign="top"><a href="#approvaltype">ApprovalType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>created</strong></td>
+<td valign="top"><a href="#datetime">DateTime</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>updated</strong></td>
+<td valign="top"><a href="#datetime">DateTime</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>commentSet</strong></td>
+<td valign="top">[<a href="#engagementcommenttype">EngagementCommentType</a>!]!</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+### EngagementCommentPaginatedType
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>page</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>totalPages</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>pageSize</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>totalCount</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>hasNext</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>hasPrev</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>objects</strong></td>
+<td valign="top">[<a href="#engagementcommenttype">EngagementCommentType</a>]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### EngagementCommentType
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>id</strong></td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>comment</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>bug</strong></td>
+<td valign="top"><a href="#bugtype">BugType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>attachments</strong></td>
+<td valign="top">[<a href="#attachmenttype">AttachmentType</a>!]!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>internal</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>activity</strong></td>
+<td valign="top"><a href="#approvalUsertype">EngagementActivityType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>commentedBy</strong></td>
+<td valign="top"><a href="#approvalusertype">ApprovalUserType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>connectorConfig</strong></td>
+<td valign="top"><a href="#configurationtype">ConfigurationType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>connector</strong></td>
+<td valign="top"><a href="#connectortype">ConnectorType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>team</strong></td>
+<td valign="top"><a href="#teamtype">TeamType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>approval</strong></td>
+<td valign="top"><a href="#approvaltype">ApprovalType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>engagement</strong></td>
+<td valign="top"><a href="#engagementtype">EngagementType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>created</strong></td>
+<td valign="top"><a href="#datetime">DateTime</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>updated</strong></td>
+<td valign="top"><a href="#datetime">DateTime</a>!</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+### AssessmentPaginatedType
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>page</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>totalPages</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>pageSize</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>totalCount</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>hasNext</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>hasPrev</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>objects</strong></td>
+<td valign="top">[<a href="#assessmenttype">AssessmentType</a>]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+### AssessmentType
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>id</strong></td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>service</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>package</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>engagement</strong></td>
+<td valign="top"><a href="#engagementtype">EngagementType</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>asset</strong></td>
+<td valign="top"><a href="#assettype">AssetType</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>state</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>scope</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>instructions</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>testAccounts</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>vpnAccounts</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>assignedTo</strong></td>
+<td valign="top">[<a href="#approvalusertype">ApprovalUserType</a>!]!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>created</strong></td>
+<td valign="top"><a href="#datetime">DateTime</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>updated</strong></td>
+<td valign="top"><a href="#datetime">DateTime</a>!</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+### ApprovalUserType
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>id</strong></td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>email</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>firstName</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>lastName</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>isActive</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>created</strong></td>
+<td valign="top"><a href="#datetime">DateTime</a>!</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+### ApprovalType
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>id</strong></td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>vulnerability</strong></td>
+<td valign="top"><a href="#bugtype">BugType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>approvedBy</strong></td>
+<td valign="top"><a href="#membertype">MemberType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>approvalState</strong></td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>raisedBy</strong></td>
+<td valign="top"><a href="#membertype">MemberType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>fromState</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>toState</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>isExpired</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>created</strong></td>
+<td valign="top"><a href="#datetime">DateTime</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>updated</strong></td>
+<td valign="top"><a href="#datetime">DateTime</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>activityApproval</strong></td>
+<td valign="top">[<a href="#engagementactivitytype">EngagementActivityType</a>!]!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>commentsApproval</strong></td>
+<td valign="top">[<a href="#engagementcommenttype">EngagementCommentType</a>!]!</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+### AttachmentType
+
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>id</strong></td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>attachment</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>attachmentName</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>attachmentSize</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>url</strong></td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>bug</strong></td>
+<td valign="top"><a href="#bugtype">BugType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>attachedBy</strong></td>
+<td valign="top"><a href="#approvalusertype">ApprovalUserType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>created</strong></td>
+<td valign="top"><a href="#datetime">DateTime</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>updated</strong></td>
+<td valign="top"><a href="#datetime">DateTime</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>documentVault</strong></td>
+<td valign="top">[<a href="#engagementtype">EngagementType</a>!]!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>bugAttachments</strong></td>
+<td valign="top">[<a href="#bugtype">BugType</a>!]!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>commentSet</strong></td>
+<td valign="top">[<a href="#engagementcommenttype">EngagementCommentType</a>!]!</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+
 
 ### GroupPaginatedType
 
@@ -2592,6 +3499,12 @@ The `Boolean` scalar type represents `true` or `false`.
 ### DateTime
 
 The `DateTime` scalar type represents a DateTime
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+
+### Date
+
+The `Date` scalar type represents a Date
 value as specified by
 [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
 
