@@ -13,9 +13,9 @@ StrobesGQL client is a python wrapper around Strobes graphql
   * [Objects](#objects)
     * [AddBulkCommentsMutation](#addbulkcommentsmutation)
     * [AddGroupMutation](#addgroupmutation)
-    * [AssetPaginatedType](#assetpaginatedtype)
+    * [AssetCursorPaginatedType](#assetcursorpaginatedtype)
     * [AssetType](#assettype)
-    * [BugPaginatedType](#bugpaginatedtype)
+    * [BugCursorPaginatedType](#bugcursorpaginatedtype)
     * [BugType](#bugtype)
     * [BulkBugAssignmentMutation](#bulkbugassignmentmutation)
     * [BulkBugUnAssignmentMutation](#bulkbugunassignmentmutation)
@@ -146,7 +146,7 @@ StrobesGQL client is a python wrapper around Strobes graphql
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>allAssets</strong></td>
-<td valign="top"><a href="#assetpaginatedtype">AssetPaginatedType</a></td>
+<td valign="top"><a href="#assetcursorpaginatedtype">AssetCursorPaginatedType</a></td>
 <td></td>
 </tr>
 <tr>
@@ -186,7 +186,7 @@ StrobesGQL client is a python wrapper around Strobes graphql
 </tr>
 <tr>
 <td colspan="2" valign="top"><strong>allBugs</strong></td>
-<td valign="top"><a href="#bugpaginatedtype">BugPaginatedType</a></td>
+<td valign="top"><a href="#bugcursorpaginatedtype">BugCursorPaginatedType</a></td>
 <td></td>
 </tr>
 <tr>
@@ -890,7 +890,7 @@ StrobesGQL client is a python wrapper around Strobes graphql
 </tbody>
 </table>
 
-### AssetPaginatedType
+### AssetCursorPaginatedType
 
 <table>
 <thead>
@@ -903,23 +903,13 @@ StrobesGQL client is a python wrapper around Strobes graphql
 </thead>
 <tbody>
 <tr>
-<td colspan="2" valign="top"><strong>page</strong></td>
-<td valign="top"><a href="#int">Int</a></td>
+<td colspan="2" valign="top"><strong>beforeCursor</strong></td>
+<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>totalPages</strong></td>
-<td valign="top"><a href="#int">Int</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>pageSize</strong></td>
-<td valign="top"><a href="#int">Int</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>totalCount</strong></td>
-<td valign="top"><a href="#int">Int</a></td>
+<td colspan="2" valign="top"><strong>lastCursor</strong></td>
+<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 <tr>
@@ -928,7 +918,7 @@ StrobesGQL client is a python wrapper around Strobes graphql
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>hasPrev</strong></td>
+<td colspan="2" valign="top"><strong>hasPrevious</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a></td>
 <td></td>
 </tr>
@@ -1100,7 +1090,7 @@ StrobesGQL client is a python wrapper around Strobes graphql
 </tbody>
 </table>
 
-### BugPaginatedType
+### BugCursorPaginatedType
 
 <table>
 <thead>
@@ -1113,23 +1103,13 @@ StrobesGQL client is a python wrapper around Strobes graphql
 </thead>
 <tbody>
 <tr>
-<td colspan="2" valign="top"><strong>page</strong></td>
-<td valign="top"><a href="#int">Int</a></td>
+<td colspan="2" valign="top"><strong>beforeCursor</strong></td>
+<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>totalPages</strong></td>
-<td valign="top"><a href="#int">Int</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>pageSize</strong></td>
-<td valign="top"><a href="#int">Int</a></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="2" valign="top"><strong>totalCount</strong></td>
-<td valign="top"><a href="#int">Int</a></td>
+<td colspan="2" valign="top"><strong>lastCursor</strong></td>
+<td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
 <tr>
@@ -1138,7 +1118,7 @@ StrobesGQL client is a python wrapper around Strobes graphql
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>hasPrev</strong></td>
+<td colspan="2" valign="top"><strong>hasPrevious</strong></td>
 <td valign="top"><a href="#boolean">Boolean</a></td>
 <td></td>
 </tr>
