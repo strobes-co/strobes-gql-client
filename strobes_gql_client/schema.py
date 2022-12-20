@@ -58,7 +58,7 @@ class AddGroupMutation(sgqlc.types.Type):
 
 class AssetCursorPaginatedType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ()
+    __field_names__ = ("has_next", "has_previous", "last_cursor", "before_cursor", "objects")
     has_next = sgqlc.types.Field(Boolean, graphql_name='hasNext')
     has_previous = sgqlc.types.Field(Boolean, graphql_name='hasPrevious')
     last_cursor = sgqlc.types.Field(String, graphql_name='lastCursor')
@@ -101,7 +101,7 @@ class AssetType(sgqlc.types.Type):
 
 class BugCursorPaginatedType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ()
+    __field_names__ = ("has_next", "has_previous", "last_cursor", "before_cursor", "objects")
     has_next = sgqlc.types.Field(Boolean, graphql_name='hasNext')
     has_previous = sgqlc.types.Field(Boolean, graphql_name='hasPrevious')
     last_cursor = sgqlc.types.Field(String, graphql_name='lastCursor')
