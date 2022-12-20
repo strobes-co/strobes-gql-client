@@ -13,6 +13,8 @@ Boolean = sgqlc.types.Boolean
 
 DateTime = sgqlc.types.datetime.DateTime
 
+Date = sgqlc.types.datetime.Date
+
 Float = sgqlc.types.Float
 
 ID = sgqlc.types.ID
@@ -68,7 +70,7 @@ class AssetPaginatedType(sgqlc.types.Type):
 
 class AssetType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'target', 'exposed', 'type', 'cloud_type', 'organization', 'disabled', 'sensitivity', 'keys', 'data', 'created_by', 'linked_assets', 'additional_info', 'scan', 'temp_id', 'created', 'updated', 'tags', 'location', 'lined_assets', 'group_assets', 'engagement_assets', 'configuration_asset', 'bug_set', 'ipaddress', 'hostname', 'mac_address', 'os')
+    __field_names__ = ('id', 'name', 'target', 'exposed', 'type', 'cloud_type', 'organization', 'disabled', 'sensitivity', 'keys', 'data', 'created_by', 'linked_assets', 'additional_info', 'scan', 'temp_id', 'created', 'updated', 'tags', 'location', 'lined_assets', 'group_assets', 'configuration_asset', 'bug_set', 'ipaddress', 'hostname', 'mac_address', 'os')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     target = sgqlc.types.Field(String, graphql_name='target')
@@ -91,7 +93,6 @@ class AssetType(sgqlc.types.Type):
     location = sgqlc.types.Field(String, graphql_name='location')
     lined_assets = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('AssetType'))), graphql_name='linedAssets')
     group_assets = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('GroupsType'))), graphql_name='groupAssets')
-    engagement_assets = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementType'))), graphql_name='engagementAssets')
     configuration_asset = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('ConfigurationType'))), graphql_name='configurationAsset')
     bug_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('BugType'))), graphql_name='bugSet')
     ipaddress = sgqlc.types.Field(String, graphql_name='ipaddress')
@@ -114,7 +115,7 @@ class BugPaginatedType(sgqlc.types.Type):
 
 class BugType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('state', 'severity', 'bug_level', 'id', 'title', 'description', 'mitigation', 'steps_to_reproduce', 'object_id', 'hash', 'duplicate', 'cwe', 'cve', 'cvss', 'attack_vector', 'bug_tags', 'assigned_to', 'organization', 'asset', 'team', 'reported_by', 'due_date', 'sla_violated', 'has_user_defined_due_date', 'exploit_available', 'exploit_info', 'patch_available', 'patch_info', 'prioritization_score', 'prioritization_score_calculated', 'drill_down_score', 'connector', 'configuration_name', 'connector_config', 'scan', 'scanner_raw_response', 'vulnerable_since', 'engagement', 'created', 'updated', 'original_bug', 'ipaddress', 'hostname', 'mac_address', 'os')
+    __field_names__ = ('state', 'severity', 'bug_level', 'id', 'title', 'description', 'mitigation', 'steps_to_reproduce', 'object_id', 'hash', 'duplicate', 'cwe', 'cve', 'cvss', 'attack_vector', 'bug_tags', 'assigned_to', 'organization', 'asset', 'team', 'reported_by', 'due_date', 'sla_violated', 'has_user_defined_due_date', 'exploit_available', 'exploit_info', 'patch_available', 'patch_info', 'prioritization_score', 'prioritization_score_calculated', 'drill_down_score', 'connector', 'configuration_name', 'connector_config', 'scan', 'scanner_raw_response', 'vulnerable_since', 'engagements', 'created', 'updated', 'original_bug', 'ipaddress', 'hostname', 'mac_address', 'os', 'comment_set', 'activity_set')
     state = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='state')
     severity = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='severity')
     bug_level = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='bugLevel')
@@ -152,7 +153,7 @@ class BugType(sgqlc.types.Type):
     scan = sgqlc.types.Field('ScanLog', graphql_name='scan')
     scanner_raw_response = sgqlc.types.Field(JSONString, graphql_name='scannerRawResponse')
     vulnerable_since = sgqlc.types.Field(DateTime, graphql_name='vulnerableSince')
-    engagement = sgqlc.types.Field('EngagementType', graphql_name='engagement')
+    engagements = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementType'))), graphql_name='engagements')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
     original_bug = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('BugType'))), graphql_name='originalBug')
@@ -160,7 +161,8 @@ class BugType(sgqlc.types.Type):
     hostname = sgqlc.types.Field(String, graphql_name='hostname')
     mac_address = sgqlc.types.Field(String, graphql_name='macAddress')
     os = sgqlc.types.Field(String, graphql_name='os')
-
+    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementCommentType'))), graphql_name='commentSet')
+    activity_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementActivityType'))), graphql_name='activitySet')
 
 class BulkBugAssignmentMutation(sgqlc.types.Type):
     __schema__ = schema
@@ -345,20 +347,171 @@ class EngagementPaginatedType(sgqlc.types.Type):
 
 class EngagementType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'service', 'package', 'assessment_data', 'state', 'security_posture', 'assets', 'created_by', 'organization', 'scheduled_date', 'created', 'updated', 'bug_engagement')
+    __field_names__ = ('id', 'engagement_custom_id', 'name', 'security_posture', 'subscribed_services', 'checked_terms_and_conditions', 'assessments_count', 'engagement_completion', 'assessmentsPerService', 'engagement_assessment', 'created_by', 'organization', 'scheduled_date', 'delivery_date', 'documents', 'created', 'updated', 'bug_engagement', 'activity_engagement', 'comments_engagement')
+    
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
-    service = sgqlc.types.Field(String, graphql_name='service')
-    package = sgqlc.types.Field(String, graphql_name='package')
-    assessment_data = sgqlc.types.Field(JSONString, graphql_name='assessmentData')
-    state = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='state')
+    engagement_custom_id = sgqlc.types.Field(Int, graphql_name='engagementCustomId')
+    name = sgqlc.types.Field(String, graphql_name='name')
     security_posture = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='securityPosture')
-    assets = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AssetType))), graphql_name='assets')
-    created_by = sgqlc.types.Field('UserType', graphql_name='createdBy')
+    subscribed_services = sgqlc.types.Field(JSONString, graphql_name='subscribedServices')
+    checked_terms_and_conditions = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='checkedTermsAndConditions')
+    assessments_count = sgqlc.types.Field(Int, graphql_name='assessmentsCount')
+    engagement_completion = sgqlc.types.Field(Int, graphql_name='engagementCompletion')
+    assessmentsPerService = sgqlc.types.Field(JSONString, graphql_name='assessmentsPerService')
+    engagement_assessment = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('AssessmentType'))), graphql_name='engagementAssessment')
+    created_by = sgqlc.types.Field('ApprovalUserType', graphql_name='createdBy')
     organization = sgqlc.types.Field('TenantOrganizationType', graphql_name='organization')
-    scheduled_date = sgqlc.types.Field(DateTime, graphql_name='scheduledDate')
+    scheduled_date = sgqlc.types.Field(Date, graphql_name='scheduledDate')
+    delivery_date = sgqlc.types.Field(Date, graphql_name='deliveryDate')
+    documents = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('AttachmentType'))), graphql_name='documents')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
     bug_engagement = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(BugType))), graphql_name='bugEngagement')
+    activity_engagement = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementActivityType'))), graphql_name='activityEngagement')
+    comments_engagement = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementCommentType'))), graphql_name='commentsEngagement')
+
+
+class EngagementActivityType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'data', 'action', 'user', 'team', 'bug', 'asset', 'connector_config', 'engagement', 'connector', 'task', 'approval', 'created', 'updated', 'comment_set')
+    id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
+    data = sgqlc.types.Field(JSONString, graphql_name='data')
+    action = sgqlc.types.Field(Int, graphql_name='action')
+    user = sgqlc.types.Field('ApprovalUserType', graphql_name='user')
+    team = sgqlc.types.Field('TeamType', graphql_name='team')
+    bug = sgqlc.types.Field(BugType, graphql_name='bug')
+    asset = sgqlc.types.Field(AssetType, graphql_name='asset')
+    connector_config = sgqlc.types.Field(ConfigurationType, graphql_name='connectorConfig')
+    engagement = sgqlc.types.Field(EngagementType, graphql_name='engagement')
+    connector = sgqlc.types.Field(ConnectorType, graphql_name='connector')
+    task = sgqlc.types.Field('ScanLog', graphql_name='task')
+    approval = sgqlc.types.Field('ApprovalType', graphql_name='approval')
+    created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
+    updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
+    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementCommentType'))), graphql_name='commentSet')
+    
+
+class EngagementCommentPaginatedType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('page', 'total_pages', 'page_size', 'total_count', 'has_next', 'has_prev', 'objects')
+    page = sgqlc.types.Field(Int, graphql_name='page')
+    total_pages = sgqlc.types.Field(Int, graphql_name='totalPages')
+    page_size = sgqlc.types.Field(Int, graphql_name='pageSize')
+    total_count = sgqlc.types.Field(Int, graphql_name='totalCount')
+    has_next = sgqlc.types.Field(Boolean, graphql_name='hasNext')
+    has_prev = sgqlc.types.Field(Boolean, graphql_name='hasPrev')
+    objects = sgqlc.types.Field(sgqlc.types.list_of('EngagementCommentType'), graphql_name='objects')
+
+class EngagementCommentType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'comment', 'bug', 'attachments', 'internal', 'activity', 'commented_by', 'connector_config', 'connector', 'team', 'approval', 'engagement', 'created', 'updated')
+    id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
+    comment = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='comment')
+    bug = sgqlc.types.Field(BugType, graphql_name='bug')
+    attachments = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('AttachmentType'))), graphql_name='attachments')
+    internal = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='internal')
+    activity = sgqlc.types.Field('EngagementActivityType', graphql_name='activity')
+    commented_by = sgqlc.types.Field('ApprovalUserType', graphql_name='commentedBy')
+    connector_config = sgqlc.types.Field(ConfigurationType, graphql_name='connectorConfig')
+    connector = sgqlc.types.Field(ConnectorType, graphql_name='connector')
+    team = sgqlc.types.Field('TeamType', graphql_name='team')
+    approval = sgqlc.types.Field('ApprovalType', graphql_name='approval')
+    engagement = sgqlc.types.Field(EngagementType, graphql_name='engagement')
+    created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
+    updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
+
+
+class AssessmentPaginatedType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('page', 'total_pages', 'page_size', 'total_count', 'has_next', 'has_prev', 'objects')
+    page = sgqlc.types.Field(Int, graphql_name='page')
+    total_pages = sgqlc.types.Field(Int, graphql_name='totalPages')
+    page_size = sgqlc.types.Field(Int, graphql_name='pageSize')
+    total_count = sgqlc.types.Field(Int, graphql_name='totalCount')
+    has_next = sgqlc.types.Field(Boolean, graphql_name='hasNext')
+    has_prev = sgqlc.types.Field(Boolean, graphql_name='hasPrev')
+    objects = sgqlc.types.Field(sgqlc.types.list_of('AssessmentType'), graphql_name='objects')
+
+
+class AssessmentType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'service', 'package', 'engagement', 'asset', 'state', 'scope', 'instructions', 'test_accounts', 'vpn_accounts', 'assigned_to', 'created', 'updated')
+    id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
+    service = sgqlc.types.Field(String, graphql_name='service')
+    package = sgqlc.types.Field(String, graphql_name='package')
+    engagement = sgqlc.types.Field(sgqlc.types.non_null(EngagementType), graphql_name='engagement')
+    asset = sgqlc.types.Field(sgqlc.types.non_null(AssetType), graphql_name='asset')
+    state = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='state')
+    scope = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='scope')
+    instructions = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='instructions')
+    test_accounts = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='testAccounts')
+    vpn_accounts = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='vpnAccounts')
+    assigned_to = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('ApprovalUserType'))), graphql_name='assignedTo')
+    created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
+    updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
+
+
+class ApprovalUserType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ("id", "first_name", "last_name", "email", "is_active", "created")
+    id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
+    email = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='email')
+    first_name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='firstName')
+    last_name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='lastName')
+    is_active = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isActive')
+    created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
+
+
+class ApprovalType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'vulnerability', 'approved_by', 'approval_state', 'raised_by', 'from_state', 'to_state', 'is_expired', 'created', 'updated', 'activity_approval', 'comments_approval')
+    id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
+    vulnerability = sgqlc.types.Field(BugType, graphql_name='vulnerability')
+    approved_by = sgqlc.types.Field('MemberType', graphql_name='approvedBy')
+    approval_state = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='approvalState')
+    raised_by = sgqlc.types.Field('MemberType', graphql_name='raisedBy')
+    from_state = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='fromState')
+    to_state = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='toState')
+    is_expired = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isExpired')
+    created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
+    updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
+    activity_approval = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(EngagementActivityType))), graphql_name='activityApproval')
+    comments_approval = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(EngagementCommentType))), graphql_name='commentsApproval')
+
+
+class AttachmentType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'attachment', 'attachment_name', 'attachment_size', 'url', 'bug', 'attached_by', 'created', 'updated', 'document_vault', 'bug_attachments', 'comment_set')
+    id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
+    attachment = sgqlc.types.Field(String, graphql_name='attachment')
+    attachment_name = sgqlc.types.Field(String, graphql_name='attachmentName')
+    attachment_size = sgqlc.types.Field(Int, graphql_name='attachmentSize')
+    url = sgqlc.types.Field(String, graphql_name='url')
+    bug = sgqlc.types.Field(BugType, graphql_name='bug')
+    attached_by = sgqlc.types.Field(ApprovalUserType, graphql_name='attachedBy')
+    created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
+    updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
+    document_vault = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(EngagementType))), graphql_name='documentVault')
+    bug_attachments = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(BugType))), graphql_name='bugAttachments')
+    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(EngagementCommentType))), graphql_name='commentSet')
+
+
+class UpdateEngagementMutation(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('engagement',)
+    engagement = sgqlc.types.Field(sgqlc.types.list_of(EngagementType), graphql_name='engagement')
+
+
+class UpdateAssessmentMutation(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('assessment',)
+    assessment = sgqlc.types.Field(sgqlc.types.list_of(AssessmentType), graphql_name='assessment')
+
+
+class BulkAssessmentMutation(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('assessment',)
+    assessment = sgqlc.types.Field(sgqlc.types.list_of(AssessmentType), graphql_name='assessment')
 
 
 class GroupPaginatedType(sgqlc.types.Type):
@@ -395,7 +548,7 @@ class MemberType(sgqlc.types.Type):
 
 class Mutation(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('add_group', 'update_group', 'group_bulk_delete', 'org_member_role_bulk_update', 'team_member_role_bulk_update', 'org_member_role_bulk_delete', 'team_member_role_bulk_delete', 'bug_bulk_update', 'bug_bulk_assignment', 'bug_bulk_unassignment', 'bug_bulk_update_tags', 'bug_bulk_update_cve', 'bug_bulk_delete', 'add_bulk_comment', 'assets_bulk_update', 'assets_bulk_merge', 'assets_bulk_link', 'assets_bulk_delete')
+    __field_names__ = ('add_group', 'update_group', 'group_bulk_delete', 'org_member_role_bulk_update', 'team_member_role_bulk_update', 'org_member_role_bulk_delete', 'team_member_role_bulk_delete', 'bug_bulk_update', 'bug_bulk_assignment', 'bug_bulk_unassignment', 'bug_bulk_update_tags', 'bug_bulk_update_cve', 'bug_bulk_delete', 'add_bulk_comment', 'assets_bulk_update', 'assets_bulk_merge', 'assets_bulk_link', 'assets_bulk_delete', 'update_engagement', 'update_assessments', 'bulk_update_assessment')
     add_group = sgqlc.types.Field(AddGroupMutation, graphql_name='addGroup', args=sgqlc.types.ArgDict((
         ('asset_ids', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='assetIds', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
@@ -506,11 +659,49 @@ class Mutation(sgqlc.types.Type):
         ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
 ))
     )
+    update_engagement = sgqlc.types.Field(UpdateEngagementMutation, graphql_name='updateEngagement', args=sgqlc.types.ArgDict((
+        ('add_asset_ids', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='addAssetIds', default=None)),
+        ('add_document_ids', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='addDocumentIds', default=None)),
+        ('comment', sgqlc.types.Arg(String, graphql_name='comment', default=None)),
+        ('comment_attachments', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='commentAttachments', default=None)),
+        ('delivery_date', sgqlc.types.Arg(Date, graphql_name='deliveryDate', default=None)),
+        ('scheduled_date', sgqlc.types.Arg(Date, graphql_name='scheduledDate', default=None)),
+        ('engagement_id', sgqlc.types.Arg(UUID, graphql_name='engagementId', default=None)),
+        ('instructions', sgqlc.types.Arg(String, graphql_name='instructions', default=None)),
+        ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
+        ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
+        ('package', sgqlc.types.Arg(String, graphql_name='package', default=None)),
+        ('remove_asset_ids', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='removeAssetIds', default=None)),
+        ('remove_document_ds', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='removeDocumentIds', default=None)),
+        ('service', sgqlc.types.Arg(String, graphql_name='service', default=None)),
+        ('subscribed_services', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='subscribedServices', default=None)),
+        ('test_accounts', sgqlc.types.Arg(String, graphql_name='testAccounts', default=None)),
+        ('vpn_accounts', sgqlc.types.Arg(String, graphql_name='vpnAccounts', default=None)),
+))
+    )
+    update_assessments = sgqlc.types.Field(UpdateAssessmentMutation, graphql_name='updateAssessments', args=sgqlc.types.ArgDict((
+        ('assessment_id', sgqlc.types.Arg(Int, graphql_name='assessmentId', default=None)),
+        ('assigned_to', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='assignedTo', default=None)),
+        ('engagement_id', sgqlc.types.Arg(UUID, graphql_name='engagementId', default=None)),
+        ('instructions', sgqlc.types.Arg(String, graphql_name='instructions', default=None)),
+        ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
+        ('state', sgqlc.types.Arg(Int, graphql_name='state', default=None)),
+        ('test_accounts', sgqlc.types.Arg(String, graphql_name='testAccounts', default=None)),
+        ('vpn_accounts', sgqlc.types.Arg(String, graphql_name='vpnAccounts', default=None)),
+))
+    )
+    bulk_update_assessment = sgqlc.types.Field(BulkAssessmentMutation, graphql_name='bulkUpdateAssessment', args=sgqlc.types.ArgDict((
+        ('engagement_id', sgqlc.types.Arg(UUID, graphql_name='engagementId', default=None)),
+        ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
+        ('state', sgqlc.types.Arg(Int, graphql_name='state', default=None)),
+        ('search_query', sgqlc.types.Arg(String, graphql_name='searchQuery', default=None)),
+))
+    )
 
 
 class Query(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('all_groups', 'get_current_tenant', 'all_engagements', 'all_assets', 'all_bugs')
+    __field_names__ = ('all_groups', 'get_current_tenant', 'all_engagements', 'all_assets', 'all_bugs', 'all_engagement_activities', 'all_assessments')
     all_groups = sgqlc.types.Field(GroupPaginatedType, graphql_name='allGroups', args=sgqlc.types.ArgDict((
         ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
         ('page', sgqlc.types.Arg(Int, graphql_name='page', default=None)),
@@ -546,6 +737,26 @@ class Query(sgqlc.types.Type):
         ('export_report_type', sgqlc.types.Arg(String, graphql_name='exportReportType', default=None)),
 ))
     )
+    all_engagement_activities = sgqlc.types.Field(EngagementCommentPaginatedType, graphql_name='allEngagementActivities', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
+        ('engagement_id', sgqlc.types.Arg(UUID, graphql_name='engagementId', default=None)),
+        ('search_query', sgqlc.types.Arg(String, graphql_name='searchQuery', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='orderBy', default=None)),
+        ('page', sgqlc.types.Arg(Int, graphql_name='page', default=None)),
+        ('page_size', sgqlc.types.Arg(Int, graphql_name='pageSize', default=None)),
+))
+    )
+    all_assessments = sgqlc.types.Field(AssessmentPaginatedType, graphql_name='allAssessments', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
+        ('engagement_id', sgqlc.types.Arg(UUID, graphql_name='engagementId', default=None)),
+        ('search_query', sgqlc.types.Arg(String, graphql_name='searchQuery', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='orderBy', default=None)),
+        ('asset_id', sgqlc.types.Arg(Int, graphql_name='assetId', default=None)),
+        ('page', sgqlc.types.Arg(Int, graphql_name='page', default=None)),
+        ('page_size', sgqlc.types.Arg(Int, graphql_name='pageSize', default=None)),
+))
+    )
+    
 
 
 class ScanLog(sgqlc.types.Type):
