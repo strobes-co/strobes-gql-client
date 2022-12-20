@@ -54,16 +54,15 @@ class AddGroupMutation(sgqlc.types.Type):
     groups = sgqlc.types.Field(sgqlc.types.list_of('GroupsType'), graphql_name='groups')
 
 
-class AssetPaginatedType(sgqlc.types.Type):
+class AssetCursorPaginatedType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('page', 'total_pages', 'page_size', 'total_count', 'has_next', 'has_prev', 'objects')
-    page = sgqlc.types.Field(Int, graphql_name='page')
-    total_pages = sgqlc.types.Field(Int, graphql_name='totalPages')
-    page_size = sgqlc.types.Field(Int, graphql_name='pageSize')
-    total_count = sgqlc.types.Field(Int, graphql_name='totalCount')
+    __field_names__ = ()
     has_next = sgqlc.types.Field(Boolean, graphql_name='hasNext')
-    has_prev = sgqlc.types.Field(Boolean, graphql_name='hasPrev')
+    has_previous = sgqlc.types.Field(Boolean, graphql_name='hasPrevious')
+    last_cursor = sgqlc.types.Field(String, graphql_name='lastCursor')
+    before_cursor = sgqlc.types.Field(String, graphql_name='beforeCursor')
     objects = sgqlc.types.Field(sgqlc.types.list_of('AssetType'), graphql_name='objects')
+
 
 
 class AssetType(sgqlc.types.Type):
@@ -524,7 +523,7 @@ class Query(sgqlc.types.Type):
         ('page_size', sgqlc.types.Arg(Int, graphql_name='pageSize', default=None)),
 ))
     )
-    all_assets = sgqlc.types.Field(AssetPaginatedType, graphql_name='allAssets', args=sgqlc.types.ArgDict((
+    all_assets = sgqlc.types.Field(AssetCursorPaginatedType, graphql_name='allAssets', args=sgqlc.types.ArgDict((
         ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
         ('search_query', sgqlc.types.Arg(String, graphql_name='searchQuery', default=None)),
         ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='orderBy', default=None)),
@@ -532,6 +531,8 @@ class Query(sgqlc.types.Type):
         ('page', sgqlc.types.Arg(Int, graphql_name='page', default=None)),
         ('page_size', sgqlc.types.Arg(Int, graphql_name='pageSize', default=None)),
         ('export_report_type', sgqlc.types.Arg(String, graphql_name='exportReportType', default=None)),
+        ('after', sgqlc.types.Arg(String, graphql_name='after', default=None)),
+        ('before', sgqlc.types.Arg(String, graphql_name='before', default=None)),
 ))
     )
     all_bugs = sgqlc.types.Field(BugCursorPaginatedType, graphql_name='allBugs', args=sgqlc.types.ArgDict((
