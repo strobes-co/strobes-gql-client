@@ -1,6 +1,5 @@
 import requests
 from strobes_gql_client import enums
-from strobes_gql_client.exceptions import AuthenticationFailure
 
 class BaseClient:
     def __init__(
