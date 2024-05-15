@@ -174,7 +174,6 @@ def execute_cloud_bug_create_mutation():
         "steps_to_reproduce": """1. Attempt to access the S3 bucket URL directly from a web browser.
                                  2. If the contents of the bucket are accessible without authentication, the vulnerability is confirmed.""",
         "cloud": """{
-            "cloud_type": 2,  # AWS
             "region": "us-west-2",
             "aws_account_id": "123456789012",  # Replace with the account ID
             "aws_resource_id": "arn:aws:s3:::example-bucket"  # Replace with the bucket ARN
@@ -185,7 +184,7 @@ def execute_cloud_bug_create_mutation():
         "severity": 4,  # High
         "tags": ["s3", "aws", "misconfiguration"],
         "selected_assets": [123],  # Replace with the relevant asset ID
-        "cloud_asset_type": 2,  # AWS (matches the cloud_type in the 'cloud' field)
+        "cloud_asset_type": 2,  # AWS 
     }
 
     bug_create = op.bug_create(**bug_create_fields)  # Create the bug object
