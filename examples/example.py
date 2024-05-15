@@ -1,14 +1,22 @@
 from strobes_gql_client.client import StrobesGQLClient
 
 
-# s = StrobesGQLClient(
-#     "test1.in.strobes.local", 80, "http", "f2f83a24a660ce1a2df03dd64f5b88fb020bb66b"
-# )
-# print(s.endpoint(s.get_mutation_op()))
-# print(dir(s.get_mutation_op()))
-# list_bugs = s.get_op().all_bugs(organization_id="d15a82e7-2be0-40ab-ab18-44983d46ffe6")
-# data = s.endpoint(s.op)
-# print(data)
+def fetch_assets():
+    s = StrobesGQLClient(
+        "test1.in.strobes.local", 80, "http", "f2f83a24a660ce1a2df03dd64f5b88fb020bb66b"
+    )
+
+    s.get_op().all_assets(organization_id="d15a82e7-2be0-40ab-ab18-44983d46ffe6")
+    return s.endpoint(s.op)
+
+
+def fetch_bugs():
+    s = StrobesGQLClient(
+        "test1.in.strobes.local", 80, "http", "f2f83a24a660ce1a2df03dd64f5b88fb020bb66b"
+    )
+
+    s.get_op().all_bugs(organization_id="d15a82e7-2be0-40ab-ab18-44983d46ffe6")
+    return s.endpoint(s.op)
 
 
 # Define a function to execute the mutation
@@ -154,7 +162,7 @@ def execute_cloud_bug_create_mutation():
         "severity": 2,
         "tags": ["abs", "tvs"],
         "selected_assets": [667],
-        "cloud_asset_type": 4, 
+        "cloud_asset_type": 4,
     }
 
     # Execute the mutation
@@ -323,8 +331,8 @@ def execute_cloud_asset_create_mutation():
 
 
 if __name__ == "__main__":
-    # Execute the mutation
-    mutation_response = execute_cloud_bug_create_mutation()
+    # Execute the Query
+    response = fetch_bugs()
 
     # Print the response
-    print(mutation_response)
+    print(response)
