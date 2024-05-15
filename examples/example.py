@@ -14,6 +14,7 @@ from strobes_gql_client.client import StrobesGQLClient
 # Define a function to execute the mutation
 def execute_web_bug_create_mutation():
     # Instantiate the StrobesGQLClient
+    # You can add custom fields in bug by adding kwarg in bug_create_fields e.g "custom_fields": '{"test": "hellotest"}',
     client = StrobesGQLClient(
         "test1.in.strobes.local", 80, "http", "f2f83a24a660ce1a2df03dd64f5b88fb020bb66b"
     )
@@ -154,8 +155,7 @@ def execute_cloud_bug_create_mutation():
         "severity": 2,
         "tags": ["abs", "tvs"],
         "selected_assets": [667],
-        "cloud_asset_type": 4,
-        "custom_fields": "{}",
+        "cloud_asset_type": 4, 
     }
 
     # Execute the mutation
