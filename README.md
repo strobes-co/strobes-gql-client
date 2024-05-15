@@ -3516,3 +3516,122 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 Leverages the internal Python implmeentation of UUID (uuid.UUID) to provide native UUID objects
 in fields, resolvers and input.
 
+
+
+## Mutations
+
+### Bug Creation
+
+To create a new vulnerability in Strobes, use the `bugCreate` mutation. The fields you provide depend on the bug level:
+
+
+#### Bug level
+
+*   **Web:** Vulnerabilities in web applications (e.g., XSS, SQL injection). 
+      *   Associated asset type: **Web Asset**
+      *   Additional fields: `web` (`affected_endpoints`, `request`, `response`)
+
+*   **Code:** Vulnerabilities in source code (e.g., buffer overflow, command injection).
+      *   Associated asset type: **Web Asset**
+      *   Additional fields: `code` (`vulnerable_code`, `start_line_number`, etc.)
+
+*   **Package:** Vulnerabilities in third-party packages/dependencies.
+      *   Associated asset type: **Web Asset**
+      *   Additional fields: `package` (`package_name`, `installed_version`, etc.)
+
+*   **Cloud:** Misconfigurations or vulnerabilities in cloud resources.
+      *   Associated asset type: **Cloud Asset**
+      *   Additional fields: `cloud` (`cloud_type`, `region`, other fields change based on `cloud_type`.)
+
+*   **Network:** Vulnerabilities in network devices or protocols.
+      *   Associated asset type: **Network Asset**
+      *   Additional fields: `network` (`port`, `cpe`)
+
+All bug levels share these fields:
+
+
+*   `title` (string): Concise title summarizing the vulnerability.
+*   `description` (string): Detailed description of the vulnerability, impact, and exploitation.
+*   `organization_id` (string): Your organization's unique ID.
+*   `bug_level` (int): Type of bug (use `Bug level choices`: `code`, `web`, `mobile`, `network`, `cloud`, `package`).
+*   `mitigation` (string): Recommended steps to fix the vulnerability.
+*   `steps_to_reproduce` (string): Instructions to replicate the issue.
+*   `cwe_list` (list of strings): List of relevant CWE IDs.
+*   `cve_list` (list of strings): List of associated CVE IDs.
+*   `cvss` (float): CVSS score indicating severity.
+*   `severity` (int): Severity level (use `Severity choices`: `info`, `low`, `medium`, `high`, `critical`).
+*   `tags` (list of strings): Tags for categorization.
+*   `selected_assets` (list of integers): Asset IDs affected by the bug.
+*   `custom_fields` (string): JSON string for additional custom fields.
+
+#### Bug level choices
+  - code = 1
+  - web = 2
+  - mobile = 3
+  - network = 4
+  - cloud = 5
+  - package = 6
+
+#### Severity choices
+  - info = 1
+  - low = 2
+  - medium = 3
+  - high = 4
+  - critical = 5
+ 
+
+### Asset Creation
+
+To create a new asset in Strobes, use the `createAssest` mutation. The fields you provide depend on the asset type:
+
+
+#### Asset Types
+*   **Web Asset** (type = 1):
+    *   Represents web applications or websites.
+    *   **Required fields:**
+        *   `url`: The URL of the web asset.
+        
+*   **Mobile Asset** (type = 2):
+    *   Represents mobile applications.
+    *   **Required fields:**
+        *   `package`: The package name or bundle ID of the mobile app.
+        
+*   **Network Asset** (type = 3):
+    *   Represents network devices or hosts.
+    *   **Required fields:**
+        *   Either `ipaddress` (for a single IP) or `ipaddress_list` (for multiple IPs).
+    *   **Optional fields:**
+        *   `mac_address`
+        *   `hostname`
+        *   `os`
+        *   `cpe` (Common Platform Enumeration)
+
+*   **Cloud Asset** (type = 4):
+    *   Represents cloud resources.
+    *   **Required fields:**
+        *   `cloud_type`: The type of cloud provider (use `StrobesGQLClient` constants):
+            *   `AWS = 2`
+            *   `Azure = 3`
+            *   `GCP = 4`
+            *   `others = 1` (for other cloud providers)
+
+All asset types share these fields:
+*   `name` (string): A descriptive name or identifier for the asset.
+*   `organization_id` (string): The unique ID of your organization within Strobes.
+*   `sensitivity` (int): An integer from 1 to 5 indicating the asset's sensitivity (5 being the most sensitive). This is a subjective assessment based on the potential impact of a security breach.
+*   `exposed` (int): A binary value (0 or 1) indicating whether the asset is exposed to the internet (1) or internal only (0).
+*   `type` (int): The type of asset:
+    *   1: Web
+    *   2: Mobile
+    *   3: Network
+    *   4: Cloud
+*   `tags` (list of strings): A list of descriptive tags to help you categorize and search for assets. 
+
+
+#### Sensitivity choices
+  - low = 1
+  - medium = 2
+  - high = 3
+  - critical = 4
+    
+    
