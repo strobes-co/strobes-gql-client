@@ -3517,7 +3517,6 @@ Leverages the internal Python implmeentation of UUID (uuid.UUID) to provide nati
 in fields, resolvers and input.
 
 
-
 ## Mutations
 
 ### Bug Creation
@@ -3525,7 +3524,7 @@ in fields, resolvers and input.
 To create a new vulnerability in Strobes, use the `bugCreate` mutation. The fields you provide depend on the bug level:
 
 
-#### Bug level
+#### Bug Types
 
 *   **Web:** Vulnerabilities in web applications (e.g., XSS, SQL injection). 
       *   Associated asset type: **Web Asset**
@@ -3547,7 +3546,7 @@ To create a new vulnerability in Strobes, use the `bugCreate` mutation. The fiel
       *   Associated asset type: **Network Asset**
       *   Additional fields: `network` (`port`, `cpe`)
 
-All bug levels share these fields:
+All bug types share these fields:
 
 
 *   `title` (string): Concise title summarizing the vulnerability.
@@ -3582,7 +3581,7 @@ All bug levels share these fields:
 
 ### Asset Creation
 
-To create a new asset in Strobes, use the `createAssest` mutation. The fields you provide depend on the asset type:
+To create a new asset in Strobes, use the `createAssest` mutation.
 
 
 #### Asset Types
@@ -3633,5 +3632,3 @@ All asset types share these fields:
   - medium = 2
   - high = 3
   - critical = 4
-    
-    
