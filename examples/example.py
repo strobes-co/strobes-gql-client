@@ -325,7 +325,6 @@ def execute_cloud_asset_create_mutation():
         "tata.in.strobes.local", 80, "http", "f2f83a24a660ce1a2df03dd64f5b88fb020bb66b"
     )  # Replace placeholders with your credentials
     op = client.get_mutation_op()
-
     asset_create_fields = {
         "name": "Production Database (RDS Instance)",
         "organization_id": "d3d2a591-944b-47dc-b8d6-eee7c8f6ed02",  # Replace with your organization ID
@@ -334,10 +333,7 @@ def execute_cloud_asset_create_mutation():
         "type": 4,  # Cloud asset
         "tags": ["database", "rds", "production"],
         "cloud_type": 2,  # AWS
-        "aws_account_id": "123456789012",  # Replace with your AWS account ID
-        "aws_resource_id": "arn:aws:rds:us-west-2:123456789012:db:my-prod-db",  # Replace with RDS ARN
     }
-
     create_asset = op.create_asset(**asset_create_fields)
 
     try:
