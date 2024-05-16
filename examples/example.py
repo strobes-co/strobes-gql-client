@@ -157,37 +157,105 @@ def execute_package_bug_create_mutation():
         print("Error:", e)
 
 
-def execute_cloud_bug_create_mutation():
+def execute_cloud_aws_bug_create_mutation():
     """Creates a new cloud bug in Strobes."""
+    # aws_account_id: Replace with the account ID
+    # aws_resource_id: Replace with the bucket ARN
 
     client = StrobesGQLClient(
-        "tata.in.strobes.local", 80, "http", "f2f83a24a660ce1a2df03dd64f5b88fb020bb66b"
+        "test1.in.strobes.local", 80, "http", "f2f83a24a660ce1a2df03dd64f5b88fb020bb66b"
     )  # Replace placeholders with your credentials
     op = client.get_mutation_op()
 
     bug_create_fields = {
         "title": "Unrestricted Access to S3 Bucket",
         "description": "An Amazon S3 bucket is configured to allow public access, potentially exposing sensitive data.",
-        "organization_id": "d3d2a591-944b-47dc-b8d6-eee7c8f6ed02",  # Replace with your organization ID
+        "organization_id": "d15a82e7-2be0-40ab-ab18-44983d46ffe6",  # Replace with your organization ID
         "bug_level": 5,  # Cloud
         "mitigation": "Disable public access and enforce appropriate access controls on the S3 bucket.",
         "steps_to_reproduce": """1. Attempt to access the S3 bucket URL directly from a web browser.
                                  2. If the contents of the bucket are accessible without authentication, the vulnerability is confirmed.""",
-        "cloud": """{
-            "region": "us-west-2",
-            "aws_account_id": "123456789012",  # Replace with the account ID
-            "aws_resource_id": "arn:aws:s3:::example-bucket"  # Replace with the bucket ARN
-        }""",
+        "cloud": '{"region": "us-west-2", "aws_account_id": "123456789012", "aws_resource_id": "arn:aws:s3:::example-bucket", "aws_category": "Compute", "aws_type": 2}',
         "cwe_list": ["528"],  # CWE-528: Improper Access Control
         "cve_list": [],  # No associated CVEs yet
         "cvss": 7.5,
         "severity": 4,  # High
         "tags": ["s3", "aws", "misconfiguration"],
-        "selected_assets": [123],  # Replace with the relevant asset ID
-        "cloud_asset_type": 2,  # AWS 
+        "selected_assets": [669],  # Replace with the relevant asset ID
+        "cloud_asset_type": 2,  # AWS
     }
 
     bug_create = op.bug_create(**bug_create_fields)  # Create the bug object
+    try:
+        result = client.endpoint(op)  # Execute the mutation directly
+        print("Mutation Result:", result)
+        return result
+    except Exception as e:
+        print("Error:", e)
+
+
+def execute_cloud_gcp_bug_create_mutation():
+    """Creates a new cloud bug in Strobes."""
+
+    client = StrobesGQLClient(
+        "test1.in.strobes.local", 80, "http", "f2f83a24a660ce1a2df03dd64f5b88fb020bb66b"
+    )  # Replace placeholders with your credentials
+    op = client.get_mutation_op()
+
+    gcp_bug_create_fields = {
+        "title": "Exposed Google Cloud Storage Bucket",
+        "description": "A Google Cloud Storage bucket is misconfigured and publicly accessible, potentially exposing sensitive data.",
+        "organization_id": "d15a82e7-2be0-40ab-ab18-44983d46ffe6",  # Replace with your organization ID
+        "bug_level": 5,  # Cloud
+        "mitigation": "Restrict access to the Google Cloud Storage bucket and enforce appropriate permissions.",
+        "steps_to_reproduce": """1. Attempt to access the GCS bucket URL directly from a web browser.
+                                2. If the contents of the bucket are accessible without authentication, the vulnerability is confirmed.""",
+        "cloud": '{"gcp_project_id": "your-project-id", "gcp_resource_id": "your-bucket-id", "gcp_type": 1}',  # GCP type 1 for storage
+        "cwe_list": ["284"],  # CWE-284: Improper Access Control
+        "cve_list": [],  # No associated CVEs yet
+        "cvss": 8.0,  # Example CVSS score
+        "severity": 4,  # High
+        "tags": ["gcs", "google-cloud", "misconfiguration"],
+        "selected_assets": [671],  # Replace with the relevant asset ID
+        "cloud_asset_type": 4,  # GCP
+    }
+
+    bug_create = op.bug_create(**gcp_bug_create_fields)  # Create the bug object
+    try:
+        result = client.endpoint(op)  # Execute the mutation directly
+        print("Mutation Result:", result)
+        return result
+    except Exception as e:
+        print("Error:", e)
+
+
+def execute_cloud_azure_bug_create_mutation():
+    """Creates a new cloud bug in Strobes."""
+
+    client = StrobesGQLClient(
+        "test1.in.strobes.local", 80, "http", "f2f83a24a660ce1a2df03dd64f5b88fb020bb66b"
+    )  # Replace placeholders with your credentials
+    op = client.get_mutation_op()
+
+    azure_bug_create_fields = {
+        "title": "Exposed Azure Blob Storage Container",
+        "description": "An Azure Blob Storage container is misconfigured and publicly accessible, potentially exposing sensitive data.",
+        "organization_id": "d15a82e7-2be0-40ab-ab18-44983d46ffe6",  # Replace with your organization ID
+        "bug_level": 5,  # Cloud
+        "mitigation": "Restrict access to the Azure Blob Storage container and enforce appropriate permissions.",
+        "steps_to_reproduce": """1. Attempt to access the Azure Blob Storage container URL directly from a web browser.
+                                2. If the contents of the container are accessible without authentication, the vulnerability is confirmed.""",
+        "cloud": '{"azure_resource": "your-container-name", "azure_category": "Storage"}',  # Azure category "Storage"
+        "cwe_list": ["284"],  # CWE-284: Improper Access Control
+        "cve_list": [],  # No associated CVEs yet
+        "cvss": 7.5,  # Example CVSS score
+        "severity": 4,  # High
+        "tags": ["azure", "blob-storage", "misconfiguration"],
+        "selected_assets": [670],  # Replace with the relevant asset ID
+        "cloud_asset_type": 3,  # Azure
+    }
+
+    bug_create = op.bug_create(**azure_bug_create_fields)  # Create the bug object
     try:
         result = client.endpoint(op)  # Execute the mutation directly
         print("Mutation Result:", result)
@@ -317,16 +385,16 @@ def execute_network_asset_with_multiple_ip_create_mutation():
         print("Error:", e)
 
 
-def execute_cloud_asset_create_mutation():
-    """Creates a new cloud asset in Strobes."""
+def execute_aws_cloud_asset_create_mutation():
+    """Creates a new aws cloud asset in Strobes."""
 
     client = StrobesGQLClient(
-        "tata.in.strobes.local", 80, "http", "f2f83a24a660ce1a2df03dd64f5b88fb020bb66b"
+        "test1.in.strobes.local", 80, "http", "f2f83a24a660ce1a2df03dd64f5b88fb020bb66b"
     )  # Replace placeholders with your credentials
     op = client.get_mutation_op()
     asset_create_fields = {
         "name": "Production Database (RDS Instance)",
-        "organization_id": "d3d2a591-944b-47dc-b8d6-eee7c8f6ed02",  # Replace with your organization ID
+        "organization_id": "d15a82e7-2be0-40ab-ab18-44983d46ffe6",  # Replace with your organization ID
         "sensitivity": 5,  # Highly sensitive (contains customer data)
         "exposed": 0,  # Not directly exposed to the internet
         "type": 4,  # Cloud asset
@@ -334,7 +402,56 @@ def execute_cloud_asset_create_mutation():
         "cloud_type": 2,  # AWS
     }
     create_asset = op.create_asset(**asset_create_fields)
+    try:
+        result = client.endpoint(op)  # Execute the mutation directly
+        print("Mutation Result:", result)
+        return result
+    except Exception as e:
+        print("Error:", e)
 
+
+def execute_azure_cloud_asset_create_mutation():
+    """Creates a new azure cloud asset in Strobes."""
+
+    client = StrobesGQLClient(
+        "test1.in.strobes.local", 80, "http", "f2f83a24a660ce1a2df03dd64f5b88fb020bb66b"
+    )  # Replace placeholders with your credentials
+    op = client.get_mutation_op()
+    asset_create_fields = {
+        "name": "my-azure-vm",
+        "organization_id": "d15a82e7-2be0-40ab-ab18-44983d46ffe6",  # Replace with your organization ID
+        "sensitivity": 5,  # Highly sensitive (contains customer data)
+        "exposed": 0,  # Not directly exposed to the internet
+        "type": 4,  # Cloud asset
+        "tags": ["database", "rds", "production"],
+        "cloud_type": 3,  # AZURE
+    }
+    create_asset = op.create_asset(**asset_create_fields)
+    try:
+        result = client.endpoint(op)  # Execute the mutation directly
+        print("Mutation Result:", result)
+        return result
+    except Exception as e:
+        print("Error:", e)
+
+
+def execute_gcp_cloud_asset_create_mutation():
+    """Creates a new gcp cloud asset in Strobes."""
+
+    client = StrobesGQLClient(
+        "test1.in.strobes.local", 80, "http", "f2f83a24a660ce1a2df03dd64f5b88fb020bb66b"
+    )  # Replace placeholders with your credentials
+    op = client.get_mutation_op()
+    asset_create_fields = {
+        "name": "my-gcp-instance",
+        "organization_id": "d15a82e7-2be0-40ab-ab18-44983d46ffe6",  # Replace with your organization ID
+        "sensitivity": 5,  # Highly sensitive (contains customer data)
+        "exposed": 0,  # Not directly exposed to the internet
+        "type": 4,  # Cloud asset
+        "tags": ["database", "rds", "production"],
+        "cloud_type": 4,  # GCP
+    }
+    create_asset = op.create_asset(**asset_create_fields)
     try:
         result = client.endpoint(op)  # Execute the mutation directly
         print("Mutation Result:", result)
