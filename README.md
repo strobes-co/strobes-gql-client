@@ -3527,23 +3527,23 @@ To create a new vulnerability in Strobes, use the `bugCreate` mutation. The fiel
 #### Bug Types
 
 *   **Web:** Vulnerabilities in web applications (e.g., XSS, SQL injection). 
-      *   Associated asset type: **Web Asset**
+      *   Can be part of asset type: **Web Asset**, **Mobile Asset**
       *   Additional fields: `web` (`affected_endpoints`, `request`, `response`)
 
 *   **Code:** Vulnerabilities in source code (e.g., buffer overflow, command injection).
-      *   Associated asset type: **Web Asset**
+      *   Can be part of asset type: **Web Asset**, **Mobile Asset**
       *   Additional fields: `code` (`vulnerable_code`, `start_line_number`, etc.)
 
 *   **Package:** Vulnerabilities in third-party packages/dependencies.
-      *   Associated asset type: **Web Asset**
+      *   Can be part of asset type: **Web Asset**, **Mobile Asset**
       *   Additional fields: `package` (`package_name`, `installed_version`, etc.)
 
 *   **Cloud:** Misconfigurations or vulnerabilities in cloud resources.
-      *   Associated asset type: **Cloud Asset**
+      *   Can be part of asset type: **Cloud Asset**
       *   Additional fields: `cloud` (`cloud_type`, `region`, other fields change based on `cloud_type`.)
 
 *   **Network:** Vulnerabilities in network devices or protocols.
-      *   Associated asset type: **Network Asset**
+      *   Can be part of asset type: **Network Asset**
       *   Additional fields: `network` (`port`, `cpe`)
 
 All bug types share these fields:
