@@ -19,6 +19,34 @@ def fetch_bugs():
     return s.endpoint(s.op)
 
 
+def fetch_paginated_assets():
+    s = StrobesGQLClient(
+        "test1.in.strobes.local", 80, "http", "218187e598f107b31ad4bc6a5fec53fb4f47b870"
+    )
+
+    s.get_op().all_assets(
+        organization_id="d92bb083-5759-46e0-82a4-29b3c169d8db",
+        page_size=50,
+        after=None,
+        before=None,
+    )
+    return s.endpoint(s.op)
+
+
+def fetch_paginated_bugs():
+    s = StrobesGQLClient(
+        "test1.in.strobes.local", 80, "http", "218187e598f107b31ad4bc6a5fec53fb4f47b870"
+    )
+
+    s.get_op().all_bugs(
+        organization_id="d92bb083-5759-46e0-82a4-29b3c169d8db",
+        page_size=50,
+        after=None,
+        before=None,
+    )
+    return s.endpoint(s.op)
+
+
 # Define a function to execute the mutation
 def execute_web_bug_create_mutation():
     """Creates a new web bug in Strobes."""
