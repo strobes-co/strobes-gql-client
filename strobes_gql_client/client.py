@@ -12,9 +12,10 @@ class StrobesGQLClient(BaseClient):
         self.logger = logging.getLogger(self.__class__.__name__)
         session = requests.Session()
         session.verify = verify
-        self.graphql_url = f'{self.app_url}api/graphql/'
+        self.graphql_url = f"{self.app_url}api/graphql/"
         self.endpoint = RequestsEndpoint(
-            self.graphql_url, self.headers, session=session)
+            self.graphql_url, self.headers, session=session
+        )
 
     def execute_query(self, query_name, **variables):
         try:
@@ -26,15 +27,17 @@ class StrobesGQLClient(BaseClient):
                 self.logger.debug(f"{query_name} executed successfully.")
                 return data
             else:
-                self.logger.error(f"No data returned for {
-                                  query_name} or an error occurred.")
+                self.logger.error(
+                    f"No data returned for {query_name} or an error occurred."
+                )
                 return None
         except AttributeError:
             self.logger.error(f"Query '{query_name}' not found in schema.")
             raise
         except Exception as e:
-            self.logger.exception(f"An error occurred while executing {
-                                  query_name}: {str(e)}")
+            self.logger.exception(
+                f"An error occurred while executing {query_name}: {str(e)}"
+            )
             raise
 
     def execute_mutation(self, mutation_name, **variables):
@@ -47,14 +50,15 @@ class StrobesGQLClient(BaseClient):
                 self.logger.debug(f"{mutation_name} executed successfully.")
                 return data.get(mutation_name)
             else:
-                self.logger.error(f"No data returned for {
-                                  mutation_name} or an error occurred.")
+                self.logger.error(
+                    f"No data returned for {mutation_name} or an error occurred."
+                )
                 return None
         except AttributeError:
-            self.logger.error(
-                f"Mutation '{mutation_name}' not found in schema.")
+            self.logger.error(f"Mutation '{mutation_name}' not found in schema.")
             raise
         except Exception as e:
-            self.logger.exception(f"An error occurred while executing {
-                                  mutation_name}: {str(e)}")
+            self.logger.exception(
+                f"An error occurred while executing {mutation_name}: {str(e)}"
+            )
             raise
