@@ -1,24 +1,29 @@
 from strobes_gql_client.client import StrobesGQLClient
 
+
 def get_client():
     return StrobesGQLClient(
-        host="test1.in.strobes.local",
-        api_token="f2f83a24a660ce1a2df03dd64f5b88fb020bb66b"
+        host="auto.in.strobes.co",
+        api_token="JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUxNDAzNzI5LCJqdGkiOiJhOWY1NmRjNDRhYWU0ZWNkODIxYjk0NmY2ODQ5MDQwMiIsInVzZXJfaWQiOjUzMzc1OSwidGVuYW50IjoiMmYxYTgxOGEtNzQyNi00Y2RiLWI1MmMtZWZhYzFkODFiYmE2IiwiUkVGUkVTSF9UT0tFTl9MSUZFVElNRSI6MjE2MDAuMH0.7luDDe98WJytdL4BMLKngF6Sprcc9u708nmF5myE8zA",
+        scheme="https",
+        port=443,
+        verify=False,
     )
+
 
 def fetch_assets():
     client = get_client()
     return client.execute_query(
-        'all_assets',
-        organization_id="d15a82e7-2be0-40ab-ab18-44983d46ffe6"
+        "all_assets", organization_id="d15a82e7-2be0-40ab-ab18-44983d46ffe6"
     )
+
 
 def fetch_bugs():
     client = get_client()
     return client.execute_query(
-        'all_bugs',
-        organization_id="d15a82e7-2be0-40ab-ab18-44983d46ffe6"
+        "all_bugs", organization_id="d15a82e7-2be0-40ab-ab18-44983d46ffe6"
     )
+
 
 def execute_web_bug_create_mutation():
     client = get_client()
@@ -49,7 +54,8 @@ def execute_web_bug_create_mutation():
         "cloud_asset_type": 1,
         "engagement_ids": [],
     }
-    return client.execute_mutation('bug_create', **bug_create_fields)
+    return client.execute_mutation("bug_create", **bug_create_fields)
+
 
 def execute_code_bug_create_mutation():
     client = get_client()
@@ -80,7 +86,8 @@ def execute_code_bug_create_mutation():
         "selected_assets": [123],
         "cloud_asset_type": 1,
     }
-    return client.execute_mutation('bug_create', **bug_create_fields)
+    return client.execute_mutation("bug_create", **bug_create_fields)
+
 
 def execute_package_bug_create_mutation():
     client = get_client()
@@ -111,7 +118,8 @@ def execute_package_bug_create_mutation():
             "impact": "Critical"
         }""",
     }
-    return client.execute_mutation('bug_create', **bug_create_fields)
+    return client.execute_mutation("bug_create", **bug_create_fields)
+
 
 def execute_cloud_aws_bug_create_mutation():
     client = get_client()
@@ -132,7 +140,8 @@ def execute_cloud_aws_bug_create_mutation():
         "selected_assets": [669],
         "cloud_asset_type": 2,
     }
-    return client.execute_mutation('bug_create', **bug_create_fields)
+    return client.execute_mutation("bug_create", **bug_create_fields)
+
 
 def execute_cloud_gcp_bug_create_mutation():
     client = get_client()
@@ -153,7 +162,8 @@ def execute_cloud_gcp_bug_create_mutation():
         "selected_assets": [671],
         "cloud_asset_type": 4,
     }
-    return client.execute_mutation('bug_create', **gcp_bug_create_fields)
+    return client.execute_mutation("bug_create", **gcp_bug_create_fields)
+
 
 def execute_cloud_azure_bug_create_mutation():
     client = get_client()
@@ -174,7 +184,8 @@ def execute_cloud_azure_bug_create_mutation():
         "selected_assets": [670],
         "cloud_asset_type": 3,
     }
-    return client.execute_mutation('bug_create', **azure_bug_create_fields)
+    return client.execute_mutation("bug_create", **azure_bug_create_fields)
+
 
 def execute_web_asset_create_mutation():
     client = get_client()
@@ -187,7 +198,8 @@ def execute_web_asset_create_mutation():
         "tags": ["ecommerce", "frontend"],
         "url": "https://shop.example.com",
     }
-    return client.execute_mutation('create_asset', **asset_create_fields)
+    return client.execute_mutation("create_asset", **asset_create_fields)
+
 
 def execute_mobile_asset_create_mutation():
     client = get_client()
@@ -200,7 +212,8 @@ def execute_mobile_asset_create_mutation():
         "tags": ["banking", "android"],
         "package": "com.example.mobilebanking",
     }
-    return client.execute_mutation('create_asset', **asset_create_fields)
+    return client.execute_mutation("create_asset", **asset_create_fields)
+
 
 def execute_network_asset_with_single_ip_create_mutation():
     client = get_client()
@@ -217,7 +230,8 @@ def execute_network_asset_with_single_ip_create_mutation():
         "tags": ["firewall", "network"],
         "ipaddress": "192.168.1.1",
     }
-    return client.execute_mutation('create_asset', **asset_create_fields)
+    return client.execute_mutation("create_asset", **asset_create_fields)
+
 
 def execute_network_asset_with_multiple_ip_create_mutation():
     client = get_client()
@@ -239,4 +253,34 @@ def execute_network_asset_with_multiple_ip_create_mutation():
         ],
         "excluded_ipaddress_list": ["192.168.1.123"],
     }
-    return client.execute_mutation('create_asset', **asset_create_fields)
+    return client.execute_mutation("create_asset", **asset_create_fields)
+
+
+def execute_create_engagement_with_multiple_services():
+    client = get_client()
+    engagement_create_fields = {
+        "name": "testeng001",
+        "organization_id": "2f1a818a-7426-4cdb-b52c-efac1d81bba6",
+        "vendor_code": "wes-9637708",
+        "scheduled_date": "2025-07-01",
+        "delivery_date": "2025-07-16",
+        "plans": 1,
+        "document_ids": [],
+        "subscribed_services": [
+            "Cloud Security",
+            "Secure Code Review",
+            "Web Application Penetration Test",
+            "Mobile Application Pentesting",
+            "Network VAPT",
+        ],
+        "assessment_data": '{"Cloud Security":[{"search_query":"id in (35663,35664,35665,35666,35667)"},{"asset_id":"35663","asset_type":3,"scheduled_date":"2025-07-01","delivery_date":"2025-07-16","vpn_accounts":"","test_accounts":"","instructions":"","scope":""},{"asset_id":"35664","asset_type":3,"scheduled_date":"2025-07-01","delivery_date":"2025-07-16","vpn_accounts":"","test_accounts":"","instructions":"","scope":""},{"asset_id":"35665","asset_type":3,"scheduled_date":"2025-07-01","delivery_date":"2025-07-16","vpn_accounts":"","test_accounts":"","instructions":"","scope":""},{"asset_id":"35666","asset_type":3,"scheduled_date":"2025-07-01","delivery_date":"2025-07-16","vpn_accounts":"","test_accounts":"","instructions":"","scope":""},{"asset_id":"35667","asset_type":3,"scheduled_date":"2025-07-01","delivery_date":"2025-07-16","vpn_accounts":"","test_accounts":"","instructions":"","scope":""}],"Secure Code Review":[{"search_query":"id in (35658,35659,35660,35661,35662)"},{"asset_id":"35658","asset_type":3,"scheduled_date":"2025-07-01","delivery_date":"2025-07-16","vpn_accounts":"","test_accounts":"","instructions":"","scope":""},{"asset_id":"35659","asset_type":3,"scheduled_date":"2025-07-01","delivery_date":"2025-07-16","vpn_accounts":"","test_accounts":"","instructions":"","scope":""},{"asset_id":"35660","asset_type":3,"scheduled_date":"2025-07-01","delivery_date":"2025-07-16","vpn_accounts":"","test_accounts":"","instructions":"","scope":""},{"asset_id":"35661","asset_type":3,"scheduled_date":"2025-07-01","delivery_date":"2025-07-16","vpn_accounts":"","test_accounts":"","instructions":"","scope":""},{"asset_id":"35662","asset_type":3,"scheduled_date":"2025-07-01","delivery_date":"2025-07-16","vpn_accounts":"","test_accounts":"","instructions":"","scope":""}]}',
+        "prerequisites_data": '[{"id":null,"title":"preqtest1","description":"desc 1","assigned_to":[533759],"due_date":"2025-07-02","attachments":[],"order_index":1,"is_completed":false}]',
+        "fields": '{"internal_info":"testint","f":"f","custom_text":"cut text","custom_number":1,"custom_date":"2025-07-16","custom_boolean":"true","custom_select":"multiselct","custom_multiselect":["five"],"custom_email":"test@gmail.com","custom_user":["533759"],"custom_url":"https://auto.in.strobes.co/"}',
+        # "is_self_managed": False,
+        # "include_related_assets": False,
+    }
+
+    return client.execute_mutation("create_engagement", **engagement_create_fields)
+
+
+execute_create_engagement_with_multiple_services()
