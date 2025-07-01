@@ -4,7 +4,7 @@ from strobes_gql_client.client import StrobesGQLClient
 def get_client():
     return StrobesGQLClient(
         host="auto.in.strobes.co",
-        api_token="JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUxNDAzNzI5LCJqdGkiOiJhOWY1NmRjNDRhYWU0ZWNkODIxYjk0NmY2ODQ5MDQwMiIsInVzZXJfaWQiOjUzMzc1OSwidGVuYW50IjoiMmYxYTgxOGEtNzQyNi00Y2RiLWI1MmMtZWZhYzFkODFiYmE2IiwiUkVGUkVTSF9UT0tFTl9MSUZFVElNRSI6MjE2MDAuMH0.7luDDe98WJytdL4BMLKngF6Sprcc9u708nmF5myE8zA",
+        api_token="<token>",
         scheme="https",
         port=443,
         verify=False,
