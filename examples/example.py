@@ -5,9 +5,7 @@ def get_client():
     return StrobesGQLClient(
         host="auto.in.strobes.co",
         api_token="<token>",
-        scheme="https",
-        port=443,
-        verify=False,
+        verify=True,
     )
 
 
