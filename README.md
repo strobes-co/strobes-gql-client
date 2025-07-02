@@ -2,6 +2,17 @@
 
 StrobesGQL client is a python wrapper around Strobes graphql
 
+# Installation
+
+```
+git clone https://github.com/strobes-co/strobes-gql-client.git
+```
+
+```
+cd strobes-gql-client
+python setup.py install
+```
+
 
 # Schema Types
 
