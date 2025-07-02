@@ -10,6 +10,7 @@ git clone https://github.com/strobes-co/strobes-gql-client.git
 
 ```
 cd strobes-gql-client
+pip install -r requirements.txt
 python setup.py install
 ```
 
