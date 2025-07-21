@@ -7,8 +7,8 @@ import requests
 
 
 class StrobesGQLClient(BaseClient):
-    def __init__(self, host, api_token, verify=True):
-        super().__init__(host=host, api_token=api_token)
+    def __init__(self, host, api_token, verify=True, scheme=None, port=None):
+        super().__init__(host=host, api_token=api_token, scheme=scheme, port=port)
         self.logger = logging.getLogger(self.__class__.__name__)
         session = requests.Session()
         session.verify = verify
