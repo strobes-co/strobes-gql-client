@@ -119,22 +119,23 @@ def analyze_assets(assets_data):
 
 def fetch_assets_by_type(asset_type, organization_id=None):
     """Fetch assets by specific type"""
-    search_query = f'type in ("{asset_type}")'
+    search_query = f'type in ({asset_type})'
+    print('search_query',search_query)
     return fetch_assets(organization_id, search_query)
 
 def fetch_assets_by_sensitivity(sensitivity, organization_id=None):
     """Fetch assets by sensitivity level"""
-    search_query = f'sensitivity in ("{sensitivity}")'
+    search_query = f'sensitivity in ({sensitivity})'
     return fetch_assets(organization_id, search_query)
 
 def fetch_assets_by_exposure(exposure, organization_id=None):
     """Fetch assets by exposure level"""
-    search_query = f'exposed in ("{exposure}")'
+    search_query = f'exposed in ({exposure})'
     return fetch_assets(organization_id, search_query)
 
 def fetch_assets_by_name_pattern(pattern, organization_id=None):
     """Fetch assets by name pattern"""
-    search_query = f'name contains "{pattern}"'
+    search_query = f'name ~ "{pattern}"'
     return fetch_assets(organization_id, search_query)
 
 def export_to_json(assets_data, filename=None):
@@ -158,17 +159,20 @@ def fetch_assets_with_search_query(search_query, organization_id=None):
 
 if __name__ == "__main__":
     # Fetch all assets with generic query
-    all_assets = fetch_assets()
-    analyze_assets(all_assets)
-    
-    # Export to JSON
-    export_to_json(all_assets)
+    # all_assets = fetch_assets()
+    # analyze_assets(all_assets)
+
     
 
     
     # Example: Fetch assets by type
-    # web_assets = fetch_assets_by_type("web")
-    # analyze_assets(web_assets)
+    web_assets = fetch_assets_by_type(3)
+    print('web_assets',web_assets)
+    analyze_assets(web_assets)
+
+    
+    # Export to JSON
+    export_to_json(web_assets)
     
     # Example: Fetch assets by sensitivity
     # high_sensitivity_assets = fetch_assets_by_sensitivity("high")
