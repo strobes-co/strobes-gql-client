@@ -131,7 +131,7 @@ If the asset count displays without error, your connection is successfully confi
 
 **Video Tutorial**: A step-by-step video demonstration of this process is available below.
 
-<!-- VIDEO PLACEHOLDER: Insert API Token and Organization ID tutorial video here -->
+[Watch the Video](https://app.arcade.software/share/h36MBeei7wJP7vf1diYs)
 
 ## Assets Fetching
 
@@ -157,7 +157,7 @@ for asset in assets[:5]:  # Show first 5 assets
 
 **Example File**: `examples/test-fetchassets-example.py`
 
-<!-- VIDEO PLACEHOLDER: Insert Fetch All Assets tutorial video here -->
+[Watch the Video](https://app.arcade.software/share/OgmRxuL5eFFOK0cCMBRk)
 
 ### Fetch Assets with Search Query
 
@@ -185,7 +185,6 @@ for asset in assets[:3]:  # Show first 3 assets
 
 **Example File**: `examples/test-fetchassets-example.py`
 
-<!-- VIDEO PLACEHOLDER: Insert Fetch Assets with Search Query tutorial video here -->
 
 ### Available Response Fields
 
@@ -364,7 +363,7 @@ print("Web asset created successfully!")
 
 **Example File**: `examples/test-create-assets-example.py`
 
-<!-- VIDEO PLACEHOLDER: Insert Create Web Asset tutorial video here -->
+[Watch the Video](https://app.arcade.software/share/GtjbmFoN5oSiFUz1yACw)
 
 ### Create Network Asset
 
@@ -396,7 +395,7 @@ print("Network asset created successfully!")
 
 **Example File**: `examples/test-create-assets-example.py`
 
-<!-- VIDEO PLACEHOLDER: Insert Create Network Asset tutorial video here -->
+[Watch the Video](https://app.arcade.software/share/JYTFpNE4qucTLg35quVO)
 
 ### Create Cloud Asset
 
@@ -429,7 +428,6 @@ print("Cloud asset created successfully!")
 
 **Example File**: `examples/test-create-assets-example.py`
 
-<!-- VIDEO PLACEHOLDER: Insert Create Cloud Asset tutorial video here -->
 
 ### Create Mobile Asset
 
@@ -459,7 +457,7 @@ print("Mobile asset created successfully!")
 
 **Example File**: `examples/test-create-assets-example.py`
 
-<!-- VIDEO PLACEHOLDER: Insert Create Mobile Asset tutorial video here -->
+[Watch the Video](https://app.arcade.software/share/t6fbWYXNiTvIEC3fuD2C)
 
 ### Required Fields by Asset Type
 
@@ -527,7 +525,7 @@ for finding in findings[:5]:  # Show first 5 findings
 
 **Example File**: `examples/test-fetch-findings-example.py`
 
-<!-- VIDEO PLACEHOLDER: Insert Fetch All Findings tutorial video here -->
+[Watch the Video](https://app.arcade.software/share/jka4PEc74QgEbsgEEjiJ)
 
 ### Fetch Findings with Search Query
 
@@ -555,7 +553,7 @@ for finding in findings[:3]:  # Show first 3 findings
 
 **Example File**: `examples/test-fetch-findings-example.py`
 
-<!-- VIDEO PLACEHOLDER: Insert Fetch Findings with Search Query tutorial video here -->
+
 
 ### Available Response Fields
 
@@ -744,7 +742,7 @@ print("Web finding created successfully!")
 
 **Example File**: `examples/test-create-findings-example.py`
 
-<!-- VIDEO PLACEHOLDER: Insert Create Web Finding tutorial video here -->
+
 
 ### Create Network Finding
 
@@ -781,7 +779,7 @@ print("Network finding created successfully!")
 
 **Example File**: `examples/test-create-findings-example.py`
 
-<!-- VIDEO PLACEHOLDER: Insert Create Network Finding tutorial video here -->
+
 
 ### Create Code Finding
 
@@ -818,7 +816,7 @@ print("Code finding created successfully!")
 
 **Example File**: `examples/test-create-findings-example.py`
 
-<!-- VIDEO PLACEHOLDER: Insert Create Code Finding tutorial video here -->
+
 
 ### Required Fields by Finding Type
 
@@ -934,7 +932,7 @@ for eng in engagements[:3]:
 
 **Example File**: `examples/test-fetchengagement-example.py`
 
-<!-- VIDEO PLACEHOLDER: Insert Fetch Engagements tutorial video here -->
+[Watch the Video](https://app.arcade.software/share/D8fXmSOGMDDzshHHNUd6)
 
 ### Available Response Fields
 
@@ -1011,4 +1009,11 @@ print("Engagement created successfully!")
 
 **Example Reference**: See `examples/test-createengagement-example.py` for a complete engagement creation script, or refer to `execute_create_engagement_with_multiple_services` in `examples/example.py` for an advanced multi-service example.
 
-<!-- VIDEO PLACEHOLDER: Insert Create Engagement tutorial video here -->
+[Watch the Video]
+(https://app.arcade.software/share/SJbGASd5s9Puyoflo7Tw)
+
+
+### Complete collection of videos
+
+Watch the complete video walkthrough covering configuration, examples, and usage:
+[View Collection](https://app.arcade.software/share/collections/UNqMoy5jy0JnoMslxR5X)
