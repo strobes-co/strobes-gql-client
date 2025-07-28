@@ -1009,8 +1009,7 @@ print("Engagement created successfully!")
 
 **Example Reference**: See `examples/test-createengagement-example.py` for a complete engagement creation script, or refer to `execute_create_engagement_with_multiple_services` in `examples/example.py` for an advanced multi-service example.
 
-[Watch the Video]
-(https://app.arcade.software/share/SJbGASd5s9Puyoflo7Tw)
+[Watch the Video](https://app.arcade.software/share/SJbGASd5s9Puyoflo7Tw)
 
 
 ### Complete collection of videos
