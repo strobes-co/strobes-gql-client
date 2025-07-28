@@ -3723,6 +3723,8 @@ class Mutation(sgqlc.types.Type):
         ('document_ids', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='documentIds', default=None)),
         ('executive_summary', sgqlc.types.Arg(String, graphql_name='executiveSummary', default=None)),
         ('fields', sgqlc.types.Arg(JSONString, graphql_name='fields', default=None)),
+        ('include_related_assets', sgqlc.types.Arg(Boolean, graphql_name='includeRelatedAssets', default=None)),
+        ('is_self_managed', sgqlc.types.Arg(Boolean, graphql_name='isSelfManaged', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
         ('plans', sgqlc.types.Arg(Int, graphql_name='plans', default=None)),
@@ -3741,6 +3743,8 @@ class Mutation(sgqlc.types.Type):
     * `document_ids` (`[Int]`)None
     * `executive_summary` (`String`)None
     * `fields` (`JSONString`)None
+    * `include_related_assets` (`Boolean`)None
+    * `is_self_managed` (`Boolean`)None
     * `name` (`String`)None
     * `organization_id` (`UUID`)None
     * `plans` (`Int`)None
