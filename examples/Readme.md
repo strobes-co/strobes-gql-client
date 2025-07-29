@@ -1012,6 +1012,94 @@ print("Engagement created successfully!")
 [Watch the Video](https://app.arcade.software/share/SJbGASd5s9Puyoflo7Tw)
 
 
+## Vault Document Creation
+
+### Create and Upload Vault Document
+
+Create and upload documents to the Strobes vault:
+
+```python
+from strobes_gql_client.client import StrobesGQLClient
+from strobes_gql_client import enums
+import requests
+import json
+
+# Initialize client
+client = StrobesGQLClient(host=enums.APP_HOST, api_token=enums.API_TOKEN)
+
+def upload_file(filepath, engagement_id=None, is_prerequisite=False):
+    """Upload a file to the vault"""
+    try:
+        operations = {
+            'query': 'mutation AddVaultAttachment($file: Upload!, $organizationId: UUID!) { addVaultAttachment(file: $file, organizationId: $organizationId) { vault { id documentName documentSize } } }',
+            'variables': {
+                'file': None,
+                'organizationId': enums.ORGANIZATION_ID
+            }
+        }
+        map = {'0': ['variables.file']}
+        
+        with open(filepath, "rb") as f:
+            files = {'0': (filepath, f, 'application/octet-stream')}
+            response = requests.post(
+                f"{client.app_url}api/graphql/",
+                headers={
+                    'Authorization': f"token {enums.API_TOKEN}",
+                    'user-agent': enums.USER_AGENT
+                },
+                data={
+                    'operations': json.dumps(operations),
+                    'map': json.dumps(map)
+                },
+                files=files
+            )
+        result = response.json()
+        vault_data = result.get('data', {}).get('addVaultAttachment', {}).get('vault', {})
+        print(f"\nUploaded {filepath}:")
+        print(f"Vault ID: {vault_data.get('id')}")
+        print(f"Name: {vault_data.get('documentName')}")
+        print(f"Size: {vault_data.get('documentSize')} bytes")
+        return result
+    except Exception as e:
+        print(f"Error uploading {filepath}: {str(e)}")
+        return None
+
+# Example usage
+upload_file("path/to/your/document.pdf")
+```
+
+**Example File**: `examples/test-create-vault-example.py`
+
+### Required Fields
+* `file`: The file to upload
+* `organization_id`: Your organization's unique identifier
+
+### Optional Fields
+* `engagement_id`: UUID of the engagement to attach the document to (can be empty string or None)
+* `is_prerequisite`: Boolean indicating if this is a prerequisite document
+
+### Features
+* Upload any type of file to the Strobes vault
+* Attach documents to engagements
+* Mark documents as prerequisites
+* Track document metadata like name and size
+
+### Example Response
+```json
+{
+  "data": {
+    "addVaultAttachment": {
+      "vault": {
+        "id": "123",
+        "documentName": "requirements.txt",
+        "documentSize": 49
+      }
+    }
+  }
+}
+```
+
+
 ### Complete collection of videos
 
 Watch the complete video walkthrough covering configuration, examples, and usage:
