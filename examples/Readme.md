@@ -1115,7 +1115,7 @@ response = client.execute_query(
 attachments = response.get("data", {}).get("allVaultAttachments", {}).get("objects", [])
 print(f"Total documents: {len(attachments)}")
 for doc in attachments:
-    name = doc.get('document_name', 'Unknown')
+    name = doc.get('documentName', 'Unknown')
     who = doc.get('attachedBy', {}).get('firstName', '') + ' ' + doc.get('attachedBy', {}).get('lastName', '')
     when = doc.get('created', 'N/A')
     print(f"- {name} (Added by: {who.strip()}, On: {when})")
@@ -1142,7 +1142,7 @@ response = client.execute_query(
 attachments = response.get("data", {}).get("allVaultAttachments", {}).get("objects", [])
 print(f"Found {len(attachments)} documents matching 'test'")
 for doc in attachments:
-    name = doc.get('document_name', 'Unknown')
+    name = doc.get('documentName', 'Unknown')
     who = doc.get('attachedBy', {}).get('firstName', '') + ' ' + doc.get('attachedBy', {}).get('lastName', '')
     when = doc.get('created', 'N/A')
     print(f"- {name} (Added by: {who.strip()}, On: {when})")
