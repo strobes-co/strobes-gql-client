@@ -5,72 +5,75 @@ using the Strobes GraphQL client.
 Run this file directly to create a sample engagement:
 
     python examples/test-createengagement-example.py
-
-IMPORTANT: Update the required fields (especially `name`, `organization_id`,
-`subscribed_services`, and any custom JSON strings) to values valid in your
-Strobes tenant before execution.
 """
 
-import json
-from datetime import date, timedelta
 from strobes_gql_client.client import StrobesGQLClient
 from strobes_gql_client import enums
+from sgqlc.operation import Operation
+from strobes_gql_client import schema
 
 
 def get_client():
-    """Instantiate a GraphQL client using credentials from enums.py"""
+    """Initialize and return the GraphQL client"""
     return StrobesGQLClient(host=enums.APP_HOST, api_token=enums.API_TOKEN)
 
 
 def create_sample_engagement():
-    """Create a simple engagement with two subscribed services"""
+    """Create a simple engagement"""
     client = get_client()
 
-    # Build dynamic dates (today + offsets) for the demo
-    scheduled_date = date.today() + timedelta(days=7)
-    delivery_date = scheduled_date + timedelta(days=14)
-
+    # Prepare engagement fields exactly as in the working mutation
     engagement_fields = {
-        "name": "Demo Security Engagement",               # Required: Engagement name
-        "organization_id": enums.ORGANIZATION_ID,          # Required: Organization UUID
-        "vendor_code": "demo-001",                       # Optional: Vendor code / reference
-        "scheduled_date": scheduled_date.isoformat(),      # Optional: YYYY-MM-DD
-        "delivery_date": delivery_date.isoformat(),        # Optional: YYYY-MM-DD
-        "plans": 1,                                        # Required: Plan / tier (1 = Basic)
-        "document_ids": [],                                # Optional: Attachments (Vault IDs)
-        "subscribed_services": [                           # Required: Services included
-            "Web Application Penetration Test",
-            "Cloud Security"
-        ],
-        # Assessment & prerequisite data may need to be formatted as JSON strings.
-        # Provide minimal data for the example. Adjust as per your workflow.
-        "assessment_data": json.dumps({
-            "Web Application Penetration Test": [
-                {"search_query": "type = 1"}
-            ]
-        }),
+        "document_ids": [],
+        "organization_id": enums.ORGANIZATION_ID,
+        "name": "Demo Engagement 1234555",
+        "scheduled_date": "2025-07-29",
+        "fields": "{}",
+        "subscribed_services": ["service 1"],
+        "plans": 1,
+        "assessment_data": "{}",
         "prerequisites_data": "[]",
-        "fields": json.dumps({"internal_info": "Created via API demo"})
+        "include_related_assets": False,
+        "vendor_code": "",
+        "is_self_managed": True
     }
 
     try:
-        result = client.execute_mutation("create_engagement", **engagement_fields)
-        engagement_id = (
-            result.get("data", {})
+        # Execute the mutation
+        op = Operation(schema.Mutation)
+        mutation = op.create_engagement(**engagement_fields)
+        mutation.engagement.id()
+        mutation.engagement.name()
+        mutation.engagement.prerequisites_engagement()
+        
+        response = client.endpoint(op)
+        
+        if response.get("errors"):
+            print(f"❌ GraphQL Errors: {response['errors']}")
+            return
+
+        engagement = (
+            response.get("data", {})
             .get("createEngagement", {})
-            .get("engagement", [{}])[0]
-            .get("id")
+            .get("engagement", {})
         )
-        print(f"✅ Engagement created successfully! ID: {engagement_id}")
+        
+        if engagement:
+            print(f"✅ Engagement created successfully!")
+            print(f"ID: {engagement.get('id')}")
+            print(f"Name: {engagement.get('name')}")
+            if engagement.get('prerequisitesEngagement'):
+                print("Prerequisites:")
+                for prereq in engagement.get('prerequisitesEngagement', []):
+                    print(f"- {prereq.get('title')}: {prereq.get('description')}")
+        else:
+            print("❌ No engagement data returned")
+            
     except Exception as exc:
         print(f"❌ Error creating engagement: {exc}")
 
 
-def main():
+if __name__ == "__main__":
     print("🚀 Strobes Engagement Creation Example")
     print("=" * 50)
-    create_sample_engagement()
-
-
-if __name__ == "__main__":
-    main() 
+    create_sample_engagement() 

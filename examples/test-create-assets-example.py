@@ -163,9 +163,6 @@ def create_cloud_assets():
         {
             "name": "AWS Production EC2 Instance",
             "cloud_type": 2,       # AWS
-            "region": "us-east-1",
-            "account_id": "123456789012",
-            "resource_id": "i-0123456789abcdef0",
             "sensitivity": 4,      # Critical
             "exposed": 2,          # Public
             "tags": ["aws", "ec2", "production"]
@@ -173,9 +170,6 @@ def create_cloud_assets():
         {
             "name": "Azure Storage Account",
             "cloud_type": 3,       # Azure
-            "region": "East US",
-            "account_id": "azure-subscription-id",
-            "resource_id": "storageaccount001",
             "sensitivity": 3,      # High
             "exposed": 1,          # Private
             "tags": ["azure", "storage", "data"]
@@ -183,9 +177,6 @@ def create_cloud_assets():
         {
             "name": "GCP Kubernetes Cluster",
             "cloud_type": 4,       # GCP
-            "region": "us-central1",
-            "account_id": "gcp-project-id",
-            "resource_id": "gke-cluster-001",
             "sensitivity": 4,      # Critical
             "exposed": 2,          # Public
             "tags": ["gcp", "kubernetes", "cluster"]
@@ -208,14 +199,8 @@ def create_cloud_assets():
                 "cloud_type": cloud_asset["cloud_type"],     # Required: Cloud provider (1=Other, 2=AWS, 3=Azure, 4=GCP)
                 "sensitivity": cloud_asset["sensitivity"],    # Required: Sensitivity level
                 "exposed": cloud_asset["exposed"],            # Required: Exposure level
-                "region": cloud_asset.get("region"),         # Optional: Cloud region
-                "account_id": cloud_asset.get("account_id"), # Optional: Cloud account ID
-                "resource_id": cloud_asset.get("resource_id"), # Optional: Cloud resource ID
                 "tags": cloud_asset["tags"]                  # Optional: Tags
             }
-            
-            # Remove None values
-            asset_fields = {k: v for k, v in asset_fields.items() if v is not None}
             
             result = client.execute_mutation("create_asset", **asset_fields)
             logger.info(f"Cloud asset '{cloud_asset['name']}' created successfully!")
@@ -389,9 +374,9 @@ def main():
     demonstrate_field_requirements()
     
     # Create different types of assets
-    create_web_asset()
+    # create_web_asset()
     # create_network_assets()
-    # create_cloud_assets()
+    create_cloud_assets()
     # create_mobile_assets()
     # create_code_repository_assets()
     
