@@ -1027,45 +1027,39 @@ import json
 # Initialize client
 client = StrobesGQLClient(host=enums.APP_HOST, api_token=enums.API_TOKEN)
 
-def upload_file(filepath, engagement_id=None, is_prerequisite=False):
-    """Upload a file to the vault"""
-    try:
-        operations = {
-            'query': 'mutation AddVaultAttachment($file: Upload!, $organizationId: UUID!) { addVaultAttachment(file: $file, organizationId: $organizationId) { vault { id documentName documentSize } } }',
-            'variables': {
-                'file': None,
-                'organizationId': enums.ORGANIZATION_ID
-            }
-        }
-        map = {'0': ['variables.file']}
-        
-        with open(filepath, "rb") as f:
-            files = {'0': (filepath, f, 'application/octet-stream')}
-            response = requests.post(
-                f"{client.app_url}api/graphql/",
-                headers={
-                    'Authorization': f"token {enums.API_TOKEN}",
-                    'user-agent': enums.USER_AGENT
-                },
-                data={
-                    'operations': json.dumps(operations),
-                    'map': json.dumps(map)
-                },
-                files=files
-            )
-        result = response.json()
-        vault_data = result.get('data', {}).get('addVaultAttachment', {}).get('vault', {})
-        print(f"\nUploaded {filepath}:")
-        print(f"Vault ID: {vault_data.get('id')}")
-        print(f"Name: {vault_data.get('documentName')}")
-        print(f"Size: {vault_data.get('documentSize')} bytes")
-        return result
-    except Exception as e:
-        print(f"Error uploading {filepath}: {str(e)}")
-        return None
+# Replace with your file path
+file_path = "test.pdf"
 
-# Example usage
-upload_file("path/to/your/document.pdf")
+# Prepare upload data
+operations = {
+    'query': 'mutation AddVaultAttachment($file: Upload!, $organizationId: UUID!) { addVaultAttachment(file: $file, organizationId: $organizationId) { vault { id documentName documentSize } } }',
+    'variables': {
+        'file': None,
+        'organizationId': enums.ORGANIZATION_ID
+    }
+}
+map = {'0': ['variables.file']}
+
+# Upload file
+with open(file_path, "rb") as f:
+    files = {'0': (file_path, f, 'application/octet-stream')}
+    response = requests.post(
+        f"{client.app_url}api/graphql/",
+        headers={
+            'Authorization': f"token {enums.API_TOKEN}",
+            'user-agent': enums.USER_AGENT
+        },
+        data={
+            'operations': json.dumps(operations),
+            'map': json.dumps(map)
+        },
+        files=files
+    )
+
+# Show results
+result = response.json()
+upload_info = result.get('data', {}).get('addVaultAttachment', {}).get('vault', {})
+print(f"\nUploaded: {upload_info.get('documentName')}")
 ```
 
 **Example File**: `examples/test-create-vault-example.py`
@@ -1098,6 +1092,63 @@ upload_file("path/to/your/document.pdf")
   }
 }
 ```
+
+### Fetch Vault Documents
+
+#### Fetch All Vault Documents
+
+Retrieve all documents from the vault:
+
+```python
+from strobes_gql_client.client import StrobesGQLClient
+from strobes_gql_client import enums
+
+# Initialize client
+client = StrobesGQLClient(host=enums.APP_HOST, api_token=enums.API_TOKEN)
+
+# Get all vault documents
+print("\n=== All Vault Documents ===")
+response = client.execute_query(
+    "all_vault_attachments",
+    organization_id=enums.ORGANIZATION_ID
+)
+attachments = response.get("data", {}).get("allVaultAttachments", {}).get("objects", [])
+print(f"Total documents: {len(attachments)}")
+for doc in attachments:
+    name = doc.get('document_name', 'Unknown')
+    who = doc.get('attachedBy', {}).get('firstName', '') + ' ' + doc.get('attachedBy', {}).get('lastName', '')
+    when = doc.get('created', 'N/A')
+    print(f"- {name} (Added by: {who.strip()}, On: {when})")
+```
+
+#### Fetch Vault Documents with Search Query
+
+Search for specific documents in the vault:
+
+```python
+from strobes_gql_client.client import StrobesGQLClient
+from strobes_gql_client import enums
+
+# Initialize client
+client = StrobesGQLClient(host=enums.APP_HOST, api_token=enums.API_TOKEN)
+
+# Search for documents with "test" in name
+print("\n=== Search for 'test' documents ===")
+response = client.execute_query(
+    "all_vault_attachments",
+    organization_id=enums.ORGANIZATION_ID,
+    search_query='document_name ~ "test"'
+)
+attachments = response.get("data", {}).get("allVaultAttachments", {}).get("objects", [])
+print(f"Found {len(attachments)} documents matching 'test'")
+for doc in attachments:
+    name = doc.get('document_name', 'Unknown')
+    who = doc.get('attachedBy', {}).get('firstName', '') + ' ' + doc.get('attachedBy', {}).get('lastName', '')
+    when = doc.get('created', 'N/A')
+    print(f"- {name} (Added by: {who.strip()}, On: {when})")
+```
+
+**Example File**: `examples/test-fetch-vaults-example.py`
 
 
 ### Complete collection of videos
