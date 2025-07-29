@@ -731,7 +731,7 @@ finding_fields = {
     "cvss": 6.1,                                                       # Optional: CVSS score (0.0-10.0)
     "severity": 3,                                                     # Required: Severity (1=Info, 2=Low, 3=Medium, 4=High, 5=Critical)
     "tags": ["xss", "web", "reflected"],                              # Optional: Tags
-    "selected_assets": [123, 456],                                     # Required: Associated asset IDs
+    "selected_assets": [38061],                                     # Required: Associated asset IDs
     "web": '{"affected_endpoints": ["http://example.com/search"], "request": "GET /search?q=<script>alert(1)</script>", "response": "HTTP/1.1 200 OK"}',  # Required for web findings
     "custom_fields": "{}"                                              # Optional: Additional custom data
 }
@@ -768,7 +768,7 @@ finding_fields = {
     "cvss": 5.3,                                                       # Optional: CVSS score
     "severity": 3,                                                     # Required: Severity level
     "tags": ["network", "ssh", "exposed-services"],                   # Optional: Tags
-    "selected_assets": [789],                                          # Required: Associated asset IDs
+    "selected_assets": [38062],                                          # Required: Associated asset IDs
     "network": '{"port": "22", "cpe": ["cpe:/a:openssh:openssh:8.2p1"]}',  # Required for network findings
     "custom_fields": "{}"                                              # Optional: Additional custom data
 }
@@ -805,7 +805,7 @@ finding_fields = {
     "cvss": 8.6,                                                       # Optional: CVSS score
     "severity": 4,                                                     # Required: Severity level
     "tags": ["command-injection", "code-vulnerability"],              # Optional: Tags
-    "selected_assets": [101],                                          # Required: Associated asset IDs
+    "selected_assets": [26294],                                          # Required: Associated asset IDs
     "code": '{"vulnerable_code": "os.system(\\"mv uploads/\\" + filename + \\" /archive/\\")", "start_line_number": "78", "end_line_number": "78", "file_name": "utils/upload_handler.py"}',  # Required for code findings
     "custom_fields": "{}"                                              # Optional: Additional custom data
 }
