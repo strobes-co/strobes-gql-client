@@ -414,16 +414,16 @@ asset_fields = {
     "organization_id": enums.ORGANIZATION_ID,        # Required: Organization ID
     "type": 4,                                       # Required: Asset type (4=Cloud)
     "cloud_type": 2,                                # Required: Cloud provider (2=AWS, 3=Azure, 4=GCP, 1=Other)
-    "sensitivity": 3,                                # Required: Sensitivity level
-    "exposed": 2,                                    # Required: Exposure level
-    "region": "us-east-1",                          # Optional: Cloud region
-    "account_id": "123456789012",                   # Optional: Cloud account ID
-    "resource_id": "i-0123456789abcdef0",           # Optional: Cloud resource ID
+    "sensitivity": 3,                                # Required: Sensitivity level (1=Low to 4=Critical)
+    "exposed": 2,                                    # Required: Exposure level (1=Private, 2=Public)
     "tags": ["aws", "ec2", "production"]            # Optional: Tags
 }
 
-result = client.execute_mutation("create_asset", **asset_fields)
-print("Cloud asset created successfully!")
+try:
+    result = client.execute_mutation("create_asset", **asset_fields)
+    print("Cloud asset created successfully!")
+except Exception as e:
+    print(f"Error creating cloud asset: {e}")
 ```
 
 **Example File**: `examples/test-create-assets-example.py`
