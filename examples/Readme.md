@@ -395,7 +395,7 @@ print("Network asset created successfully!")
 
 **Example File**: `examples/test-create-assets-example.py`
 
-[Watch the Video](https://app.arcade.software/share/JYTFpNE4qucTLg35quVO)
+[Watch the Video](https://app.arcade.software/share/XuIU3E90EFufAYrAypWy)
 
 ### Create Cloud Asset
 
@@ -427,6 +427,8 @@ print("Cloud asset created successfully!")
 ```
 
 **Example File**: `examples/test-create-assets-example.py`
+
+[Watch the Video](https://app.arcade.software/share/n0RJ8MfToJR3vNi3FyA5)
 
 
 ### Create Mobile Asset
@@ -742,6 +744,7 @@ print("Web finding created successfully!")
 
 **Example File**: `examples/test-create-findings-example.py`
 
+[Watch the Video](https://app.arcade.software/share/f3YO1ztvkgVnDNaFSosS)
 
 
 ### Create Network Finding
@@ -779,6 +782,7 @@ print("Network finding created successfully!")
 
 **Example File**: `examples/test-create-findings-example.py`
 
+[Watch the Video](https://app.arcade.software/share/EA86C2IGqwNwzBRrYnl0)
 
 
 ### Create Code Finding
@@ -816,6 +820,7 @@ print("Code finding created successfully!")
 
 **Example File**: `examples/test-create-findings-example.py`
 
+[Watch the Video](https://app.arcade.software/share/wGZRCyMKJ70Pfi7mUpQx)
 
 
 ### Required Fields by Finding Type
