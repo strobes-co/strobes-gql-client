@@ -363,7 +363,7 @@ print("Web asset created successfully!")
 
 **Example File**: `examples/test-create-assets-example.py`
 
-[Watch the Video](https://app.arcade.software/share/GtjbmFoN5oSiFUz1yACw)
+[Watch the Video](https://app.arcade.software/share/GGWpd2Pl4SdZ5vMfiXrh)
 
 ### Create Network Asset
 
