@@ -459,7 +459,7 @@ print("Mobile asset created successfully!")
 
 **Example File**: `examples/test-create-assets-example.py`
 
-[Watch the Video](https://app.arcade.software/share/t6fbWYXNiTvIEC3fuD2C)
+[Watch the Video](https://app.arcade.software/share/f31EgZ04ZXdPAzR0jPwb)
 
 ### Required Fields by Asset Type
 
