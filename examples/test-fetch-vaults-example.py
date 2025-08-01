@@ -94,7 +94,6 @@ def fetch_all_vault_attachments(page=1, page_size=10, search_query="", order_by=
     for attachment in attachments:
         print(f"\nAttachment ID: {attachment.get('id')}")
         print(f"Name: {attachment.get('documentName')}")
-        print(f"URL: {attachment.get('url')}")
         
         attached_by = attachment.get('attachedBy', {})
         if attached_by:
