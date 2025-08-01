@@ -1102,6 +1102,7 @@ upload_file("path/to/your/document.pdf")
   }
 }
 ```
+[Watch the Video](https://app.arcade.software/flows/F98XvHFDjmyEZMW8Z6xN/view)
 
 ### Fetch Vault Documents
 
@@ -1130,6 +1131,7 @@ for doc in attachments:
     when = doc.get('created', 'N/A')
     print(f"- {name} (Added by: {who.strip()}, On: {when})")
 ```
+[Watch the Video](https://app.arcade.software/share/5O3FR2cQV1X6Sb4gmOFv)
 
 #### Fetch Vault Documents with Search Query
 
@@ -1159,6 +1161,8 @@ for doc in attachments:
 ```
 
 **Example File**: `examples/test-fetch-vaults-example.py`
+
+[Watch the Video](https://app.arcade.software/share/0atq1gLJ1ttmIAtUXts9)
 
 ### Complete collection of videos
 
