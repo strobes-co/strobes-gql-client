@@ -132,7 +132,7 @@ def create_web_findings():
             "cvss": 8.5,
             "severity": 4,  # High
             "tags": ["sql-injection", "web", "authentication-bypass", "database"],
-            "web": '{"affected_endpoints": ["http://example.com/login"], "request": "POST /login HTTP/1.1\\r\\nHost: example.com\\r\\nContent-Type: application/x-www-form-urlencoded\\r\\n\\r\\nusername=admin\\' OR \\'1\\'=\\'1&password=test", "response": "HTTP/1.1 302 Found\\r\\nLocation: /dashboard\\r\\nSet-Cookie: session=abc123"}',
+            "web": '{"affected_endpoints": ["http://example.com/login"], "request": "POST /login HTTP/1.1\\r\\nHost: example.com\\r\\nContent-Type: application/x-www-form-urlencoded\\r\\n\\r\\nusername=admin\' OR \'1\'=\'1&password=test", "response": "HTTP/1.1 302 Found\\r\\nLocation: /dashboard\\r\\nSet-Cookie: session=abc123"}',
             "custom_fields": "{}"
         },
         {
@@ -436,9 +436,9 @@ def main():
     demonstrate_field_requirements()
     
     # Create different types of findings
-    # create_web_findings()
-    # create_network_findings()
-    # create_code_findings()
+    create_web_findings()
+    create_network_findings()
+    create_code_findings()
     
     print("\n✅ Finding creation examples completed!")
     print("\n💡 Tips:")
