@@ -9647,6 +9647,18 @@
               "deprecationReason": null,
               "description": "",
               "isDeprecated": false,
+              "name": "botTask",
+              "type": {
+                "kind": "OBJECT",
+                "name": "BotTaskType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
               "name": "approval",
               "type": {
                 "kind": "OBJECT",
@@ -16297,6 +16309,22 @@
                 "kind": "OBJECT",
                 "name": "ApprovalUserType",
                 "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "isReverted",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
               }
             },
             {
@@ -25158,6 +25186,18 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "AllScanLogType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "",
+              "isDeprecated": false,
+              "name": "botTask",
+              "type": {
+                "kind": "OBJECT",
+                "name": "BotTaskType",
                 "ofType": null
               }
             },
@@ -34551,6 +34591,47 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "SendChatMessage",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "botTaskId",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "organizationId",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "UUID",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "revertBulkUpdateAction",
+              "type": {
+                "kind": "OBJECT",
+                "name": "RevertBulkUpdateActionMutation",
                 "ofType": null
               }
             },
@@ -45209,6 +45290,53 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "SendChatMessage",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "task",
+              "type": {
+                "kind": "OBJECT",
+                "name": "BotTaskType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "message",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "RevertBulkUpdateActionMutation",
           "possibleTypes": null
         },
         {
