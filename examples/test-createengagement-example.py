@@ -11,7 +11,7 @@ from strobes_gql_client.client import StrobesGQLClient
 from strobes_gql_client import enums
 from sgqlc.operation import Operation
 from strobes_gql_client import schema
-
+import json
 
 def get_client():
     """Initialize and return the GraphQL client"""
@@ -27,12 +27,48 @@ def create_sample_engagement():
         "document_ids": [],
         "organization_id": enums.ORGANIZATION_ID,
         "name": "Demo Engagement 1234555",
-        "scheduled_date": "2025-07-29",
+        "scheduled_date": "2025-08-06",
+        "delivery_date": "2025-08-22",
         "fields": "{}",
         "subscribed_services": ["service 1"],
         "plans": 1,
-        "assessment_data": "{}",
-        "prerequisites_data": "[]",
+        "assessment_data": json.dumps({
+            "service 1": [
+                {"search_query": "id in (38069,38070)"},
+                {
+                    "asset_id": "38069",
+                    "asset_type": 1,
+                    "scheduled_date": "2025-08-06",
+                    "delivery_date": "2025-08-22",
+                    "vpn_accounts": "",
+                    "test_accounts": "",
+                    "instructions": "",
+                    "scope": ""
+                },
+                {
+                    "asset_id": "38070",
+                    "asset_type": 1,
+                    "scheduled_date": "2025-08-06",
+                    "delivery_date": "2025-08-22",
+                    "vpn_accounts": "",
+                    "test_accounts": "",
+                    "instructions": "",
+                    "scope": ""
+                }
+            ]
+        }),
+        "prerequisites_data": json.dumps([
+            {
+                "id": None,
+                "title": "for testing prerequisites data",
+                "description": "test description for prerequisites data",
+                "assigned_to": "security_team",
+                "due_date": "2025-08-04",
+                "attachments": [],
+                "order_index": 1,
+                "is_completed": True
+            }
+        ]),
         "include_related_assets": False,
         "vendor_code": "",
         "is_self_managed": True
