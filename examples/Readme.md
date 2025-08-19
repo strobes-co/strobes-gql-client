@@ -988,25 +988,60 @@ Create a new engagement (security assessment) for your organization:
 ```python
 from strobes_gql_client.client import StrobesGQLClient
 from strobes_gql_client import enums
+import json
 
 client = StrobesGQLClient(host=enums.APP_HOST, api_token=enums.API_TOKEN)
 
 engagement_fields = {
-    "name": "Q3 2025 Security Assessment",                 # Required: Engagement name
-    "organization_id": enums.ORGANIZATION_ID,               # Required: Organization ID
-    "vendor_code": "sec-12345",                           # Optional: Vendor code
-    "scheduled_date": "2025-07-01",                       # Optional: Scheduled start date (YYYY-MM-DD)
-    "delivery_date": "2025-07-16",                        # Optional: Planned delivery date (YYYY-MM-DD)
-    "plans": 1,                                             # Required: Plan type / tier
-    "document_ids": [],                                     # Optional: Attachments (Vault IDs)
-    "subscribed_services": [                                # Required: Services included
-        "Web Application Penetration Test",
-        "Cloud Security"
-    ],
-    "assessment_data": "{\"Web Application Penetration Test\":[{\"search_query\":\"type = 1 and risk_score >= 80\"}]}",
-    "prerequisites_data": "[]",                           # Optional: Prerequisite tasks
-    "fields": "{\"internal_info\":\"Quarterly engagement\"}" # Optional: Custom fields JSON
-}
+        "document_ids": [],
+        "organization_id": enums.ORGANIZATION_ID,
+        "name": "Q3 2025 Security Assessment",
+        "scheduled_date": "2025-08-06",
+        "delivery_date": "2025-08-22",
+        "fields": "{}",
+        "subscribed_services": ["service 1"],
+        "plans": 1,
+        "assessment_data": json.dumps({
+            "service 1": [
+                {"search_query": "id in (38069,38070)"},
+                {
+                    "asset_id": "38069",
+                    "asset_type": 1,
+                    "scheduled_date": "2025-08-06",
+                    "delivery_date": "2025-08-22",
+                    "vpn_accounts": "",
+                    "test_accounts": "",
+                    "instructions": "",
+                    "scope": ""
+                },
+                {
+                    "asset_id": "38070",
+                    "asset_type": 1,
+                    "scheduled_date": "2025-08-06",
+                    "delivery_date": "2025-08-22",
+                    "vpn_accounts": "",
+                    "test_accounts": "",
+                    "instructions": "",
+                    "scope": ""
+                }
+            ]
+        }),
+        "prerequisites_data": json.dumps([
+            {
+                "id": None,
+                "title": "for testing prerequisites data",
+                "description": "test description for prerequisites data",
+                "assigned_to": "security_team",
+                "due_date": "2025-08-04",
+                "attachments": [],
+                "order_index": 1,
+                "is_completed": True
+            }
+        ]),
+        "include_related_assets": False,
+        "vendor_code": "",
+        "is_self_managed": True
+    }
 
 result = client.execute_mutation("create_engagement", **engagement_fields)
 print("Engagement created successfully!")
