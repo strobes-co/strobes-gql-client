@@ -71,7 +71,8 @@ def create_sample_engagement():
         ]),
         "include_related_assets": False,
         "vendor_code": "",
-        "is_self_managed": True
+        "is_self_managed": True,
+        "state": 1
     }
 
     try:

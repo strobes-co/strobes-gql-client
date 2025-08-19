@@ -3730,6 +3730,7 @@ class Mutation(sgqlc.types.Type):
         ('plans', sgqlc.types.Arg(Int, graphql_name='plans', default=None)),
         ('prerequisites_data', sgqlc.types.Arg(JSONString, graphql_name='prerequisitesData', default=None)),
         ('scheduled_date', sgqlc.types.Arg(Date, graphql_name='scheduledDate', default=None)),
+        ('state', sgqlc.types.Arg(Int, graphql_name='state', default=None)),
         ('subscribed_services', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='subscribedServices', default=None)),
         ('vendor_code', sgqlc.types.Arg(String, graphql_name='vendorCode', default=None)),
 ))
@@ -3750,6 +3751,7 @@ class Mutation(sgqlc.types.Type):
     * `plans` (`Int`)None
     * `prerequisites_data` (`JSONString`)None
     * `scheduled_date` (`Date`)None
+    * `state` (`Int`)None
     * `subscribed_services` (`[String]`)None
     * `vendor_code` (`String`)None
     '''

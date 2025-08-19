@@ -1040,7 +1040,8 @@ engagement_fields = {
         ]),
         "include_related_assets": False,
         "vendor_code": "",
-        "is_self_managed": True
+        "is_self_managed": True,
+        "state": 1
     }
 
 result = client.execute_mutation("create_engagement", **engagement_fields)
