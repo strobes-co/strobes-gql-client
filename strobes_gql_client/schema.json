@@ -15920,6 +15920,12 @@
               "description": "acunetix_cm",
               "isDeprecated": false,
               "name": "ACUNETIX_CM"
+            },
+            {
+              "deprecationReason": null,
+              "description": "ms_defender_cm",
+              "isDeprecated": false,
+              "name": "MS_DEFENDER_CM"
             }
           ],
           "fields": null,
