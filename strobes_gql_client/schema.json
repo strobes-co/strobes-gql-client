@@ -2150,6 +2150,66 @@
                     "name": "Int",
                     "ofType": null
                   }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "rowPage",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "rowPageSize",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "colPage",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "colPageSize",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "rowSearch",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "colSearch",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
                 }
               ],
               "deprecationReason": null,
@@ -32010,48 +32070,32 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "",
+              "description": null,
               "isDeprecated": false,
               "name": "cwe",
               "type": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "CWEType",
-                      "ofType": null
-                    }
-                  }
+                  "kind": "OBJECT",
+                  "name": "CWEType",
+                  "ofType": null
                 }
               }
             },
             {
               "args": [],
               "deprecationReason": null,
-              "description": "",
+              "description": null,
               "isDeprecated": false,
               "name": "cve",
               "type": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "CVEType",
-                      "ofType": null
-                    }
-                  }
+                  "kind": "OBJECT",
+                  "name": "CVEType",
+                  "ofType": null
                 }
               }
             },
@@ -33386,7 +33430,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "Content of the maintf file",
+              "description": "Content of the maintf file (returns empty for performance)",
               "isDeprecated": false,
               "name": "maintfContent",
               "type": {
@@ -38297,6 +38341,16 @@
                 {
                   "defaultValue": null,
                   "description": null,
+                  "name": "pivotByField",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
                   "name": "positionalData",
                   "type": {
                     "kind": "LIST",
@@ -38621,6 +38675,16 @@
                   "defaultValue": null,
                   "description": null,
                   "name": "organizationSearchQuery",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "pivotByField",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
