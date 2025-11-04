@@ -36,6 +36,16 @@ def execute_web_bug_create_mutation():
                                  3. The payload will be submitted without your knowledge, changing product details.""",
         "web": """{
             "affected_endpoints": ["/product/update"], 
+            "request_responses": [
+                {
+                    "request": "POST /product/update HTTP/1.1\\r\\nHost: vulnerable-website.com\\r\\nContent-Type: application/x-www-form-urlencoded\\r\\n\\r\\nproduct_id=123&name=NewProductName&description=NewDescription",
+                    "response": "HTTP/1.1 302 Found\\r\\nLocation: /product/123"
+                },
+                {
+                    "request": "GET /product/123 HTTP/1.1\\r\\nHost: vulnerable-website.com\\r\\n\\r\\n",
+                    "response": "HTTP/1.1 200 OK\\r\\nContent-Type: text/html\\r\\n\\r\\n<html>Product Updated</html>"
+                }
+            ],
             "request": "POST /product/update HTTP/1.1\\r\\nHost: vulnerable-website.com\\r\\nContent-Type: application/x-www-form-urlencoded\\r\\n\\r\\nproduct_id=123&name=NewProductName&description=NewDescription",
             "response": "HTTP/1.1 302 Found\\r\\nLocation: /product/123"
         }""",
