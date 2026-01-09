@@ -21,7 +21,39 @@ class StrobesGQLClient(BaseClient):
         try:
             op = Operation(schema.Query)
             query = getattr(op, query_name)
-            query(**variables)
+            result = query(**variables)
+
+            # NOTE:
+            # Your backend error:
+            #   "Field Bug.connector cannot be both deferred and traversed using select_related at the same time."
+            # is typically raised by Django ORM when a queryset contains BOTH:
+            #   - select_related('connector')
+            #   - defer('connector') / only(...) that implicitly defers it
+            #
+            # GraphQL optimizers (graphene-django-optimizer / custom get_queryset) commonly
+            # defer relations that are NOT requested in the GraphQL selection set.
+            #
+            # Workaround on the client: explicitly request a minimal connector selection
+            # for allBugs so the backend won't "defer" it.
+            if query_name == "all_bugs":
+                # Pagination/meta fields
+                result.has_next()
+                result.has_previous()
+                result.last_cursor()
+                result.before_cursor()
+
+                # Minimal, stable bug fields used by examples + a minimal connector selection
+                result.objects.__fields__(
+                    "id",
+                    "title",
+                    "severity",
+                    "state",
+                    "cvss",
+                    "created",
+                    "updated",
+                )
+                result.objects.connector.__fields__("id", "name", "slug")
+
             data = self.endpoint(op)
             if data:
                 self.logger.debug(f"{query_name} executed successfully.")
