@@ -38276,6 +38276,18 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
+              "name": "riskAcceptanceDueDate",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Date",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
               "name": "slaViolated",
               "type": {
                 "kind": "NON_NULL",
@@ -49164,6 +49176,16 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "UUID",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "riskAcceptanceDueDate",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Date",
                     "ofType": null
                   }
                 },
