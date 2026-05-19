@@ -12,7 +12,7 @@ class StrobesGQLClient(BaseClient):
         self.logger = logging.getLogger(self.__class__.__name__)
         session = requests.Session()
         session.verify = verify
-        self.graphql_url = f"{self.app_url}api/graphql/"
+        self.graphql_url = f"{self.app_url}api/public/graphql/"
         self.endpoint = RequestsEndpoint(
             self.graphql_url, self.headers, session=session
         )

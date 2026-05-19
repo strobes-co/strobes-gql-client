@@ -1082,7 +1082,7 @@ def upload_file(filepath, engagement_id=None, is_prerequisite=False):
         with open(filepath, "rb") as f:
             files = {'0': (filepath, f, 'application/octet-stream')}
             response = requests.post(
-                f"{client.app_url}api/graphql/",
+                f"{client.app_url}api/public/graphql/",
                 headers={
                     'Authorization': f"token {enums.API_TOKEN}",
                     'user-agent': enums.USER_AGENT
