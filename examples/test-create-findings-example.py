@@ -115,7 +115,7 @@ def create_web_findings():
             "steps_to_reproduce": "1. Navigate to the search page. 2. Enter script payload: <script>alert('XSS')</script>. 3. Submit the search and observe script execution in the response.",
             "cwe_list": [79],  # CWE-79: Cross-site Scripting
             "cve_list": [],
-            "cvss": 6.1,
+            "cvss_v3": 6.1,
             "severity": 3,  # Medium
             "tags": ["xss", "web", "reflected", "input-validation"],
             "web": '{"affected_endpoints": ["http://example.com/search"], "request": "GET /search?q=<script>alert(\\"XSS\\")</script> HTTP/1.1\\r\\nHost: example.com", "response": "HTTP/1.1 200 OK\\r\\nContent-Type: text/html\\r\\n\\r\\n<html><body>Search results for: <script>alert(\\"XSS\\")</script></body></html>"}',
@@ -129,7 +129,7 @@ def create_web_findings():
             "steps_to_reproduce": "1. Navigate to the login page. 2. Enter username: admin' OR '1'='1. 3. Enter any password. 4. Submit the form and observe successful authentication bypass.",
             "cwe_list": [89],  # CWE-89: SQL Injection
             "cve_list": [],
-            "cvss": 8.5,
+            "cvss_v3": 8.5,
             "severity": 4,  # High
             "tags": ["sql-injection", "web", "authentication-bypass", "database"],
             "web": '{"affected_endpoints": ["http://example.com/login"], "request": "POST /login HTTP/1.1\\r\\nHost: example.com\\r\\nContent-Type: application/x-www-form-urlencoded\\r\\n\\r\\nusername=admin\' OR \'1\'=\'1&password=test", "response": "HTTP/1.1 302 Found\\r\\nLocation: /dashboard\\r\\nSet-Cookie: session=abc123"}',
@@ -143,7 +143,7 @@ def create_web_findings():
             "steps_to_reproduce": "1. Log into the application as a user. 2. Visit a malicious website with a crafted CSRF payload targeting the profile update form. 3. Observe unauthorized profile changes.",
             "cwe_list": [352],  # CWE-352: Cross-Site Request Forgery
             "cve_list": [],
-            "cvss": 6.5,
+            "cvss_v3": 6.5,
             "severity": 3,  # Medium
             "tags": ["csrf", "web", "authorization", "state-changing"],
             "web": '{"affected_endpoints": ["http://example.com/profile/update"], "request": "POST /profile/update HTTP/1.1\\r\\nHost: example.com\\r\\nContent-Type: application/x-www-form-urlencoded\\r\\n\\r\\nname=AttackerName&email=attacker@evil.com", "response": "HTTP/1.1 302 Found\\r\\nLocation: /profile"}',
@@ -169,7 +169,7 @@ def create_web_findings():
                 "steps_to_reproduce": web_finding["steps_to_reproduce"],  # Required
                 "cwe_list": web_finding["cwe_list"],               # Optional
                 "cve_list": web_finding["cve_list"],               # Optional
-                "cvss": web_finding["cvss"],                       # Optional
+                "cvss_v3": web_finding["cvss_v3"],                 # Optional
                 "severity": web_finding["severity"],               # Required
                 "tags": web_finding["tags"],                       # Optional
                 "selected_assets": web_asset_ids,                  # Required
@@ -207,7 +207,7 @@ def create_network_findings():
             "steps_to_reproduce": "1. Use nmap to scan the target IP address: nmap -p 22 target_ip. 2. Verify SSH service is running: telnet target_ip 22. 3. Confirm the port is accessible from external networks.",
             "cwe_list": [200],  # CWE-200: Information Exposure
             "cve_list": [],
-            "cvss": 5.3,
+            "cvss_v3": 5.3,
             "severity": 3,  # Medium
             "tags": ["network", "ssh", "port-scanning", "exposed-services"],
             "network": '{"port": "22", "cpe": ["cpe:/a:openssh:openssh:8.2p1"]}',
@@ -221,7 +221,7 @@ def create_network_findings():
             "steps_to_reproduce": "1. Use snmpwalk to test default community strings: snmpwalk -v2c -c public target_ip. 2. Try common community strings like 'private', 'community', 'cisco'. 3. Verify successful information retrieval.",
             "cwe_list": [1188],  # CWE-1188: Insecure Default Initialization
             "cve_list": [],
-            "cvss": 6.5,
+            "cvss_v3": 6.5,
             "severity": 3,  # Medium
             "tags": ["network", "snmp", "weak-authentication", "default-credentials"],
             "network": '{"port": "161", "cpe": ["cpe:/a:ietf:snmp:2.0"]}',
@@ -235,7 +235,7 @@ def create_network_findings():
             "steps_to_reproduce": "1. Scan for Telnet port: nmap -p 23 target_ip. 2. Attempt Telnet connection: telnet target_ip 23. 3. Verify service responds and accepts connections.",
             "cwe_list": [319],  # CWE-319: Cleartext Transmission
             "cve_list": [],
-            "cvss": 7.5,
+            "cvss_v3": 7.5,
             "severity": 4,  # High
             "tags": ["network", "telnet", "cleartext-transmission", "insecure-protocol"],
             "network": '{"port": "23", "cpe": ["cpe:/a:ietf:telnet:1.0"]}',
@@ -261,7 +261,7 @@ def create_network_findings():
                 "steps_to_reproduce": network_finding["steps_to_reproduce"],  # Required
                 "cwe_list": network_finding["cwe_list"],           # Optional
                 "cve_list": network_finding["cve_list"],           # Optional
-                "cvss": network_finding["cvss"],                   # Optional
+                "cvss_v3": network_finding["cvss_v3"],             # Optional
                 "severity": network_finding["severity"],           # Required
                 "tags": network_finding["tags"],                   # Optional
                 "selected_assets": network_asset_ids,              # Required
@@ -299,7 +299,7 @@ def create_code_findings():
             "steps_to_reproduce": "1. Intercept a file upload request. 2. Modify the 'filename' parameter to include `; whoami`. 3. Observe the server response or logs showing the command execution result.",
             "cwe_list": [78],  # CWE-78: OS Command Injection
             "cve_list": [],
-            "cvss": 8.6,
+            "cvss_v3": 8.6,
             "severity": 4,  # High
             "tags": ["command-injection", "code-vulnerability", "file-upload", "rce"],
             "code": '{"vulnerable_code": "os.system(\\"mv uploads/\\" + filename + \\" /archive/\\")", "start_line_number": "78", "end_line_number": "78", "file_name": "utils/upload_handler.py"}',
@@ -313,7 +313,7 @@ def create_code_findings():
             "steps_to_reproduce": "1. Go to /search?q=<script>alert(1)</script>. 2. Observe that the script executes in the browser.",
             "cwe_list": [79],  # CWE-79: Cross-site Scripting
             "cve_list": [],
-            "cvss": 6.1,
+            "cvss_v3": 6.1,
             "severity": 3,  # Medium
             "tags": ["xss", "reflected", "unsanitized-input", "code-vulnerability"],
             "code": '{"vulnerable_code": "<div>Search Results for: \\" + user_input + \\"</div>", "start_line_number": "45", "end_line_number": "45", "file_name": "views/search.py"}',
@@ -327,7 +327,7 @@ def create_code_findings():
             "steps_to_reproduce": "1. Login as user A and go to /profile/101. 2. Change the URL to /profile/102. 3. Observe that user B's profile is visible without authorization.",
             "cwe_list": [639],  # CWE-639: Authorization Bypass Through User-Controlled Key
             "cve_list": [],
-            "cvss": 5.3,
+            "cvss_v3": 5.3,
             "severity": 3,  # Medium
             "tags": ["idor", "authorization", "insecure-access", "access-control"],
             "code": '{"vulnerable_code": "user = db.get_user_by_id(request.params[\\"user_id\\"])", "start_line_number": "88", "end_line_number": "88", "file_name": "controllers/profile.py"}',
@@ -353,7 +353,7 @@ def create_code_findings():
                 "steps_to_reproduce": code_finding["steps_to_reproduce"],  # Required
                 "cwe_list": code_finding["cwe_list"],              # Optional
                 "cve_list": code_finding["cve_list"],              # Optional
-                "cvss": code_finding["cvss"],                      # Optional
+                "cvss_v3": code_finding["cvss_v3"],                # Optional
                 "severity": code_finding["severity"],              # Required
                 "tags": code_finding["tags"],                      # Optional
                 "selected_assets": code_asset_ids,                 # Required
@@ -404,7 +404,8 @@ def demonstrate_field_requirements():
     print("\n** Optional Fields (All Types) **")
     print("- cwe_list (Array): CWE classifications")
     print("- cve_list (Array): CVE identifiers")
-    print("- cvss (Float): CVSS score (0.0-10.0)")
+    print("- cvss_v3 (Float): CVSS v3 score (0.0-10.0)")
+    print("- cvss_v4 (Float): CVSS v4 score (0.0-10.0)")
     print("- tags (Array): Tags for categorization")
     print("- custom_fields (JSON String): Additional metadata")
     print("- bug_attachment_list (Array): File attachments")

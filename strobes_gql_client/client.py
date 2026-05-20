@@ -76,7 +76,14 @@ class StrobesGQLClient(BaseClient):
         try:
             op = Operation(schema.Mutation)
             mutation = getattr(op, mutation_name)
-            mutation(**variables)
+            result = mutation(**variables)
+
+            if mutation_name == "bug_create":
+                result.bug.__fields__(
+                    "id", "title", "severity", "state", "bug_level",
+                    "created", "updated",
+                )
+
             data = self.endpoint(op)
             if data:
                 self.logger.debug(f"{mutation_name} executed successfully.")
