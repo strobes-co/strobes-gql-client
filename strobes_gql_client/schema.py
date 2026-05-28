@@ -9,14 +9,49 @@ schema = sgqlc.types.Schema()
 ########################################################################
 # Scalars and Enumerations
 ########################################################################
+class AgentSourceEnum(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('SYSTEM', 'WORKFLOW')
+
+
 class AppAgentDocumentIndexingStatusChoices(sgqlc.types.Enum):
     __schema__ = schema
     __choices__ = ('FAILED', 'INDEXED', 'PENDING', 'PROCESSING')
 
 
+class AppAgentScheduleScheduleDayOfWeekChoices(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('A_1', 'A_2', 'A_3', 'A_4', 'A_5', 'A_6', 'A_7')
+
+
+class AppAgentScheduleScheduleFrequencyChoices(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('A_1', 'A_2', 'A_3', 'A_4')
+
+
+class AppAgentScheduleStatusChoices(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ACTIVE', 'PAUSED')
+
+
+class AppAgentWorkspaceStatusChoices(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ACTIVE', 'ARCHIVED', 'INITIALIZING')
+
+
+class AppAgentWorkspaceSupervisorModeChoices(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('AUTO', 'USER')
+
+
+class AppAgentWorkspaceWorkspaceTypeChoices(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('ATTACK_SURFACE', 'BREACH_SIMULATION', 'CODE_REVIEW', 'COMPLIANCE_AUDIT', 'EXPOSURE_ASSESSMENT', 'GENERAL', 'PENTEST_API', 'PENTEST_CLOUD', 'PENTEST_MOBILE', 'PENTEST_NETWORK', 'PENTEST_WEB', 'REPORTING', 'THREAT_INTEL', 'VULN_TRIAGE')
+
+
 class AppCredentialManagerTypeChoices(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('ACCUKNOX_CM', 'ACUNETIX_CM', 'ANCHORE_CM', 'APPKNOX_CM', 'APP_SCAN_CM', 'APP_SENTINELS_CM', 'AWS_CM', 'AZURE_CM', 'AZURE_DEVOPS_CM', 'BITBUCKET_CM', 'BLACKDUCK_CM', 'BUGZILLA_CM', 'BURPSUITE_CM', 'BURP_ENTERPRISE_CM', 'CROWDSTRIKE_CM', 'DOCKER_CM', 'ECR_CM', 'FORTIFY_CM', 'GCP_CM', 'GITHUB_CM', 'GIT_CM', 'HACKERONE_CM', 'INSIGHT_PLATFORM_API_CM', 'INSIGHT_VM_CM', 'INTEL_GRAPH_CM', 'JFROG_XRAY_CM', 'JIRA_CM', 'MANDIANT_CM', 'MS_DEFENDER_CM', 'NESSUS_CM', 'NEXPOSE_CM', 'OPEN_AI_CM', 'ORCA_CM', 'PALO_ALTO_XDR_CM', 'PALO_ALTO_XPANSE_CM', 'PRISMA_CLOUD_CM', 'QUALYS_CM', 'SMTP_CM', 'SNYK_CM', 'SONAR_CLOUD_CM', 'SONAR_CM', 'SONATYPE_NEXUS_CM', 'SVN_CM', 'TANIUM_CM', 'TENABLEIO_CM', 'TENABLESC_CM', 'VERACODE_CM', 'WIZ_CM')
+    __choices__ = ('ACCUKNOX_CM', 'ACUNETIX_CM', 'ANCHORE_CM', 'APPKNOX_CM', 'APP_SCAN_CM', 'APP_SENTINELS_CM', 'AWS_CM', 'AZURE_CM', 'AZURE_DEVOPS_CM', 'BITBUCKET_CM', 'BLACKDUCK_CM', 'BUGZILLA_CM', 'BURPSUITE_CM', 'BURP_ENTERPRISE_CM', 'C2_SERVER_CM', 'CROWDSTRIKE_CM', 'CUSTOM_CM', 'DOCKER_CM', 'ECR_CM', 'FIRECOMPASS_CM', 'FORTIFY_CM', 'GAR_CM', 'GCP_CM', 'GITHUB_CM', 'GIT_CM', 'HACKERONE_CM', 'INSIGHT_PLATFORM_API_CM', 'INSIGHT_VM_CM', 'INTEL_GRAPH_CM', 'JFROG_XRAY_CM', 'JIRA_CM', 'MANDIANT_CM', 'MORPHISEC_CM', 'MS_DEFENDER_CM', 'NESSUS_CM', 'NEXPOSE_CM', 'OPEN_AI_CM', 'ORCA_CM', 'PALO_ALTO_XDR_CM', 'PALO_ALTO_XPANSE_CM', 'PRISMA_CLOUD_CM', 'QUALYS_CM', 'SMTP_CM', 'SNYK_CM', 'SONAR_CLOUD_CM', 'SONAR_CM', 'SONATYPE_NEXUS_CM', 'SSH_KEYPAIR_CM', 'SVN_CM', 'TANIUM_CM', 'TENABLECS_CM', 'TENABLEIO_CM', 'TENABLESC_CM', 'VERACODE_CM', 'WIZ_CM')
 
 
 class AppPatchPatchTypeChoices(sgqlc.types.Enum):
@@ -27,16 +62,6 @@ class AppPatchPatchTypeChoices(sgqlc.types.Enum):
 class AppPortStateChoices(sgqlc.types.Enum):
     __schema__ = schema
     __choices__ = ('CLOSED', 'FILTERED', 'NOTDEFINED', 'OPEN', 'OPEN_OR_FILTERED', 'UNFILTERED')
-
-
-class AppPulseArtifactArtifactTypeChoices(sgqlc.types.Enum):
-    __schema__ = schema
-    __choices__ = ('CODE', 'CSV', 'HTML', 'JAVASCRIPT', 'JSON', 'MARKDOWN', 'PYTHON', 'SQL', 'TEXT', 'TYPESCRIPT', 'XML', 'YAML')
-
-
-class AppPulseArtifactStatusChoices(sgqlc.types.Enum):
-    __schema__ = schema
-    __choices__ = ('CREATING', 'ERROR', 'READY')
 
 
 class AppPulseMessageAuthorChoices(sgqlc.types.Enum):
@@ -56,12 +81,7 @@ class AppPulseParticipantRoleChoices(sgqlc.types.Enum):
 
 class AppPulseRunStatusChoices(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('CANCELED', 'COMPLETED', 'FAILED', 'QUEUED', 'RUNNING')
-
-
-class AppPulseTaskStatusChoices(sgqlc.types.Enum):
-    __schema__ = schema
-    __choices__ = ('BLOCKED', 'CANCELED', 'COMPLETED', 'FAILED', 'QUEUED', 'RUNNING')
+    __choices__ = ('CANCELED', 'COMPLETED', 'FAILED', 'INTERRUPTED', 'QUEUED', 'RUNNING')
 
 
 class AppPulseThreadModeChoices(sgqlc.types.Enum):
@@ -69,11 +89,40 @@ class AppPulseThreadModeChoices(sgqlc.types.Enum):
     __choices__ = ('BACKGROUND', 'CHAT')
 
 
+class AppSheetProcessingStatusChoices(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('COMPLETED', 'FAILED', 'IN_PROGRESS', 'PENDING')
+
+
+class AppWidgetGenerationStatusChoices(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('COMPLETED', 'FAILED', 'GENERATING', 'PENDING')
+
+
+class AppWorkspaceTaskCreatedByTypeChoices(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('AUTO_SUPERVISOR', 'USER')
+
+
+class AppWorkspaceTaskStatusChoices(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('CANCELLED', 'COMPLETED', 'FAILED', 'QUEUED', 'RUNNING')
+
+
+class AppWorkspaceTaskTaskTypeChoices(sgqlc.types.Enum):
+    __schema__ = schema
+    __choices__ = ('BROWSE', 'CUSTOM', 'ENUMERATE', 'TEST', 'VALIDATE')
+
+
 Boolean = sgqlc.types.Boolean
 
 Date = sgqlc.types.datetime.Date
 
 DateTime = sgqlc.types.datetime.DateTime
+
+class Decimal(sgqlc.types.Scalar):
+    __schema__ = schema
+
 
 Float = sgqlc.types.Float
 
@@ -130,6 +179,22 @@ class Upload(sgqlc.types.Scalar):
 ########################################################################
 # Input Objects
 ########################################################################
+class AgentLogFilterInput(sgqlc.types.Input):
+    __schema__ = schema
+    __field_names__ = ('agent_ids', 'event_types', 'severities', 'thread_id', 'run_id', 'date_from', 'date_to', 'search', 'guardrail_names', 'include_guardrail_events', 'guardrail_only')
+    agent_ids = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='agentIds')
+    event_types = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='eventTypes')
+    severities = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='severities')
+    thread_id = sgqlc.types.Field(UUID, graphql_name='threadId')
+    run_id = sgqlc.types.Field(UUID, graphql_name='runId')
+    date_from = sgqlc.types.Field(DateTime, graphql_name='dateFrom')
+    date_to = sgqlc.types.Field(DateTime, graphql_name='dateTo')
+    search = sgqlc.types.Field(String, graphql_name='search')
+    guardrail_names = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='guardrailNames')
+    include_guardrail_events = sgqlc.types.Field(Boolean, graphql_name='includeGuardrailEvents')
+    guardrail_only = sgqlc.types.Field(Boolean, graphql_name='guardrailOnly')
+
+
 class GroupingCriterionInput(sgqlc.types.Input):
     __schema__ = schema
     __field_names__ = ('field_name', 'field_type', 'boolean_true_label', 'boolean_false_label', 'ranges', 'custom_field_values')
@@ -160,6 +225,39 @@ class ScoreRangeInput(sgqlc.types.Input):
 ########################################################################
 # Output Objects and Interfaces
 ########################################################################
+class AIRecommendationItemType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'title', 'description', 'value_prop', 'value_type', 'value_metric', 'priority', 'status', 'cta_label', 'cta_action', 'affected_count', 'icon', 'category')
+    id = sgqlc.types.Field(String, graphql_name='id')
+    title = sgqlc.types.Field(String, graphql_name='title')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    value_prop = sgqlc.types.Field(String, graphql_name='valueProp')
+    value_type = sgqlc.types.Field(String, graphql_name='valueType')
+    value_metric = sgqlc.types.Field(String, graphql_name='valueMetric')
+    priority = sgqlc.types.Field(String, graphql_name='priority')
+    status = sgqlc.types.Field(String, graphql_name='status')
+    cta_label = sgqlc.types.Field(String, graphql_name='ctaLabel')
+    cta_action = sgqlc.types.Field(String, graphql_name='ctaAction')
+    affected_count = sgqlc.types.Field(Int, graphql_name='affectedCount')
+    icon = sgqlc.types.Field(String, graphql_name='icon')
+    category = sgqlc.types.Field(String, graphql_name='category')
+
+
+class AIRecommendationsType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('recommendations', 'total_potential_time_saved', 'total_potential_risk_reduction')
+    recommendations = sgqlc.types.Field(sgqlc.types.list_of(AIRecommendationItemType), graphql_name='recommendations')
+    total_potential_time_saved = sgqlc.types.Field(String, graphql_name='totalPotentialTimeSaved')
+    total_potential_risk_reduction = sgqlc.types.Field(String, graphql_name='totalPotentialRiskReduction')
+
+
+class AIRefreshStatusType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('remaining_refreshes', 'max_refreshes')
+    remaining_refreshes = sgqlc.types.Field(Int, graphql_name='remainingRefreshes')
+    max_refreshes = sgqlc.types.Field(Int, graphql_name='maxRefreshes')
+
+
 class ASMSettingsType(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('id', 'merge_assets', 'merge_options', 'meta_data', 'tags', 'newly_added_assets', 'total_added_assets', 'last_synced', 'scheduled_interval', 'scope', 'verified_scope', 'out_of_scope', 'is_enabled', 'is_finding_scanning_enabled', 'scheduled_at', 'updated', 'created', 'last_scope_refreshed_on')
@@ -205,7 +303,7 @@ class ActivityType(sgqlc.types.Type):
     automation_workflow_reason = sgqlc.types.Field(JSONString, graphql_name='automationWorkflowReason')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
-    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementCommentType'))), graphql_name='commentSet')
+    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('CommentType'))), graphql_name='commentSet')
 
 
 class AddAssetFieldSettingsMutation(sgqlc.types.Type):
@@ -274,6 +372,60 @@ class AddVaultAttachmentMutation(sgqlc.types.Type):
     vault = sgqlc.types.Field('VaultType', graphql_name='vault')
 
 
+class AddWorkspaceSkills(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspace', 'added_count')
+    workspace = sgqlc.types.Field('AgentWorkspaceType', graphql_name='workspace')
+    added_count = sgqlc.types.Field(Int, graphql_name='addedCount')
+
+
+class AdvanceWorkflowPhase(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success',)
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+
+
+class AgentActionDefaultsType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('mode', 'title')
+    mode = sgqlc.types.Field(String, graphql_name='mode')
+    title = sgqlc.types.Field(String, graphql_name='title')
+
+
+class AgentActionPlaceholderType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('key', 'label', 'type', 'required', 'options', 'default', 'order')
+    key = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='key')
+    label = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='label')
+    type = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='type')
+    required = sgqlc.types.Field(Boolean, graphql_name='required')
+    options = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='options')
+    default = sgqlc.types.Field(GenericScalar, graphql_name='default')
+    order = sgqlc.types.Field(Int, graphql_name='order')
+
+
+class AgentActionType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'organization_id', 'slug', 'name', 'description', 'category', 'is_system', 'is_active', 'version', 'agent_ids', 'prompt_template', 'placeholders', 'defaults', 'constraints', 'created_by_id', 'created_at', 'updated_at')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    organization_id = sgqlc.types.Field(UUID, graphql_name='organizationId')
+    slug = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='slug')
+    name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    category = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='category')
+    is_system = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isSystem')
+    is_active = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isActive')
+    version = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='version')
+    agent_ids = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(String)), graphql_name='agentIds')
+    prompt_template = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='promptTemplate')
+    placeholders = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(AgentActionPlaceholderType)), graphql_name='placeholders')
+    defaults = sgqlc.types.Field(AgentActionDefaultsType, graphql_name='defaults')
+    constraints = sgqlc.types.Field(GenericScalar, graphql_name='constraints')
+    created_by_id = sgqlc.types.Field(UUID, graphql_name='createdById')
+    created_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='createdAt')
+    updated_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updatedAt')
+
+
 class AgentDocumentType(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('id', 'organization', 'agent', 'name', 'document', 'file_size', 'file_type', 'indexing_status', 'last_indexed_at', 'indexing_error', 'vector_store_references', 'attached_by', 'created', 'updated')
@@ -291,6 +443,131 @@ class AgentDocumentType(sgqlc.types.Type):
     attached_by = sgqlc.types.Field('ApprovalUserType', graphql_name='attachedBy')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
+
+
+class AgentLogEntryType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'seq', 'timestamp', 'type', 'actor', 'agent_id', 'agent_name', 'task_id', 'severity', 'payload', 'thread_id', 'thread_title', 'run_id', 'correlation_id', 'trace_id', 'summary', 'duration_ms', 'guardrail_name', 'guardrail_stage', 'was_blocked')
+    id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='id')
+    seq = sgqlc.types.Field(Int, graphql_name='seq')
+    timestamp = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='timestamp')
+    type = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='type')
+    actor = sgqlc.types.Field(String, graphql_name='actor')
+    agent_id = sgqlc.types.Field(String, graphql_name='agentId')
+    agent_name = sgqlc.types.Field(String, graphql_name='agentName')
+    task_id = sgqlc.types.Field(String, graphql_name='taskId')
+    severity = sgqlc.types.Field(String, graphql_name='severity')
+    payload = sgqlc.types.Field(GenericScalar, graphql_name='payload')
+    thread_id = sgqlc.types.Field(UUID, graphql_name='threadId')
+    thread_title = sgqlc.types.Field(String, graphql_name='threadTitle')
+    run_id = sgqlc.types.Field(UUID, graphql_name='runId')
+    correlation_id = sgqlc.types.Field(String, graphql_name='correlationId')
+    trace_id = sgqlc.types.Field(String, graphql_name='traceId')
+    summary = sgqlc.types.Field(String, graphql_name='summary')
+    duration_ms = sgqlc.types.Field(Int, graphql_name='durationMs')
+    guardrail_name = sgqlc.types.Field(String, graphql_name='guardrailName')
+    guardrail_stage = sgqlc.types.Field(String, graphql_name='guardrailStage')
+    was_blocked = sgqlc.types.Field(Boolean, graphql_name='wasBlocked')
+
+
+class AgentLogsPaginatedType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('entries', 'total_count', 'has_next', 'has_previous')
+    entries = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(AgentLogEntryType)), graphql_name='entries')
+    total_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalCount')
+    has_next = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='hasNext')
+    has_previous = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='hasPrevious')
+
+
+class AgentScheduleType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'description', 'schedule_type', 'status', 'schedule_frequency', 'schedule_day_of_week', 'schedule_time', 'timezone', 'last_scheduled_at', 'llm_model', 'agent_id', 'task_title', 'task_instructions', 'task_type', 'context', 'credentials_config', 'max_runs', 'run_count', 'created_by', 'created_at', 'updated_at', 'organization_id', 'workspace_id', 'schedule_frequency_display', 'schedule_day_display', 'is_active')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
+    description = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='description')
+    schedule_type = sgqlc.types.Field(String, graphql_name='scheduleType')
+    status = sgqlc.types.Field(sgqlc.types.non_null(AppAgentScheduleStatusChoices), graphql_name='status')
+    schedule_frequency = sgqlc.types.Field(sgqlc.types.non_null(AppAgentScheduleScheduleFrequencyChoices), graphql_name='scheduleFrequency')
+    schedule_day_of_week = sgqlc.types.Field(AppAgentScheduleScheduleDayOfWeekChoices, graphql_name='scheduleDayOfWeek')
+    schedule_time = sgqlc.types.Field(sgqlc.types.non_null(Time), graphql_name='scheduleTime')
+    timezone = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='timezone')
+    last_scheduled_at = sgqlc.types.Field(DateTime, graphql_name='lastScheduledAt')
+    llm_model = sgqlc.types.Field(Int, graphql_name='llmModel')
+    agent_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='agentId')
+    task_title = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='taskTitle')
+    task_instructions = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='taskInstructions')
+    task_type = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='taskType')
+    context = sgqlc.types.Field(GenericScalar, graphql_name='context')
+    credentials_config = sgqlc.types.Field(GenericScalar, graphql_name='credentialsConfig')
+    max_runs = sgqlc.types.Field(Int, graphql_name='maxRuns')
+    run_count = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='runCount')
+    created_by = sgqlc.types.Field('ApprovalUserType', graphql_name='createdBy')
+    created_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='createdAt')
+    updated_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updatedAt')
+    organization_id = sgqlc.types.Field(UUID, graphql_name='organizationId')
+    workspace_id = sgqlc.types.Field(UUID, graphql_name='workspaceId')
+    schedule_frequency_display = sgqlc.types.Field(String, graphql_name='scheduleFrequencyDisplay')
+    schedule_day_display = sgqlc.types.Field(String, graphql_name='scheduleDayDisplay')
+    is_active = sgqlc.types.Field(Boolean, graphql_name='isActive')
+
+
+class AgentSkillType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'slug', 'name', 'description', 'skill_type', 'status', 'allowed_tools', 'agents', 's3_path', 'instructions_preview', 'version', 'checksum', 'icon_svg', 'icon_url', 'icon_s3_path', 'icon', 'created_by_id', 'created_by_name', 'created_at', 'updated_at', 'organization_id')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    slug = sgqlc.types.Field(String, graphql_name='slug')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    skill_type = sgqlc.types.Field(String, graphql_name='skillType')
+    status = sgqlc.types.Field(String, graphql_name='status')
+    allowed_tools = sgqlc.types.Field(GenericScalar, graphql_name='allowedTools')
+    agents = sgqlc.types.Field(GenericScalar, graphql_name='agents')
+    s3_path = sgqlc.types.Field(String, graphql_name='s3Path')
+    instructions_preview = sgqlc.types.Field(String, graphql_name='instructionsPreview')
+    version = sgqlc.types.Field(Int, graphql_name='version')
+    checksum = sgqlc.types.Field(String, graphql_name='checksum')
+    icon_svg = sgqlc.types.Field(String, graphql_name='iconSvg')
+    icon_url = sgqlc.types.Field(String, graphql_name='iconUrl')
+    icon_s3_path = sgqlc.types.Field(String, graphql_name='iconS3Path')
+    icon = sgqlc.types.Field(GenericScalar, graphql_name='icon')
+    created_by_id = sgqlc.types.Field(Int, graphql_name='createdById')
+    created_by_name = sgqlc.types.Field(String, graphql_name='createdByName')
+    created_at = sgqlc.types.Field(DateTime, graphql_name='createdAt')
+    updated_at = sgqlc.types.Field(DateTime, graphql_name='updatedAt')
+    organization_id = sgqlc.types.Field(Int, graphql_name='organizationId')
+
+
+class AgentWorkspaceType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'description', 'icon', 'status', 'workspace_type', 'custom_instructions', 'supervisor_mode', 's3_folder_path', 'template_slug', 'workspace_credits_limit', 'task_credits_limit', 'created_at', 'updated_at', 'organization_id', 'engagement_id', 'engagement_name', 'created_by_name', 'created_by_email', 'stats', 'chats', 'tables', 'configuration', 'settings', 'credentials', 'context', 'shell', 'skills')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
+    description = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='description')
+    icon = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='icon')
+    status = sgqlc.types.Field(sgqlc.types.non_null(AppAgentWorkspaceStatusChoices), graphql_name='status')
+    workspace_type = sgqlc.types.Field(sgqlc.types.non_null(AppAgentWorkspaceWorkspaceTypeChoices), graphql_name='workspaceType')
+    custom_instructions = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='customInstructions')
+    supervisor_mode = sgqlc.types.Field(sgqlc.types.non_null(AppAgentWorkspaceSupervisorModeChoices), graphql_name='supervisorMode')
+    s3_folder_path = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='s3FolderPath')
+    template_slug = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='templateSlug')
+    workspace_credits_limit = sgqlc.types.Field(Decimal, graphql_name='workspaceCreditsLimit')
+    task_credits_limit = sgqlc.types.Field(Decimal, graphql_name='taskCreditsLimit')
+    created_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='createdAt')
+    updated_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updatedAt')
+    organization_id = sgqlc.types.Field(UUID, graphql_name='organizationId')
+    engagement_id = sgqlc.types.Field(UUID, graphql_name='engagementId')
+    engagement_name = sgqlc.types.Field(String, graphql_name='engagementName')
+    created_by_name = sgqlc.types.Field(String, graphql_name='createdByName')
+    created_by_email = sgqlc.types.Field(String, graphql_name='createdByEmail')
+    stats = sgqlc.types.Field('WorkspaceStatsType', graphql_name='stats')
+    chats = sgqlc.types.Field(sgqlc.types.list_of('WorkspaceChatType'), graphql_name='chats')
+    tables = sgqlc.types.Field(sgqlc.types.list_of('WorkspaceTableType'), graphql_name='tables')
+    configuration = sgqlc.types.Field(GenericScalar, graphql_name='configuration')
+    settings = sgqlc.types.Field(GenericScalar, graphql_name='settings')
+    credentials = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('WorkspaceCredentialType')), graphql_name='credentials')
+    context = sgqlc.types.Field(GenericScalar, graphql_name='context')
+    shell = sgqlc.types.Field('WorkspaceShellType', graphql_name='shell')
+    skills = sgqlc.types.Field(sgqlc.types.list_of(AgentSkillType), graphql_name='skills')
 
 
 class AllPossibleDuplicatesPaginatedType(sgqlc.types.Type):
@@ -323,7 +600,7 @@ class AllPossibleDuplicatesType(sgqlc.types.Type):
 
 class AllScanLogType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'task_id', 'config', 'finished', 'created_by', 'type', 'is_triangulum_scanner', 'task_retry_count', 'triangulum_task_finished', 'scanner_task_id', 'build_status', 'is_scheduled', 'external_scheduled_task', 'bugs', 'extra_data', 'scan_arguments', 'assets', 'temp_file', 'logs', 'error_code', 'bug_stats', 'merge_data', 'scan_filter_data', 'status', 'artifacts_file_paths', 'child_tasks', 'is_child_task', 'started', 'status_last_updated', 'error_info', 'events', 'single_scan_metadata', 'asset_set', 'last_seen', 'exportreport_set', 'bottask_set', 'bug_set', 'rediscovered_finding', 'activity_task', 'asset', 'organization_id', 'connector_name', 'connector_slug')
+    __field_names__ = ('id', 'task_id', 'config', 'finished', 'created_by', 'type', 'is_triangulum_scanner', 'task_retry_count', 'triangulum_task_finished', 'scanner_task_id', 'build_status', 'is_scheduled', 'external_scheduled_task', 'bugs', 'extra_data', 'scan_arguments', 'assets', 'temp_file', 'logs', 'error_code', 'bug_stats', 'asset_stats', 'merge_data', 'scan_filter_data', 'status', 'artifacts_file_paths', 'child_tasks', 'is_child_task', 'started', 'status_last_updated', 'error_info', 'events', 'single_scan_metadata', 'asset_set', 'last_seen_assets', 'exportreport_set', 'bottask_set', 'bug_set', 'rediscovered_finding', 'activity_task', 'asset', 'organization_id', 'connector_name', 'connector_slug')
     id = sgqlc.types.Field(Int, graphql_name='id')
     task_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='taskId')
     config = sgqlc.types.Field('ConfigurationsFieldType', graphql_name='config')
@@ -345,6 +622,7 @@ class AllScanLogType(sgqlc.types.Type):
     logs = sgqlc.types.Field(JSONString, graphql_name='logs')
     error_code = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='errorCode')
     bug_stats = sgqlc.types.Field(JSONString, graphql_name='bugStats')
+    asset_stats = sgqlc.types.Field(JSONString, graphql_name='assetStats')
     merge_data = sgqlc.types.Field(JSONString, graphql_name='mergeData')
     scan_filter_data = sgqlc.types.Field(JSONString, graphql_name='scanFilterData')
     status = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='status')
@@ -357,7 +635,7 @@ class AllScanLogType(sgqlc.types.Type):
     events = sgqlc.types.Field(GenericScalar, graphql_name='events')
     single_scan_metadata = sgqlc.types.Field(JSONString, graphql_name='singleScanMetadata')
     asset_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('AssetType'))), graphql_name='assetSet')
-    last_seen = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('AssetType'))), graphql_name='lastSeen')
+    last_seen_assets = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('AssetType'))), graphql_name='lastSeenAssets')
     exportreport_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('ReportType'))), graphql_name='exportreportSet')
     bottask_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('BotTaskType'))), graphql_name='bottaskSet')
     bug_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TestsType'))), graphql_name='bugSet')
@@ -424,12 +702,12 @@ class ApprovalType(sgqlc.types.Type):
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
     activity_approval = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementActivityType'))), graphql_name='activityApproval')
-    comments_approval = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementCommentType'))), graphql_name='commentsApproval')
+    comments_approval = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('CommentType'))), graphql_name='commentsApproval')
 
 
 class ApprovalUserType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('password', 'is_superuser', 'id', 'email', 'first_name', 'last_name', 'created', 'updated', 'is_superadmin', 'is_staff', 'is_ai_agent', 'is_active', 'activation_id', 'bio', 'profile_picture', 'cover_heading', 'linkedin_url', 'twitter_url', 'designation', 'phone_number', 'last_login', 'username', 'org_members', 'organizationmember_set', 'asset_set', 'group_set', 'created_priority_rule_sets', 'engagements_set', 'engagement_assignees', 'assessment_asset_assigned_to', 'vault_set', 'prerequisites_assigned_to', 'prerequisites_user', 'workbook_set', 'sheet_set', 'sheetrow_set', 'prefills_set', 'configurations_set', 'scanlog_set', 'exportreport_set', 'reportattachment_set', 'credentialmanager_set', 'bottask_set', 'automationworkflows_set', 'agentdocument_set', 'assigned_to', 'reported_by', 'attachment_set', 'activity_set', 'comment_set', 'filterviews_set', 'views_members', 'reporttemplates_set', 'draft_set', 'pulse_threads', 'dashboards_set', 'widget_set', 'created_asset_relationships', 'profile_picture_url')
+    __field_names__ = ('password', 'is_superuser', 'id', 'email', 'first_name', 'last_name', 'created', 'updated', 'is_superadmin', 'is_staff', 'is_ai_agent', 'is_active', 'activation_id', 'bio', 'profile_picture', 'cover_heading', 'linkedin_url', 'twitter_url', 'designation', 'phone_number', 'last_login', 'username', 'org_members', 'organizationmember_set', 'asset_set', 'group_set', 'created_priority_rule_sets', 'engagements_set', 'engagement_assignees', 'assessment_asset_assigned_to', 'vault_set', 'prerequisites_assigned_to', 'prerequisites_user', 'workbook_set', 'sheet_set', 'sheetrow_set', 'prefills_set', 'configurations_set', 'scanlog_set', 'exportreport_set', 'reportattachment_set', 'credentialmanager_set', 'bottask_set', 'automationworkflows_set', 'agentdocument_set', 'assigned_to', 'reported_by', 'attachment_set', 'activity_set', 'comment_set', 'filterviews_set', 'views_members', 'reporttemplates_set', 'draft_set', 'pulse_threads', 'created_agent_schedules', 'created_workspaces', 'created_workspace_tasks', 'dashboards_set', 'widget_set', 'created_asset_relationships')
     password = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='password')
     is_superuser = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isSuperuser')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
@@ -479,22 +757,57 @@ class ApprovalUserType(sgqlc.types.Type):
     reported_by = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TestsType'))), graphql_name='reportedBy')
     attachment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('AttachmentType'))), graphql_name='attachmentSet')
     activity_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementActivityType'))), graphql_name='activitySet')
-    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementCommentType'))), graphql_name='commentSet')
+    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('CommentType'))), graphql_name='commentSet')
     filterviews_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('FilterViewsType'))), graphql_name='filterviewsSet')
     views_members = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('FilterViewsType'))), graphql_name='viewsMembers')
     reporttemplates_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TemplateType'))), graphql_name='reporttemplatesSet')
     draft_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('DraftType'))), graphql_name='draftSet')
     pulse_threads = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('PulseThreadType'))), graphql_name='pulseThreads')
+    created_agent_schedules = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AgentScheduleType))), graphql_name='createdAgentSchedules')
+    created_workspaces = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AgentWorkspaceType))), graphql_name='createdWorkspaces')
+    created_workspace_tasks = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('WorkspaceTaskType'))), graphql_name='createdWorkspaceTasks')
     dashboards_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('DashboardType'))), graphql_name='dashboardsSet')
     widget_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('WidgetV2Type'))), graphql_name='widgetSet')
     created_asset_relationships = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('AssetRelationshipType'))), graphql_name='createdAssetRelationships')
-    profile_picture_url = sgqlc.types.Field(String, graphql_name='profilePictureUrl')
+
+
+class ApproveAction(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success', 'approval')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+    approval = sgqlc.types.Field('PulseApprovalType', graphql_name='approval')
 
 
 class ApproveStateChangeMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('approvals',)
     approvals = sgqlc.types.Field(sgqlc.types.list_of(ApprovalType), graphql_name='approvals')
+
+
+class ArchiveSkill(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('skill',)
+    skill = sgqlc.types.Field(AgentSkillType, graphql_name='skill')
+
+
+class ArchiveWorkspace(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success', 'workspace')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
+
+
+class ArtifactFileType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('name', 'path', 'size', 'content_type', 'last_modified', 'download_url', 'view_url', 'is_folder')
+    name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
+    path = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='path')
+    size = sgqlc.types.Field(Int, graphql_name='size')
+    content_type = sgqlc.types.Field(String, graphql_name='contentType')
+    last_modified = sgqlc.types.Field(DateTime, graphql_name='lastModified')
+    download_url = sgqlc.types.Field(String, graphql_name='downloadUrl')
+    view_url = sgqlc.types.Field(String, graphql_name='viewUrl')
+    is_folder = sgqlc.types.Field(Boolean, graphql_name='isFolder')
 
 
 class AssessmentPaginatedType(sgqlc.types.Type):
@@ -536,6 +849,18 @@ class AssessmentType(sgqlc.types.Type):
     parent_state = sgqlc.types.Field(Int, graphql_name='parentState')
 
 
+class AssessmentTypeGQL(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('slug', 'name', 'description', 'icon', 'required_fields', 'credential_types', 'requires_shell')
+    slug = sgqlc.types.Field(String, graphql_name='slug')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    icon = sgqlc.types.Field(String, graphql_name='icon')
+    required_fields = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='requiredFields')
+    credential_types = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='credentialTypes')
+    requires_shell = sgqlc.types.Field(Boolean, graphql_name='requiresShell')
+
+
 class AssetCursorPaginatedType(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('objects', 'has_next', 'has_previous', 'last_cursor', 'before_cursor')
@@ -560,7 +885,7 @@ class AssetFieldPaginatedType(sgqlc.types.Type):
 
 class AssetFieldType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'slug', 'description', 'field_type', 'options', 'is_required', 'is_active', 'extra_data', 'created', 'updated', 'organization', 'engagementsfield', 'assetfield', 'bugfield')
+    __field_names__ = ('id', 'name', 'slug', 'description', 'field_type', 'options', 'is_required', 'is_active', 'is_system_field', 'extra_data', 'created', 'updated', 'organization', 'engagementsfield', 'assetfield', 'bugfield')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(String, graphql_name='name')
     slug = sgqlc.types.Field(String, graphql_name='slug')
@@ -569,7 +894,8 @@ class AssetFieldType(sgqlc.types.Type):
     options = sgqlc.types.Field(GenericScalar, graphql_name='options')
     is_required = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isRequired')
     is_active = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isActive')
-    extra_data = sgqlc.types.Field(sgqlc.types.non_null(JSONString), graphql_name='extraData')
+    is_system_field = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isSystemField')
+    extra_data = sgqlc.types.Field(GenericScalar, graphql_name='extraData')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
     organization = sgqlc.types.Field('TenantOrganizationType', graphql_name='organization')
@@ -607,7 +933,7 @@ class AssetRelationshipType(sgqlc.types.Type):
 
 class AssetType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'target', 'exposed', 'type', 'cloud_type', 'organization', 'disabled', 'sensitivity', 'keys', 'data', 'created_by', 'linked_assets', 'additional_info', 'scan', 'last_seen', 'temp_id', 'is_active', 'created', 'updated', 'tags', 'location', 'scanner_raw_response', 'region', 'resource_id', 'account_id', 'fields', 'asset_region', 'dns_info', 'whois_info', 'asn', 'waf', 'cdn', 'asm_last_alive', 'connector', 'other_connectors', 'linked_to', 'group_assets', 'asset_port', 'assessments_set', 'asset_package', 'asset_apis', 'configuration_asset', 'bug_set', 'activity_set', 'trackers_set', 'patch_set', 'source_relationships', 'target_relationships', 'ipaddress', 'hostname', 'mac_address', 'os', 'cpe', 'risk_score', 'apis', 'dns_a', 'dns_ns', 'dns_soa', 'dns_aaaa', 'dns_axfr', 'dns_cname', 'domain_org', 'domain_city', 'domain_state', 'domain_dnssec', 'domain_emails', 'domain_status', 'domain_address', 'domain_country', 'domain_registrar', 'domain_name', 'domain_name_servers', 'domain_referral_url', 'domain_updated_date', 'domain_server', 'domain_expiration_date', 'domain_creation_date', 'domain_registrant_postal_code', 'port_addresses', 'package_count', 'webserver', 'technology_used', 'outgoing_relationships', 'incoming_relationships', 'all_relationships')
+    __field_names__ = ('id', 'name', 'target', 'exposed', 'type', 'cloud_type', 'organization', 'disabled', 'sensitivity', 'keys', 'data', 'created_by', 'linked_assets', 'additional_info', 'sensitivity_reasoning', 'exposure_reasoning', 'scan', 'last_seen', 'temp_id', 'is_active', 'created', 'updated', 'tags', 'location', 'scanner_raw_response', 'region', 'resource_id', 'account_id', 'fields', 'asset_region', 'dns_info', 'whois_info', 'asn', 'waf', 'cdn', 'asm_last_alive', 'connector', 'other_connectors', 'workspace', 'linked_to', 'group_assets', 'asset_port', 'assessments_set', 'asset_package', 'asset_apis', 'configuration_asset', 'bug_set', 'activity_set', 'trackers_set', 'patch_set', 'source_relationships', 'target_relationships', 'ipaddress', 'hostname', 'mac_address', 'os', 'cpe', 'risk_score', 'apis', 'dns_a', 'dns_ns', 'dns_soa', 'dns_aaaa', 'dns_axfr', 'dns_cname', 'domain_org', 'domain_city', 'domain_state', 'domain_dnssec', 'domain_emails', 'domain_status', 'domain_address', 'domain_country', 'domain_registrar', 'domain_name', 'domain_name_servers', 'domain_referral_url', 'domain_updated_date', 'domain_server', 'domain_expiration_date', 'domain_creation_date', 'domain_registrant_postal_code', 'port_addresses', 'package_count', 'webserver', 'technology_used', 'outgoing_relationships', 'incoming_relationships', 'all_relationships')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     target = sgqlc.types.Field(String, graphql_name='target')
@@ -622,15 +948,17 @@ class AssetType(sgqlc.types.Type):
     created_by = sgqlc.types.Field(ApprovalUserType, graphql_name='createdBy')
     linked_assets = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('AssetType'))), graphql_name='linkedAssets')
     additional_info = sgqlc.types.Field(JSONString, graphql_name='additionalInfo')
+    sensitivity_reasoning = sgqlc.types.Field(JSONString, graphql_name='sensitivityReasoning')
+    exposure_reasoning = sgqlc.types.Field(JSONString, graphql_name='exposureReasoning')
     scan = sgqlc.types.Field(AllScanLogType, graphql_name='scan')
-    last_seen = sgqlc.types.Field(AllScanLogType, graphql_name='lastSeen')
+    last_seen = sgqlc.types.Field('ScanLogType', graphql_name='lastSeen')
     temp_id = sgqlc.types.Field(UUID, graphql_name='tempId')
     is_active = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isActive')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
     tags = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TagType'))), graphql_name='tags')
     location = sgqlc.types.Field(String, graphql_name='location')
-    scanner_raw_response = sgqlc.types.Field(JSONString, graphql_name='scannerRawResponse')
+    scanner_raw_response = sgqlc.types.Field(GenericScalar, graphql_name='scannerRawResponse')
     region = sgqlc.types.Field(String, graphql_name='region')
     resource_id = sgqlc.types.Field(String, graphql_name='resourceId')
     account_id = sgqlc.types.Field(String, graphql_name='accountId')
@@ -644,6 +972,7 @@ class AssetType(sgqlc.types.Type):
     asm_last_alive = sgqlc.types.Field(DateTime, graphql_name='asmLastAlive')
     connector = sgqlc.types.Field('ConnectorType', graphql_name='connector')
     other_connectors = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('ConnectorType'))), graphql_name='otherConnectors')
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
     linked_to = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('AssetType'))), graphql_name='linkedTo')
     group_assets = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('GroupsType'))), graphql_name='groupAssets')
     asset_port = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('PortType'))), graphql_name='assetPort')
@@ -710,7 +1039,7 @@ class AssetWidgetPaginatedType(sgqlc.types.Type):
 
 class AssetWidgetType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'target', 'exposed', 'type', 'cloud_type', 'organization', 'disabled', 'sensitivity', 'keys', 'data', 'created_by', 'linked_assets', 'additional_info', 'scan', 'last_seen', 'temp_id', 'is_active', 'created', 'updated', 'tags', 'location', 'scanner_raw_response', 'region', 'resource_id', 'account_id', 'fields', 'asset_region', 'dns_info', 'whois_info', 'asn', 'waf', 'cdn', 'asm_last_alive', 'connector', 'other_connectors', 'linked_to', 'group_assets', 'asset_port', 'assessments_set', 'asset_package', 'asset_apis', 'configuration_asset', 'bug_set', 'activity_set', 'trackers_set', 'patch_set', 'source_relationships', 'target_relationships', 'ipaddress', 'hostname', 'mac_address', 'total', 'open', 'closed', 'new', 'active', 'resolved', 'not_applicable', 'risk_score', 'info_open', 'info_closed', 'low_open', 'low_closed', 'medium_open', 'medium_closed', 'high_open', 'high_closed', 'critical_open', 'critical_closed')
+    __field_names__ = ('id', 'name', 'target', 'exposed', 'type', 'cloud_type', 'organization', 'disabled', 'sensitivity', 'keys', 'data', 'created_by', 'linked_assets', 'additional_info', 'sensitivity_reasoning', 'exposure_reasoning', 'scan', 'last_seen', 'temp_id', 'is_active', 'created', 'updated', 'tags', 'location', 'scanner_raw_response', 'region', 'resource_id', 'account_id', 'fields', 'asset_region', 'dns_info', 'whois_info', 'asn', 'waf', 'cdn', 'asm_last_alive', 'connector', 'other_connectors', 'workspace', 'linked_to', 'group_assets', 'asset_port', 'assessments_set', 'asset_package', 'asset_apis', 'configuration_asset', 'bug_set', 'activity_set', 'trackers_set', 'patch_set', 'source_relationships', 'target_relationships', 'ipaddress', 'hostname', 'mac_address', 'total', 'open', 'closed', 'new', 'active', 'resolved', 'not_applicable', 'risk_score', 'info_open', 'info_closed', 'low_open', 'low_closed', 'medium_open', 'medium_closed', 'high_open', 'high_closed', 'critical_open', 'critical_closed')
     id = sgqlc.types.Field(Int, graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     target = sgqlc.types.Field(String, graphql_name='target')
@@ -725,8 +1054,10 @@ class AssetWidgetType(sgqlc.types.Type):
     created_by = sgqlc.types.Field(ApprovalUserType, graphql_name='createdBy')
     linked_assets = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AssetType))), graphql_name='linkedAssets')
     additional_info = sgqlc.types.Field(JSONString, graphql_name='additionalInfo')
+    sensitivity_reasoning = sgqlc.types.Field(JSONString, graphql_name='sensitivityReasoning')
+    exposure_reasoning = sgqlc.types.Field(JSONString, graphql_name='exposureReasoning')
     scan = sgqlc.types.Field(AllScanLogType, graphql_name='scan')
-    last_seen = sgqlc.types.Field(AllScanLogType, graphql_name='lastSeen')
+    last_seen = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AllScanLogType))), graphql_name='lastSeen')
     temp_id = sgqlc.types.Field(UUID, graphql_name='tempId')
     is_active = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isActive')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
@@ -747,6 +1078,7 @@ class AssetWidgetType(sgqlc.types.Type):
     asm_last_alive = sgqlc.types.Field(DateTime, graphql_name='asmLastAlive')
     connector = sgqlc.types.Field('ConnectorType', graphql_name='connector')
     other_connectors = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('ConnectorType'))), graphql_name='otherConnectors')
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
     linked_to = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AssetType))), graphql_name='linkedTo')
     group_assets = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('GroupsType'))), graphql_name='groupAssets')
     asset_port = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('PortType'))), graphql_name='assetPort')
@@ -823,17 +1155,18 @@ class AttachmentPaginatedType(sgqlc.types.Type):
 
 class AttachmentType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'attachment', 'attachment_name', 'attachment_size', 'bug', 'attached_by', 'created', 'updated', 'bug_attachments', 'comment_set', 'url', 'attachment_extenstion')
+    __field_names__ = ('id', 'attachment', 'attachment_name', 'attachment_size', 'bug', 'attached_by', 'caption', 'created', 'updated', 'bug_attachments', 'comment_set', 'url', 'attachment_extenstion')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     attachment = sgqlc.types.Field(String, graphql_name='attachment')
     attachment_name = sgqlc.types.Field(String, graphql_name='attachmentName')
     attachment_size = sgqlc.types.Field(Int, graphql_name='attachmentSize')
     bug = sgqlc.types.Field('TestsType', graphql_name='bug')
     attached_by = sgqlc.types.Field(ApprovalUserType, graphql_name='attachedBy')
+    caption = sgqlc.types.Field(String, graphql_name='caption')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
     bug_attachments = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TestsType'))), graphql_name='bugAttachments')
-    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementCommentType'))), graphql_name='commentSet')
+    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('CommentType'))), graphql_name='commentSet')
     url = sgqlc.types.Field(String, graphql_name='url')
     attachment_extenstion = sgqlc.types.Field(String, graphql_name='attachmentExtenstion')
 
@@ -864,7 +1197,7 @@ class AutomationWorkflowPaginatedType(sgqlc.types.Type):
 
 class AutomationWorkflowType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'system_agent_id', 'role', 'tool', 'workflow_mode', 'schedule_frequency', 'schedule_day_of_week', 'schedule_time', 'timezone', 'module', 'search_query', 'group_by', 'instructions', 'weightage', 'ignore_weightage', 'organization', 'credential_manager', 'llm_model', 'initial_chat_suggestions', 'created_by', 'hooks', 'triggers', 'agent_avatar', 'pipeline_code', 'is_active', 'tracking_rules', 'tracker_configuration', 'last_scheduled_task_on', 'tools', 'dashboard_pdf', 'dashboard_pdf_generated_at', 'report_attachment', 'report_attachment_generated_at', 'created', 'updated', 'documents', 'activity_set', 'comment_set', 'avatar')
+    __field_names__ = ('id', 'name', 'system_agent_id', 'role', 'tool', 'workflow_mode', 'schedule_frequency', 'schedule_day_of_week', 'schedule_time', 'timezone', 'module', 'search_query', 'group_by', 'instructions', 'weightage', 'ignore_weightage', 'organization', 'credential_manager', 'llm_model', 'initial_chat_suggestions', 'created_by', 'hooks', 'triggers', 'agent_avatar', 'pipeline_code', 'is_active', 'tracking_rules', 'tracker_configuration', 'last_scheduled_task_on', 'tools', 'dashboard_pdf', 'dashboard_pdf_generated_at', 'report_attachment', 'report_attachment_generated_at', 'outbound_delivery_logs', 'created', 'updated', 'documents', 'activity_set', 'comment_set', 'avatar', 'inbound_webhook', 'webhook_url', 'webhook_secret', 'webhook_slug', 'webhook_delivery_logs', 'field_mapping')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     system_agent_id = sgqlc.types.Field(String, graphql_name='systemAgentId')
@@ -899,12 +1232,19 @@ class AutomationWorkflowType(sgqlc.types.Type):
     dashboard_pdf_generated_at = sgqlc.types.Field(DateTime, graphql_name='dashboardPdfGeneratedAt')
     report_attachment = sgqlc.types.Field('ReportType', graphql_name='reportAttachment')
     report_attachment_generated_at = sgqlc.types.Field(DateTime, graphql_name='reportAttachmentGeneratedAt')
+    outbound_delivery_logs = sgqlc.types.Field(sgqlc.types.non_null(JSONString), graphql_name='outboundDeliveryLogs')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
     documents = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AgentDocumentType))), graphql_name='documents')
     activity_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementActivityType'))), graphql_name='activitySet')
-    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementCommentType'))), graphql_name='commentSet')
+    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('CommentType'))), graphql_name='commentSet')
     avatar = sgqlc.types.Field(String, graphql_name='avatar')
+    inbound_webhook = sgqlc.types.Field('InboundWebhookType', graphql_name='inboundWebhook')
+    webhook_url = sgqlc.types.Field(String, graphql_name='webhookUrl')
+    webhook_secret = sgqlc.types.Field(String, graphql_name='webhookSecret')
+    webhook_slug = sgqlc.types.Field(String, graphql_name='webhookSlug')
+    webhook_delivery_logs = sgqlc.types.Field(GenericScalar, graphql_name='webhookDeliveryLogs')
+    field_mapping = sgqlc.types.Field(GenericScalar, graphql_name='fieldMapping')
 
 
 class AzureDevopsRepositoriesType(sgqlc.types.Type):
@@ -923,6 +1263,26 @@ class AzureDevopsRepositoriesTypePaginatedType(sgqlc.types.Type):
     has_next = sgqlc.types.Field(Boolean, graphql_name='hasNext')
     has_prev = sgqlc.types.Field(Boolean, graphql_name='hasPrev')
     objects = sgqlc.types.Field(sgqlc.types.list_of(AzureDevopsRepositoriesType), graphql_name='objects')
+
+
+class BackgroundTaskType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'title', 'instructions', 'task_type', 'agent_type', 'status', 'input_data', 'output_data', 'error_message', 'created_at', 'started_at', 'completed_at', 'duration_seconds', 'created_by_type', 'thread_id')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    title = sgqlc.types.Field(String, graphql_name='title')
+    instructions = sgqlc.types.Field(String, graphql_name='instructions')
+    task_type = sgqlc.types.Field(String, graphql_name='taskType')
+    agent_type = sgqlc.types.Field(String, graphql_name='agentType')
+    status = sgqlc.types.Field(String, graphql_name='status')
+    input_data = sgqlc.types.Field(GenericScalar, graphql_name='inputData')
+    output_data = sgqlc.types.Field(GenericScalar, graphql_name='outputData')
+    error_message = sgqlc.types.Field(String, graphql_name='errorMessage')
+    created_at = sgqlc.types.Field(DateTime, graphql_name='createdAt')
+    started_at = sgqlc.types.Field(DateTime, graphql_name='startedAt')
+    completed_at = sgqlc.types.Field(DateTime, graphql_name='completedAt')
+    duration_seconds = sgqlc.types.Field(Int, graphql_name='durationSeconds')
+    created_by_type = sgqlc.types.Field(String, graphql_name='createdByType')
+    thread_id = sgqlc.types.Field(UUID, graphql_name='threadId')
 
 
 class BitbucketRepositoriesType(sgqlc.types.Type):
@@ -1016,7 +1376,7 @@ class BugFieldPaginatedType(sgqlc.types.Type):
 
 class BugFieldType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'slug', 'description', 'field_type', 'options', 'is_required', 'is_active', 'extra_data', 'created', 'updated', 'engagementsfield', 'assetfield', 'bugfield', 'organization')
+    __field_names__ = ('id', 'name', 'slug', 'description', 'field_type', 'options', 'is_required', 'is_active', 'is_system_field', 'extra_data', 'created', 'updated', 'engagementsfield', 'assetfield', 'bugfield', 'organization')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(String, graphql_name='name')
     slug = sgqlc.types.Field(String, graphql_name='slug')
@@ -1025,7 +1385,8 @@ class BugFieldType(sgqlc.types.Type):
     options = sgqlc.types.Field(GenericScalar, graphql_name='options')
     is_required = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isRequired')
     is_active = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isActive')
-    extra_data = sgqlc.types.Field(sgqlc.types.non_null(JSONString), graphql_name='extraData')
+    is_system_field = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isSystemField')
+    extra_data = sgqlc.types.Field(GenericScalar, graphql_name='extraData')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
     engagementsfield = sgqlc.types.Field('EngagementsFieldType', graphql_name='engagementsfield')
@@ -1036,7 +1397,7 @@ class BugFieldType(sgqlc.types.Type):
 
 class BugType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('state', 'severity', 'bug_level', 'alert_category', 'id', 'title', 'description', 'mitigation', 'steps_to_reproduce', 'evidence', 'object_id', 'hash', 'duplicate', 'cwe', 'cve', 'cvss', 'attack_vector', 'bug_tags', 'bug_references', 'assigned_to', 'organization', 'asset', 'team', 'reported_by', 'due_date', 'sla_violated', 'has_user_defined_due_date', 'exploit_available', 'exploit_info', 'patch_available', 'patch_info', 'prioritization_score', 'prioritization_score_calculated', 'drill_down_score', 'nuclie_template', 'nuclie_rule_set', 'nuclie_target', 'bug_attachments', 'connector', 'configuration_name', 'connector_config', 'scan', 'other_scans', 'scanner_raw_response', 'scan_raw_response', 'batch_id', 'temp_id', 'recently_rediscovered_batch_id', 'vulnerable_since', 'engagements', 'priority_last_updated', 'zero_day_available', 'is_wormable', 'trend', 'advisories_seen', 'epss_score', 'cisa_due_date', 'nist', 'owasp', 'records_at_risk', 'records_type', 'fields', 'links', 'metadata', 'asm_last_updated', 'is_misconfiguration', 'sla_rule_search_query', 'created', 'updated', 'is_active', 'is_alert', 'patch', 'smart_close', 'is_reopened', 'last_smart_closed_on', 'last_reopened_on', 'is_automated_patched', 'patch_data', 'maintf', 'tf_prev_state', 'last_data_enriched', 'is_data_enriched', 'ai_title', 'ai_description', 'ai_mitigation', 'priority_rule_data', 'original_bug', 'attachment_set', 'activity_set', 'comment_set', 'bug_tracker', 'approval_finding', 'ipaddress', 'hostname', 'mac_address', 'os', 'tracker', 'last_resolved_on', 'cost_of_risk', 'port', 'duplicate_instances', 'content_object', 'references', 'config_content_object', 'maintf_content')
+    __field_names__ = ('state', 'severity', 'bug_level', 'alert_category', 'id', 'title', 'description', 'mitigation', 'steps_to_reproduce', 'evidence', 'object_id', 'hash', 'duplicate', 'cwe', 'cve', 'cvss', 'attack_vector', 'cvss_v3', 'cvss_v3_attack_vector', 'cvss_v4', 'cvss_v4_attack_vector', 'bug_tags', 'bug_references', 'assigned_to', 'organization', 'asset', 'team', 'reported_by', 'due_date', 'risk_acceptance_due_date', 'sla_violated', 'has_user_defined_due_date', 'exploit_available', 'exploit_info', 'patch_available', 'patch_info', 'prioritization_score', 'prioritization_score_calculated', 'drill_down_score', 'nuclie_template', 'nuclie_rule_set', 'nuclie_target', 'bug_attachments', 'connector', 'configuration_name', 'connector_config', 'scan', 'other_scans', 'scanner_raw_response', 'scan_raw_response', 'batch_id', 'temp_id', 'recently_rediscovered_batch_id', 'vulnerable_since', 'engagements', 'priority_last_updated', 'zero_day_available', 'is_wormable', 'trend', 'advisories_seen', 'epss_score', 'cisa_due_date', 'nist', 'owasp', 'records_at_risk', 'records_type', 'fields', 'links', 'metadata', 'asm_last_updated', 'is_misconfiguration', 'sla_rule_search_query', 'created', 'updated', 'is_active', 'is_alert', 'patch', 'smart_close', 'is_reopened', 'last_smart_closed_on', 'last_reopened_on', 'is_automated_patched', 'patch_data', 'maintf', 'tf_prev_state', 'last_data_enriched', 'is_data_enriched', 'ai_title', 'ai_description', 'ai_mitigation', 'priority_rule_data', 'workspace', 'original_bug', 'attachment_set', 'activity_set', 'comment_set', 'bug_tracker', 'approval_finding', 'ipaddress', 'hostname', 'mac_address', 'os', 'tracker', 'last_resolved_on', 'cost_of_risk', 'port', 'duplicate_instances', 'content_object', 'references', 'exploit_sources', 'config_content_object', 'maintf_content')
     state = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='state')
     severity = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='severity')
     bug_level = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='bugLevel')
@@ -1054,6 +1415,10 @@ class BugType(sgqlc.types.Type):
     cve = sgqlc.types.Field(sgqlc.types.list_of('CVEType'), graphql_name='cve')
     cvss = sgqlc.types.Field(sgqlc.types.non_null(Float), graphql_name='cvss')
     attack_vector = sgqlc.types.Field(String, graphql_name='attackVector')
+    cvss_v3 = sgqlc.types.Field(sgqlc.types.non_null(Float), graphql_name='cvssV3')
+    cvss_v3_attack_vector = sgqlc.types.Field(String, graphql_name='cvssV3AttackVector')
+    cvss_v4 = sgqlc.types.Field(sgqlc.types.non_null(Float), graphql_name='cvssV4')
+    cvss_v4_attack_vector = sgqlc.types.Field(String, graphql_name='cvssV4AttackVector')
     bug_tags = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TagType'))), graphql_name='bugTags')
     bug_references = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('ReferenceType'))), graphql_name='bugReferences')
     assigned_to = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(ApprovalUserType))), graphql_name='assignedTo')
@@ -1062,6 +1427,7 @@ class BugType(sgqlc.types.Type):
     team = sgqlc.types.Field('TeamType', graphql_name='team')
     reported_by = sgqlc.types.Field(ApprovalUserType, graphql_name='reportedBy')
     due_date = sgqlc.types.Field(DateTime, graphql_name='dueDate')
+    risk_acceptance_due_date = sgqlc.types.Field(Date, graphql_name='riskAcceptanceDueDate')
     sla_violated = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='slaViolated')
     has_user_defined_due_date = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='hasUserDefinedDueDate')
     exploit_available = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='exploitAvailable')
@@ -1123,10 +1489,11 @@ class BugType(sgqlc.types.Type):
     ai_description = sgqlc.types.Field(String, graphql_name='aiDescription')
     ai_mitigation = sgqlc.types.Field(String, graphql_name='aiMitigation')
     priority_rule_data = sgqlc.types.Field(JSONString, graphql_name='priorityRuleData')
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
     original_bug = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TestsType'))), graphql_name='originalBug')
     attachment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AttachmentType))), graphql_name='attachmentSet')
     activity_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementActivityType'))), graphql_name='activitySet')
-    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementCommentType'))), graphql_name='commentSet')
+    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('CommentType'))), graphql_name='commentSet')
     bug_tracker = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TicketType'))), graphql_name='bugTracker')
     approval_finding = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(ApprovalType))), graphql_name='approvalFinding')
     ipaddress = sgqlc.types.Field(String, graphql_name='ipaddress')
@@ -1140,6 +1507,7 @@ class BugType(sgqlc.types.Type):
     duplicate_instances = sgqlc.types.Field(GenericScalar, graphql_name='duplicateInstances')
     content_object = sgqlc.types.Field(GenericScalar, graphql_name='contentObject')
     references = sgqlc.types.Field(sgqlc.types.list_of('ReferenceType'), graphql_name='references')
+    exploit_sources = sgqlc.types.Field(GenericScalar, graphql_name='exploitSources')
     config_content_object = sgqlc.types.Field(GenericScalar, graphql_name='configContentObject')
     maintf_content = sgqlc.types.Field(String, graphql_name='maintfContent')
 
@@ -1148,6 +1516,12 @@ class BugsCountType(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('bugs_count',)
     bugs_count = sgqlc.types.Field(Int, graphql_name='bugsCount')
+
+
+class BulkAddAttachmentsMutation(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('bugs',)
+    bugs = sgqlc.types.Field(sgqlc.types.list_of(BugType), graphql_name='bugs')
 
 
 class BulkAddToTrackerMutation(sgqlc.types.Type):
@@ -1453,12 +1827,13 @@ class CVETrendsType(sgqlc.types.Type):
 
 class CVEType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'title', 'description', 'cvss_v2_data', 'cvss_v3_data', 'cvss', 'cve_id', 'exploit_available', 'exploit_info', 'patch_available', 'patch_info', 'zero_day_available', 'is_wormable', 'ti_raw_response', 'nvd_raw_response', 'summary', 'published', 'last_modified', 'last_updated_nvd', 'last_updated_ti', 'trend', 'source', 'advisories_seen', 'epss_score', 'cisa_due_date', 'created', 'updated', 'cve_tags', 'related_cwe', 'cve_references', 'bug_cve')
+    __field_names__ = ('id', 'title', 'description', 'cvss_v2_data', 'cvss_v3_data', 'cvss_v4_data', 'cvss', 'cve_id', 'exploit_available', 'exploit_info', 'patch_available', 'patch_info', 'zero_day_available', 'is_wormable', 'ti_raw_response', 'nvd_raw_response', 'summary', 'published', 'last_modified', 'last_updated_nvd', 'last_updated_ti', 'trend', 'source', 'advisories_seen', 'epss_score', 'cisa_due_date', 'created', 'updated', 'cve_tags', 'related_cwe', 'cve_references', 'bug_cve')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     title = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='title')
     description = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='description')
     cvss_v2_data = sgqlc.types.Field(GenericScalar, graphql_name='cvssV2Data')
     cvss_v3_data = sgqlc.types.Field(GenericScalar, graphql_name='cvssV3Data')
+    cvss_v4_data = sgqlc.types.Field(GenericScalar, graphql_name='cvssV4Data')
     cvss = sgqlc.types.Field(sgqlc.types.non_null(Float), graphql_name='cvss')
     cve_id = sgqlc.types.Field(String, graphql_name='cveId')
     exploit_available = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='exploitAvailable')
@@ -1523,6 +1898,33 @@ class CalculateRiskScoreMutation(sgqlc.types.Type):
     message = sgqlc.types.Field(String, graphql_name='message')
 
 
+class CancelInterrupt(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success', 'interrupt')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+    interrupt = sgqlc.types.Field('PulseInterruptType', graphql_name='interrupt')
+
+
+class CancelRun(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success', 'run')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+    run = sgqlc.types.Field('PulseRunType', graphql_name='run')
+
+
+class CancelWorkflow(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success',)
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+
+
+class CancelWorkspaceTask(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success', 'task')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+    task = sgqlc.types.Field('WorkspaceTaskType', graphql_name='task')
+
+
 class ClearDraft(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('success',)
@@ -1573,6 +1975,16 @@ class CommentType(sgqlc.types.Type):
     organization_id = sgqlc.types.Field(UUID, graphql_name='organizationId')
     bug_id = sgqlc.types.Field(UUID, graphql_name='bugId')
     engagement_id = sgqlc.types.Field(UUID, graphql_name='engagementId')
+
+
+class CompileAgentAction(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('compiled_prompt', 'agent_ids', 'title', 'mode', 'context')
+    compiled_prompt = sgqlc.types.Field(String, graphql_name='compiledPrompt')
+    agent_ids = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='agentIds')
+    title = sgqlc.types.Field(String, graphql_name='title')
+    mode = sgqlc.types.Field(String, graphql_name='mode')
+    context = sgqlc.types.Field(GenericScalar, graphql_name='context')
 
 
 class ComplexityBreakdownType(sgqlc.types.Type):
@@ -1634,7 +2046,7 @@ class ConfigurationType(sgqlc.types.Type):
     automationworkflows_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AutomationWorkflowType))), graphql_name='automationworkflowsSet')
     bug_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TestsType'))), graphql_name='bugSet')
     activity_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementActivityType'))), graphql_name='activitySet')
-    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementCommentType'))), graphql_name='commentSet')
+    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(CommentType))), graphql_name='commentSet')
     tracker_configs = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TicketType'))), graphql_name='trackerConfigs')
 
 
@@ -1669,7 +2081,7 @@ class ConfigurationsFieldType(sgqlc.types.Type):
     automationworkflows_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AutomationWorkflowType))), graphql_name='automationworkflowsSet')
     bug_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TestsType'))), graphql_name='bugSet')
     activity_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementActivityType'))), graphql_name='activitySet')
-    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementCommentType'))), graphql_name='commentSet')
+    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(CommentType))), graphql_name='commentSet')
     tracker_configs = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TicketType'))), graphql_name='trackerConfigs')
 
 
@@ -1715,7 +2127,27 @@ class ConnectorType(sgqlc.types.Type):
     configurations_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(ConfigurationsFieldType))), graphql_name='configurationsSet')
     parent_connector = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TestsType'))), graphql_name='parentConnector')
     activity_parent_connector = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementActivityType'))), graphql_name='activityParentConnector')
-    comments_parent_connector = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementCommentType'))), graphql_name='commentsParentConnector')
+    comments_parent_connector = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(CommentType))), graphql_name='commentsParentConnector')
+
+
+class CreateAIDashboardMutation(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('dashboard',)
+    dashboard = sgqlc.types.Field('DashboardType', graphql_name='dashboard')
+
+
+class CreateAgentSchedule(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('schedule',)
+    schedule = sgqlc.types.Field(AgentScheduleType, graphql_name='schedule')
+
+
+class CreateAgenticPentest(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('engagement_id', 'workspace_id', 'setup_thread_id')
+    engagement_id = sgqlc.types.Field(UUID, graphql_name='engagementId')
+    workspace_id = sgqlc.types.Field(UUID, graphql_name='workspaceId')
+    setup_thread_id = sgqlc.types.Field(UUID, graphql_name='setupThreadId')
 
 
 class CreateAssetMutation(sgqlc.types.Type):
@@ -1764,6 +2196,20 @@ class CreateCustomAssessmentStatusMutation(sgqlc.types.Type):
     custom_assessment_status = sgqlc.types.Field('CustomAssessmentStatusType', graphql_name='customAssessmentStatus')
 
 
+class CreateCustomCredential(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspace', 'credential_manager_id')
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
+    credential_manager_id = sgqlc.types.Field(Int, graphql_name='credentialManagerId')
+
+
+class CreateCustomGuardrail(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('guardrail', 'success')
+    guardrail = sgqlc.types.Field('GuardrailDefinitionType', graphql_name='guardrail')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+
+
 class CreateDashboardMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('dashboard',)
@@ -1806,6 +2252,13 @@ class CreateSLARuleMutation(sgqlc.types.Type):
     sla_rule = sgqlc.types.Field('ServiceLevelAgreementCustomRulesType', graphql_name='slaRule')
 
 
+class CreateSkillSetup(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('skill', 'setup_thread')
+    skill = sgqlc.types.Field(GenericScalar, graphql_name='skill')
+    setup_thread = sgqlc.types.Field('PulseThreadType', graphql_name='setupThread')
+
+
 class CreateSoftwarePackageMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('packages',)
@@ -1814,9 +2267,10 @@ class CreateSoftwarePackageMutation(sgqlc.types.Type):
 
 class CreateThread(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('thread', 'participants')
+    __field_names__ = ('thread', 'participants', 'required_credentials')
     thread = sgqlc.types.Field('PulseThreadType', graphql_name='thread')
     participants = sgqlc.types.Field(sgqlc.types.list_of('PulseParticipantType'), graphql_name='participants')
+    required_credentials = sgqlc.types.Field(sgqlc.types.list_of('RequiredCredentialType'), graphql_name='requiredCredentials')
 
 
 class CreateWidgetMutation(sgqlc.types.Type):
@@ -1826,23 +2280,96 @@ class CreateWidgetMutation(sgqlc.types.Type):
     graph_data = sgqlc.types.Field(GenericScalar, graphql_name='graphData')
 
 
+class CreateWorkspace(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspace', 'setup_thread')
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
+    setup_thread = sgqlc.types.Field('PulseThreadType', graphql_name='setupThread')
+
+
+class CreateWorkspaceChat(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('thread',)
+    thread = sgqlc.types.Field('PulseThreadType', graphql_name='thread')
+
+
+class CreateWorkspaceFolder(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('folder', 'success')
+    folder = sgqlc.types.Field('WorkspaceFileType', graphql_name='folder')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+
+
+class CreateWorkspaceFromTemplate(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspace', 'setup_thread')
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
+    setup_thread = sgqlc.types.Field('PulseThreadType', graphql_name='setupThread')
+
+
+class CreateWorkspaceTask(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('task',)
+    task = sgqlc.types.Field('WorkspaceTaskType', graphql_name='task')
+
+
+class CreateWorkspaceWidget(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('widget',)
+    widget = sgqlc.types.Field('WorkspaceWidgetType', graphql_name='widget')
+
+
 class CredentialManagerDetailType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'type', 'organization', 'extra', 'is_expired', 'fernet_key', 'created_by', 'config_count', 'created', 'updated', 'last_cached_repo_updated_on', 'automationworkflows_set', 'activity_credential')
+    __field_names__ = ('id', 'name', 'type', 'organization', 'extra', 'is_expired', 'used_with_gateways', 'fernet_key', 'created_by', 'config_count', 'created', 'updated', 'last_cached_repo_updated_on', 'engagement_credentials', 'automationworkflows_set', 'activity_credential', 'agent_workspaces')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     type = sgqlc.types.Field(sgqlc.types.non_null(AppCredentialManagerTypeChoices), graphql_name='type')
     organization = sgqlc.types.Field('TenantOrganizationType', graphql_name='organization')
     extra = sgqlc.types.Field(JSONString, graphql_name='extra')
     is_expired = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isExpired')
+    used_with_gateways = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='usedWithGateways')
     fernet_key = sgqlc.types.Field(String, graphql_name='fernetKey')
     created_by = sgqlc.types.Field(ApprovalUserType, graphql_name='createdBy')
     config_count = sgqlc.types.Field(Int, graphql_name='configCount')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
     last_cached_repo_updated_on = sgqlc.types.Field(DateTime, graphql_name='lastCachedRepoUpdatedOn')
+    engagement_credentials = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementType'))), graphql_name='engagementCredentials')
     automationworkflows_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AutomationWorkflowType))), graphql_name='automationworkflowsSet')
     activity_credential = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementActivityType'))), graphql_name='activityCredential')
+    agent_workspaces = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AgentWorkspaceType))), graphql_name='agentWorkspaces')
+
+
+class CredentialManagerListType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'type', 'is_expired')
+    id = sgqlc.types.Field(Int, graphql_name='id')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    type = sgqlc.types.Field(String, graphql_name='type')
+    is_expired = sgqlc.types.Field(Boolean, graphql_name='isExpired')
+
+
+class CredentialManagerType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'type', 'organization', 'extra', 'is_expired', 'used_with_gateways', 'fernet_key', 'created_by', 'config_count', 'created', 'updated', 'last_cached_repo_updated_on', 'engagement_credentials', 'automationworkflows_set', 'activity_credential', 'agent_workspaces')
+    id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
+    name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
+    type = sgqlc.types.Field(sgqlc.types.non_null(AppCredentialManagerTypeChoices), graphql_name='type')
+    organization = sgqlc.types.Field('TenantOrganizationType', graphql_name='organization')
+    extra = sgqlc.types.Field(JSONString, graphql_name='extra')
+    is_expired = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isExpired')
+    used_with_gateways = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='usedWithGateways')
+    fernet_key = sgqlc.types.Field(String, graphql_name='fernetKey')
+    created_by = sgqlc.types.Field(ApprovalUserType, graphql_name='createdBy')
+    config_count = sgqlc.types.Field(Int, graphql_name='configCount')
+    created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
+    updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
+    last_cached_repo_updated_on = sgqlc.types.Field(DateTime, graphql_name='lastCachedRepoUpdatedOn')
+    engagement_credentials = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementType'))), graphql_name='engagementCredentials')
+    automationworkflows_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AutomationWorkflowType))), graphql_name='automationworkflowsSet')
+    activity_credential = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementActivityType'))), graphql_name='activityCredential')
+    agent_workspaces = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AgentWorkspaceType))), graphql_name='agentWorkspaces')
 
 
 class CustomAssessmentStatusPaginatedType(sgqlc.types.Type):
@@ -1877,6 +2404,40 @@ class DashboardExportMutation(sgqlc.types.Type):
     json_data = sgqlc.types.Field(String, graphql_name='jsonData')
 
 
+class DashboardExportPaginatedType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('page', 'total_pages', 'page_size', 'total_count', 'has_next', 'has_prev', 'objects')
+    page = sgqlc.types.Field(Int, graphql_name='page')
+    total_pages = sgqlc.types.Field(Int, graphql_name='totalPages')
+    page_size = sgqlc.types.Field(Int, graphql_name='pageSize')
+    total_count = sgqlc.types.Field(Int, graphql_name='totalCount')
+    has_next = sgqlc.types.Field(Boolean, graphql_name='hasNext')
+    has_prev = sgqlc.types.Field(Boolean, graphql_name='hasPrev')
+    objects = sgqlc.types.Field(sgqlc.types.list_of('DashboardExportRowType'), graphql_name='objects')
+
+
+class DashboardExportRowType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('export_id', 'report_name', 'report_type', 'status', 'started', 'finished', 'user', 'download_url', 'expires_at')
+    export_id = sgqlc.types.Field(String, graphql_name='exportId')
+    report_name = sgqlc.types.Field(String, graphql_name='reportName')
+    report_type = sgqlc.types.Field(String, graphql_name='reportType')
+    status = sgqlc.types.Field(String, graphql_name='status')
+    started = sgqlc.types.Field(DateTime, graphql_name='started')
+    finished = sgqlc.types.Field(DateTime, graphql_name='finished')
+    user = sgqlc.types.Field(ApprovalUserType, graphql_name='user')
+    download_url = sgqlc.types.Field(String, graphql_name='downloadUrl')
+    expires_at = sgqlc.types.Field(DateTime, graphql_name='expiresAt')
+
+
+class DashboardExportStatusQuery(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('status', 'download_url', 'expires_at')
+    status = sgqlc.types.Field(String, graphql_name='status')
+    download_url = sgqlc.types.Field(String, graphql_name='downloadUrl')
+    expires_at = sgqlc.types.Field(String, graphql_name='expiresAt')
+
+
 class DashboardImportMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('dashboard',)
@@ -1894,7 +2455,7 @@ class DashboardStatsType(sgqlc.types.Type):
 
 class DashboardType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'slug', 'description', 'is_default', 'tags', 'data', 'organization', 'created_by', 'widgets', 'positional_data', 'created', 'updated')
+    __field_names__ = ('id', 'name', 'slug', 'description', 'is_default', 'tags', 'data', 'organization', 'created_by', 'widgets', 'positional_data', 'created', 'updated', 'dashboard_type', 'ai_prompt', 'ai_last_refreshed', 'ai_generation_status')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(String, graphql_name='name')
     slug = sgqlc.types.Field(String, graphql_name='slug')
@@ -1908,6 +2469,10 @@ class DashboardType(sgqlc.types.Type):
     positional_data = sgqlc.types.Field(JSONString, graphql_name='positionalData')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
+    dashboard_type = sgqlc.types.Field(String, graphql_name='dashboardType')
+    ai_prompt = sgqlc.types.Field(String, graphql_name='aiPrompt')
+    ai_last_refreshed = sgqlc.types.Field(DateTime, graphql_name='aiLastRefreshed')
+    ai_generation_status = sgqlc.types.Field(String, graphql_name='aiGenerationStatus')
 
 
 class DashboardsTagType(sgqlc.types.Type):
@@ -1957,6 +2522,12 @@ class DeduplicateBugPreviewMutation(sgqlc.types.Type):
     bugs = sgqlc.types.Field(Int, graphql_name='bugs')
 
 
+class DeleteAgentSchedule(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success',)
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+
+
 class DeleteAssetFieldSettingsMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('asset_field',)
@@ -1991,6 +2562,13 @@ class DeleteCommentMutation(sgqlc.types.Type):
 class DeleteCustomAssessmentStatusMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('success',)
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+
+
+class DeleteCustomCredential(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspace', 'success')
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
     success = sgqlc.types.Field(Boolean, graphql_name='success')
 
 
@@ -2037,10 +2615,43 @@ class DeleteSelfManagedServiceMutation(sgqlc.types.Type):
     service = sgqlc.types.Field(sgqlc.types.list_of('SelfManagedServiceType'), graphql_name='service')
 
 
+class DeleteSkill(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success',)
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+
+
 class DeleteWidgetMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('widgets',)
     widgets = sgqlc.types.Field(sgqlc.types.list_of('WidgetV2Type'), graphql_name='widgets')
+
+
+class DeleteWorkspace(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success',)
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+
+
+class DeleteWorkspaceFile(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success', 'deleted_path')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+    deleted_path = sgqlc.types.Field(String, graphql_name='deletedPath')
+
+
+class DeleteWorkspaceFolder(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success', 'deleted_path', 'deleted_count')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+    deleted_path = sgqlc.types.Field(String, graphql_name='deletedPath')
+    deleted_count = sgqlc.types.Field(Int, graphql_name='deletedCount')
+
+
+class DeleteWorkspaceWidget(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success',)
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
 
 
 class DestroyBulkReportAttachmentMutation(sgqlc.types.Type):
@@ -2081,6 +2692,15 @@ class DockerRegistryTypePaginatedType(sgqlc.types.Type):
 
 
 class DownloadSheetMutation(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success', 'message', 'download_url', 'file_name')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+    message = sgqlc.types.Field(String, graphql_name='message')
+    download_url = sgqlc.types.Field(String, graphql_name='downloadUrl')
+    file_name = sgqlc.types.Field(String, graphql_name='fileName')
+
+
+class DownloadSheetsXLSXMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('success', 'message', 'download_url', 'file_name')
     success = sgqlc.types.Field(Boolean, graphql_name='success')
@@ -2172,7 +2792,7 @@ class EngagementActivityType(sgqlc.types.Type):
     automation_workflow_reason = sgqlc.types.Field(JSONString, graphql_name='automationWorkflowReason')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
-    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('EngagementCommentType'))), graphql_name='commentSet')
+    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(CommentType))), graphql_name='commentSet')
 
 
 class EngagementAssetPaginatedType(sgqlc.types.Type):
@@ -2267,7 +2887,7 @@ class EngagementPaginatedType(sgqlc.types.Type):
 
 class EngagementType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'engagement_custom_id', 'name', 'organization', 'vendor', 'security_posture', 'scheduled_date', 'delivery_date', 'documents', 'subscribed_services', 'checked_terms_and_conditions', 'executive_summary', 'credits_estimated', 'credits', 'is_self_managed_engagement', 'created_by', 'created', 'updated', 'is_active', 'plans', 'fields', 'state', 'custom_status', 'assignees', 'engagement_assessment', 'prerequisites_engagement', 'work_books', 'exportreport_set', 'bug_engagements', 'activity_engagement', 'comments_engagement', 'assessments_count', 'engagement_completion', 'assessments_per_service', 'total_hours_spent', 'prerequisites_completion', 'state_id', 'parent_state')
+    __field_names__ = ('id', 'engagement_custom_id', 'name', 'organization', 'vendor', 'security_posture', 'scheduled_date', 'delivery_date', 'documents', 'subscribed_services', 'checked_terms_and_conditions', 'executive_summary', 'credits_estimated', 'credits', 'is_self_managed_engagement', 'is_agentic_assessment', 'created_by', 'created', 'updated', 'is_active', 'plans', 'fields', 'credentials', 'state', 'custom_status', 'assignees', 'engagement_assessment', 'prerequisites_engagement', 'work_books', 'exportreport_set', 'bug_engagements', 'activity_engagement', 'comments_engagement', 'workspaces', 'assessments_count', 'engagement_completion', 'assessments_per_service', 'total_hours_spent', 'prerequisites_completion', 'state_id', 'parent_state')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     engagement_custom_id = sgqlc.types.Field(Int, graphql_name='engagementCustomId')
     name = sgqlc.types.Field(String, graphql_name='name')
@@ -2283,12 +2903,14 @@ class EngagementType(sgqlc.types.Type):
     credits_estimated = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='creditsEstimated')
     credits = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='credits')
     is_self_managed_engagement = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isSelfManagedEngagement')
+    is_agentic_assessment = sgqlc.types.Field(Boolean, graphql_name='isAgenticAssessment')
     created_by = sgqlc.types.Field(ApprovalUserType, graphql_name='createdBy')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
     is_active = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isActive')
     plans = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='plans')
     fields = sgqlc.types.Field(JSONString, graphql_name='fields')
+    credentials = sgqlc.types.Field(sgqlc.types.list_of(CredentialManagerType), graphql_name='credentials')
     state = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='state')
     custom_status = sgqlc.types.Field(CustomAssessmentStatusType, graphql_name='customStatus')
     assignees = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(ApprovalUserType))), graphql_name='assignees')
@@ -2298,7 +2920,8 @@ class EngagementType(sgqlc.types.Type):
     exportreport_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('ReportType'))), graphql_name='exportreportSet')
     bug_engagements = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TestsType'))), graphql_name='bugEngagements')
     activity_engagement = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(EngagementActivityType))), graphql_name='activityEngagement')
-    comments_engagement = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(EngagementCommentType))), graphql_name='commentsEngagement')
+    comments_engagement = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(CommentType))), graphql_name='commentsEngagement')
+    workspaces = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AgentWorkspaceType))), graphql_name='workspaces')
     assessments_count = sgqlc.types.Field(Int, graphql_name='assessmentsCount')
     engagement_completion = sgqlc.types.Field(Int, graphql_name='engagementCompletion')
     assessments_per_service = sgqlc.types.Field(GenericScalar, graphql_name='assessmentsPerService')
@@ -2310,7 +2933,7 @@ class EngagementType(sgqlc.types.Type):
 
 class EngagementsFieldType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'slug', 'description', 'field_type', 'options', 'is_required', 'is_active', 'extra_data', 'created', 'updated', 'engagementsfield', 'assetfield', 'bugfield', 'organization')
+    __field_names__ = ('id', 'name', 'slug', 'description', 'field_type', 'options', 'is_required', 'is_active', 'is_system_field', 'extra_data', 'created', 'updated', 'engagementsfield', 'assetfield', 'bugfield', 'organization')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(String, graphql_name='name')
     slug = sgqlc.types.Field(String, graphql_name='slug')
@@ -2319,7 +2942,8 @@ class EngagementsFieldType(sgqlc.types.Type):
     options = sgqlc.types.Field(GenericScalar, graphql_name='options')
     is_required = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isRequired')
     is_active = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isActive')
-    extra_data = sgqlc.types.Field(sgqlc.types.non_null(JSONString), graphql_name='extraData')
+    is_system_field = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isSystemField')
+    extra_data = sgqlc.types.Field(GenericScalar, graphql_name='extraData')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
     engagementsfield = sgqlc.types.Field('EngagementsFieldType', graphql_name='engagementsfield')
@@ -2377,6 +3001,32 @@ class FindingAnalysisType(sgqlc.types.Type):
     severity_counts = sgqlc.types.Field('SeverityCountType', graphql_name='severityCounts')
     state_counts = sgqlc.types.Field('StateCountType', graphql_name='stateCounts')
     sources = sgqlc.types.Field(sgqlc.types.list_of('SourceDistributionType'), graphql_name='sources')
+
+
+class GARImagesType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('url',)
+    url = sgqlc.types.Field(String, graphql_name='url')
+
+
+class GARImagesTypePaginatedType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('page', 'total_pages', 'page_size', 'total_count', 'has_next', 'has_prev', 'objects')
+    page = sgqlc.types.Field(Int, graphql_name='page')
+    total_pages = sgqlc.types.Field(Int, graphql_name='totalPages')
+    page_size = sgqlc.types.Field(Int, graphql_name='pageSize')
+    total_count = sgqlc.types.Field(Int, graphql_name='totalCount')
+    has_next = sgqlc.types.Field(Boolean, graphql_name='hasNext')
+    has_prev = sgqlc.types.Field(Boolean, graphql_name='hasPrev')
+    objects = sgqlc.types.Field(sgqlc.types.list_of(GARImagesType), graphql_name='objects')
+
+
+class GenerateAutomationWithAIMutation(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('config', 'explanation', 'success')
+    config = sgqlc.types.Field(GenericScalar, graphql_name='config')
+    explanation = sgqlc.types.Field(String, graphql_name='explanation')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
 
 
 class GenerateReportMutation(sgqlc.types.Type):
@@ -2463,12 +3113,68 @@ class GroupsType(sgqlc.types.Type):
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
 
 
+class GuardrailConfigType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'guardrail_id', 'guardrail', 'organization_id', 'is_enabled', 'enforcement_override', 'config_override', 'created_at', 'updated_at')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    guardrail_id = sgqlc.types.Field(UUID, graphql_name='guardrailId')
+    guardrail = sgqlc.types.Field('GuardrailDefinitionType', graphql_name='guardrail')
+    organization_id = sgqlc.types.Field(UUID, graphql_name='organizationId')
+    is_enabled = sgqlc.types.Field(Boolean, graphql_name='isEnabled')
+    enforcement_override = sgqlc.types.Field(String, graphql_name='enforcementOverride')
+    config_override = sgqlc.types.Field(GenericScalar, graphql_name='configOverride')
+    created_at = sgqlc.types.Field(DateTime, graphql_name='createdAt')
+    updated_at = sgqlc.types.Field(DateTime, graphql_name='updatedAt')
+
+
+class GuardrailDefinitionType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'display_name', 'description', 'category', 'detection_method', 'is_system', 'default_enforcement', 'severity')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    display_name = sgqlc.types.Field(String, graphql_name='displayName')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    category = sgqlc.types.Field(String, graphql_name='category')
+    detection_method = sgqlc.types.Field(String, graphql_name='detectionMethod')
+    is_system = sgqlc.types.Field(Boolean, graphql_name='isSystem')
+    default_enforcement = sgqlc.types.Field(String, graphql_name='defaultEnforcement')
+    severity = sgqlc.types.Field(Int, graphql_name='severity')
+
+
+class GuardrailViolationType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'thread_id', 'run_id', 'guardrail', 'stage', 'action_taken', 'matched_content', 'tool_name', 'was_blocked', 'created_at')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    thread_id = sgqlc.types.Field(UUID, graphql_name='threadId')
+    run_id = sgqlc.types.Field(UUID, graphql_name='runId')
+    guardrail = sgqlc.types.Field(GuardrailDefinitionType, graphql_name='guardrail')
+    stage = sgqlc.types.Field(String, graphql_name='stage')
+    action_taken = sgqlc.types.Field(String, graphql_name='actionTaken')
+    matched_content = sgqlc.types.Field(String, graphql_name='matchedContent')
+    tool_name = sgqlc.types.Field(String, graphql_name='toolName')
+    was_blocked = sgqlc.types.Field(Boolean, graphql_name='wasBlocked')
+    created_at = sgqlc.types.Field(DateTime, graphql_name='createdAt')
+
+
 class ImportSheetCSVMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('success', 'message', 'data')
     success = sgqlc.types.Field(Boolean, graphql_name='success')
     message = sgqlc.types.Field(String, graphql_name='message')
     data = sgqlc.types.Field(sgqlc.types.list_of(JSONString), graphql_name='data')
+
+
+class InboundWebhookType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'webhook_url', 'secret_key', 'name', 'source', 'auth_type', 'is_active', 'field_mappings')
+    id = sgqlc.types.Field(String, graphql_name='id')
+    webhook_url = sgqlc.types.Field(String, graphql_name='webhookUrl')
+    secret_key = sgqlc.types.Field(String, graphql_name='secretKey')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    source = sgqlc.types.Field(String, graphql_name='source')
+    auth_type = sgqlc.types.Field(String, graphql_name='authType')
+    is_active = sgqlc.types.Field(Boolean, graphql_name='isActive')
+    field_mappings = sgqlc.types.Field(GenericScalar, graphql_name='fieldMappings')
 
 
 class IndustryBenchmarkType(sgqlc.types.Type):
@@ -2499,6 +3205,12 @@ class IntegrationStatusType(sgqlc.types.Type):
     failed_connections = sgqlc.types.Field(Int, graphql_name='failedConnections')
     average_response_time = sgqlc.types.Field(Float, graphql_name='averageResponseTime')
     integrations = sgqlc.types.Field(sgqlc.types.list_of(IntegrationItemType), graphql_name='integrations')
+
+
+class LinkWorkspaceToEngagement(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspace',)
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
 
 
 class ListScans(sgqlc.types.Type):
@@ -2540,7 +3252,7 @@ class MergeDuplicateAssetMutation(sgqlc.types.Type):
 
 class Mutation(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('bulk_update_member_permission_alerts', 'bulk_delete_organization_member', 'create_thread', 'send_message', 'select_agents_for_thread', 'start_background_run', 'start_system_agent_chat', 'revert_bulk_update_action', 'update_merge_duplicate_asset', 'update_duplicate_findings', 'create_prefills', 'update_prefills', 'delete_prefills', 'bulk_create_and_update', 'list_scans', 'add_self_managed_service', 'update_self_managed_service', 'delete_self_managed_service', 'bulk_delete_folders', 'bulk_delete_views', 'my_favorites_views', 'clone_folders', 'create_work_book', 'update_work_book', 'delete_work_book', 'clone_create_work_book', 'create_sheet', 'update_sheet', 'delete_sheet', 'clone_create_sheet', 'update_sheet_row', 'delete_sheet_row', 'import_csv', 'download_csv_sheet', 'create_draft', 'clear_draft', 'create_automation_workflow', 'update_automation_workflow', 'delete_automation_workflow', 'trigger_automation_workflow', 'test_pipeline_code', 'create_sla_rule', 'update_sla_rule', 'delete_sla_rule', 'add_preset', 'update_presets', 'delete_presets', 'update_data_retention_setting', 'update_asm_settings', 'bulk_update_credential_manager', 'update_credential_manager_state', 'vaults', 'add_vault_attachment', 'bulk_delete_vault_mutation', 'add_widget', 'update_widgets', 'delete_widgets', 'clone_widget', 'add_dashboard', 'update_dashboard', 'delete_dashboard', 'export_dashboard', 'import_dashboard', 'comment_update', 'comment_delete', 'assessment', 'bulk_update_prerequisites', 'bulk_delete_prerequisites', 'update_assessments', 'bulk_update_assessment', 'create_custom_assessment_status', 'update_custom_assessment_status', 'delete_custom_assessment_status', 'update_engagement', 'add_attachment', 'bulk_update_engagements', 'archive_engagements', 'create_engagement', 'export_engagements', 'add_engagements_field_settings_mutation', 'delete_engagement_field_settings_mutation', 'update_engagement_field_settings_mutation', 'assign_asset_view_to_users', 'add_report_attachment', 'bulk_delete_attachment', 'restore_default_prioritization_rule', 'update_prioritization_settings', 'create_priority_rule_set', 'update_priority_rule_set', 'delete_priority_rule_set', 'create_priority_rule', 'update_priority_rule', 'delete_priority_rule', 'report_bulk_delete', 'generate_report', 'update_report', 'show_report_password', 'set_report_password', 'delete_report_template', 'add_report_template', 'update_report_template', 'create_github_report_template', 'add_group', 'update_group', 'group_bulk_delete', 'org_member_role_bulk_update', 'team_member_role_bulk_update', 'org_member_role_bulk_delete', 'team_member_role_bulk_delete', 'bulk_update_member_asset_access', 'bug_bulk_update', 'bug_bulk_assignment', 'bug_bulk_unassignment', 'bug_bulk_update_tags', 'bug_bulk_update_cve', 'bug_bulk_update_cwe', 'bug_bulk_delete', 'add_bulk_comment', 'bug_bulk_add_to_tracker', 'approve_state_change', 'deduplicate_bug_preview', 'deduplicate_bug_confirm', 'calculate_priority_score', 'transfer_engagement_bugs', 'bug_update_risk_records', 'add_bug_settings_fields', 'update_bug_settings_fields', 'delete_bug_settings_fields', 'bug_bulk_update_title', 'bug_bulk_update_mitigation_description', 'archive_bug_bulk_update', 'bug_bulk_update_custom_fields', 'update_bugs_fields_with_csv', 'bug_create', 'sync_bug_with_trackers', 'test_with_nuclie_template', 'bulk_test_with_nuclie_template', 'assets_bulk_update', 'assets_bulk_merge', 'assets_bulk_link', 'assets_bulk_delete', 'assets_bulk_update_tags', 'archive_assets_bulk_update', 'assets_merge_preview', 'assets_merge_confirm', 'calculate_risk_score', 'software_packages_bulk_update', 'software_packages_bulk_delete', 'software_package_create', 'add_asset_settings_fields', 'update_asset_settings_fields', 'delete_asset_settings_fields', 'bulk_update_asset_custom_field_mutation', 'create_asset', 'update_asset_fields_with_csv', 'bulk_asset_access_user_mutation', 'create_asset_relationship', 'update_asset_relationship', 'delete_asset_relationship')
+    __field_names__ = ('bulk_update_member_permission_alerts', 'bulk_delete_organization_member', 'create_skill_setup', 'update_skill', 'delete_skill', 'archive_skill', 'create_workspace', 'update_workspace', 'archive_workspace', 'delete_workspace', 'resetup_workspace', 'skip_workspace_setup', 'create_workspace_chat', 'link_workspace_to_engagement', 'unlink_workspace_from_engagement', 'create_workspace_task', 'cancel_workspace_task', 'retry_workspace_task', 'update_workspace_credentials', 'remove_workspace_credential', 'create_custom_credential', 'update_custom_credential', 'delete_custom_credential', 'upload_workspace_file', 'delete_workspace_file', 'delete_workspace_folder', 'create_workspace_folder', 'add_workspace_skills', 'remove_workspace_skills', 'create_workspace_widget', 'regenerate_workspace_widget', 'update_workspace_widget', 'delete_workspace_widget', 'reorder_workspace_widgets', 'approve_action', 'reject_action', 'respond_to_interrupt', 'cancel_interrupt', 'create_workspace_from_template', 'pause_workflow', 'resume_workflow', 'cancel_workflow', 'restart_workflow', 'restart_workflow_from_phase', 'advance_workflow_phase', 'create_agentic_pentest', 'create_agent_schedule', 'update_agent_schedule', 'pause_agent_schedule', 'resume_agent_schedule', 'delete_agent_schedule', 'trigger_agent_schedule_now', 'compile_agent_action', 'create_thread', 'send_message', 'select_agents_for_thread', 'start_background_run', 'cancel_run', 'retry_run', 'update_org_guardrail_config', 'create_custom_guardrail', 'start_system_agent_chat', 'revert_bulk_update_action', 'update_merge_duplicate_asset', 'update_duplicate_findings', 'create_prefills', 'update_prefills', 'delete_prefills', 'bulk_create_and_update', 'list_scans', 'add_self_managed_service', 'update_self_managed_service', 'delete_self_managed_service', 'bulk_delete_folders', 'bulk_delete_views', 'my_favorites_views', 'clone_folders', 'create_work_book', 'update_work_book', 'delete_work_book', 'clone_create_work_book', 'create_sheet', 'update_sheet', 'delete_sheet', 'clone_create_sheet', 'update_sheet_row', 'delete_sheet_row', 'import_csv', 'download_csv_sheet', 'download_sheets_xlsx', 'create_draft', 'clear_draft', 'create_automation_workflow', 'update_automation_workflow', 'delete_automation_workflow', 'trigger_automation_workflow', 'test_pipeline_code', 'generate_automation_with_ai', 'create_sla_rule', 'update_sla_rule', 'delete_sla_rule', 'add_preset', 'update_presets', 'delete_presets', 'update_data_retention_setting', 'update_asm_settings', 'bulk_update_credential_manager', 'update_credential_manager_state', 'vaults', 'add_vault_attachment', 'bulk_delete_vault_mutation', 'add_widget', 'update_widgets', 'delete_widgets', 'clone_widget', 'add_dashboard', 'update_dashboard', 'delete_dashboard', 'export_dashboard', 'import_dashboard', 'add_ai_dashboard', 'refresh_ai_dashboard', 'request_dashboard_export', 'dashboard_export_status', 'comment_update', 'comment_delete', 'assessment', 'bulk_update_prerequisites', 'bulk_delete_prerequisites', 'update_assessments', 'bulk_update_assessment', 'create_custom_assessment_status', 'update_custom_assessment_status', 'delete_custom_assessment_status', 'update_engagement', 'add_attachment', 'bulk_update_engagements', 'archive_engagements', 'create_engagement', 'export_engagements', 'add_engagements_field_settings_mutation', 'delete_engagement_field_settings_mutation', 'update_engagement_field_settings_mutation', 'assign_asset_view_to_users', 'add_report_attachment', 'bulk_delete_attachment', 'restore_default_prioritization_rule', 'update_prioritization_settings', 'create_priority_rule_set', 'update_priority_rule_set', 'delete_priority_rule_set', 'create_priority_rule', 'update_priority_rule', 'delete_priority_rule', 'report_bulk_delete', 'generate_report', 'update_report', 'show_report_password', 'set_report_password', 'delete_report_template', 'add_report_template', 'update_report_template', 'create_github_report_template', 'add_group', 'update_group', 'group_bulk_delete', 'org_member_role_bulk_update', 'team_member_role_bulk_update', 'org_member_role_bulk_delete', 'team_member_role_bulk_delete', 'bulk_update_member_asset_access', 'bug_bulk_update', 'bug_bulk_assignment', 'bug_bulk_unassignment', 'bug_bulk_update_tags', 'bug_bulk_update_cve', 'bug_bulk_update_cwe', 'bug_bulk_delete', 'add_bulk_comment', 'bug_bulk_add_to_tracker', 'approve_state_change', 'deduplicate_bug_preview', 'deduplicate_bug_confirm', 'calculate_priority_score', 'transfer_engagement_bugs', 'bug_update_risk_records', 'add_bug_settings_fields', 'update_bug_settings_fields', 'delete_bug_settings_fields', 'bug_bulk_update_title', 'bug_bulk_update_mitigation_description', 'archive_bug_bulk_update', 'bug_bulk_update_custom_fields', 'update_bugs_fields_with_csv', 'bug_create', 'sync_bug_with_trackers', 'test_with_nuclie_template', 'bulk_test_with_nuclie_template', 'bulk_add_attachments', 'assets_bulk_update', 'assets_bulk_merge', 'assets_bulk_link', 'assets_bulk_delete', 'assets_bulk_update_tags', 'archive_assets_bulk_update', 'assets_merge_preview', 'assets_merge_confirm', 'calculate_risk_score', 'software_packages_bulk_update', 'software_packages_bulk_delete', 'software_package_create', 'add_asset_settings_fields', 'update_asset_settings_fields', 'delete_asset_settings_fields', 'bulk_update_asset_custom_field_mutation', 'create_asset', 'update_asset_fields_with_csv', 'bulk_asset_access_user_mutation', 'create_asset_relationship', 'update_asset_relationship', 'delete_asset_relationship')
     bulk_update_member_permission_alerts = sgqlc.types.Field(BulkUpdateMemberPermissionAlertsMutation, graphql_name='bulkUpdateMemberPermissionAlerts', args=sgqlc.types.ArgDict((
         ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
         ('role', sgqlc.types.Arg(Int, graphql_name='role', default=None)),
@@ -2554,11 +3266,328 @@ class Mutation(sgqlc.types.Type):
         ('user_ids', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(Int)), graphql_name='userIds', default=None)),
 ))
     )
+    create_skill_setup = sgqlc.types.Field(CreateSkillSetup, graphql_name='createSkillSetup', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
+    update_skill = sgqlc.types.Field('UpdateSkill', graphql_name='updateSkill', args=sgqlc.types.ArgDict((
+        ('allowed_tools', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='allowedTools', default=None)),
+        ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
+        ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
+        ('skill_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='skillId', default=None)),
+        ('status', sgqlc.types.Arg(String, graphql_name='status', default=None)),
+))
+    )
+    delete_skill = sgqlc.types.Field(DeleteSkill, graphql_name='deleteSkill', args=sgqlc.types.ArgDict((
+        ('skill_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='skillId', default=None)),
+))
+    )
+    archive_skill = sgqlc.types.Field(ArchiveSkill, graphql_name='archiveSkill', args=sgqlc.types.ArgDict((
+        ('skill_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='skillId', default=None)),
+))
+    )
+    create_workspace = sgqlc.types.Field(CreateWorkspace, graphql_name='createWorkspace', args=sgqlc.types.ArgDict((
+        ('engagement_id', sgqlc.types.Arg(UUID, graphql_name='engagementId', default=None)),
+        ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('settings', sgqlc.types.Arg(GenericScalar, graphql_name='settings', default=None)),
+        ('shell_id', sgqlc.types.Arg(UUID, graphql_name='shellId', default=None)),
+))
+    )
+    update_workspace = sgqlc.types.Field('UpdateWorkspace', graphql_name='updateWorkspace', args=sgqlc.types.ArgDict((
+        ('context', sgqlc.types.Arg(GenericScalar, graphql_name='context', default=None)),
+        ('custom_instructions', sgqlc.types.Arg(String, graphql_name='customInstructions', default=None)),
+        ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
+        ('icon', sgqlc.types.Arg(String, graphql_name='icon', default=None)),
+        ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
+        ('settings', sgqlc.types.Arg(GenericScalar, graphql_name='settings', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+        ('workspace_type', sgqlc.types.Arg(String, graphql_name='workspaceType', default=None)),
+))
+    )
+    archive_workspace = sgqlc.types.Field(ArchiveWorkspace, graphql_name='archiveWorkspace', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    delete_workspace = sgqlc.types.Field(DeleteWorkspace, graphql_name='deleteWorkspace', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    resetup_workspace = sgqlc.types.Field('ResetupWorkspace', graphql_name='resetupWorkspace', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    skip_workspace_setup = sgqlc.types.Field('SkipWorkspaceSetup', graphql_name='skipWorkspaceSetup', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    create_workspace_chat = sgqlc.types.Field(CreateWorkspaceChat, graphql_name='createWorkspaceChat', args=sgqlc.types.ArgDict((
+        ('agent_ids', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='agentIds', default=None)),
+        ('smart_mode', sgqlc.types.Arg(Boolean, graphql_name='smartMode', default=None)),
+        ('title', sgqlc.types.Arg(String, graphql_name='title', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    link_workspace_to_engagement = sgqlc.types.Field(LinkWorkspaceToEngagement, graphql_name='linkWorkspaceToEngagement', args=sgqlc.types.ArgDict((
+        ('engagement_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='engagementId', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    unlink_workspace_from_engagement = sgqlc.types.Field('UnlinkWorkspaceFromEngagement', graphql_name='unlinkWorkspaceFromEngagement', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    create_workspace_task = sgqlc.types.Field(CreateWorkspaceTask, graphql_name='createWorkspaceTask', args=sgqlc.types.ArgDict((
+        ('agent_type', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='agentType', default=None)),
+        ('input_data', sgqlc.types.Arg(GenericScalar, graphql_name='inputData', default=None)),
+        ('instructions', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='instructions', default=None)),
+        ('task_type', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='taskType', default=None)),
+        ('title', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='title', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    cancel_workspace_task = sgqlc.types.Field(CancelWorkspaceTask, graphql_name='cancelWorkspaceTask', args=sgqlc.types.ArgDict((
+        ('task_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='taskId', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    retry_workspace_task = sgqlc.types.Field('RetryWorkspaceTask', graphql_name='retryWorkspaceTask', args=sgqlc.types.ArgDict((
+        ('task_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='taskId', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    update_workspace_credentials = sgqlc.types.Field('UpdateWorkspaceCredentials', graphql_name='updateWorkspaceCredentials', args=sgqlc.types.ArgDict((
+        ('credential_key', sgqlc.types.Arg(String, graphql_name='credentialKey', default=None)),
+        ('credential_manager_id', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='credentialManagerId', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    remove_workspace_credential = sgqlc.types.Field('RemoveWorkspaceCredential', graphql_name='removeWorkspaceCredential', args=sgqlc.types.ArgDict((
+        ('credential_key', sgqlc.types.Arg(String, graphql_name='credentialKey', default=None)),
+        ('credential_manager_id', sgqlc.types.Arg(Int, graphql_name='credentialManagerId', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    create_custom_credential = sgqlc.types.Field(CreateCustomCredential, graphql_name='createCustomCredential', args=sgqlc.types.ArgDict((
+        ('credential_data', sgqlc.types.Arg(sgqlc.types.non_null(GenericScalar), graphql_name='credentialData', default=None)),
+        ('credential_name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='credentialName', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    update_custom_credential = sgqlc.types.Field('UpdateCustomCredential', graphql_name='updateCustomCredential', args=sgqlc.types.ArgDict((
+        ('credential_data', sgqlc.types.Arg(GenericScalar, graphql_name='credentialData', default=None)),
+        ('credential_name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='credentialName', default=None)),
+        ('new_credential_name', sgqlc.types.Arg(String, graphql_name='newCredentialName', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    delete_custom_credential = sgqlc.types.Field(DeleteCustomCredential, graphql_name='deleteCustomCredential', args=sgqlc.types.ArgDict((
+        ('credential_name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='credentialName', default=None)),
+        ('delete_credential_manager', sgqlc.types.Arg(Boolean, graphql_name='deleteCredentialManager', default=True)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    upload_workspace_file = sgqlc.types.Field('UploadWorkspaceFile', graphql_name='uploadWorkspaceFile', args=sgqlc.types.ArgDict((
+        ('file', sgqlc.types.Arg(sgqlc.types.non_null(Upload), graphql_name='file', default=None)),
+        ('path', sgqlc.types.Arg(String, graphql_name='path', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    delete_workspace_file = sgqlc.types.Field(DeleteWorkspaceFile, graphql_name='deleteWorkspaceFile', args=sgqlc.types.ArgDict((
+        ('path', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='path', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    delete_workspace_folder = sgqlc.types.Field(DeleteWorkspaceFolder, graphql_name='deleteWorkspaceFolder', args=sgqlc.types.ArgDict((
+        ('path', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='path', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    create_workspace_folder = sgqlc.types.Field(CreateWorkspaceFolder, graphql_name='createWorkspaceFolder', args=sgqlc.types.ArgDict((
+        ('path', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='path', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    add_workspace_skills = sgqlc.types.Field(AddWorkspaceSkills, graphql_name='addWorkspaceSkills', args=sgqlc.types.ArgDict((
+        ('skill_ids', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(UUID)), graphql_name='skillIds', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    remove_workspace_skills = sgqlc.types.Field('RemoveWorkspaceSkills', graphql_name='removeWorkspaceSkills', args=sgqlc.types.ArgDict((
+        ('skill_ids', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(UUID)), graphql_name='skillIds', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    create_workspace_widget = sgqlc.types.Field(CreateWorkspaceWidget, graphql_name='createWorkspaceWidget', args=sgqlc.types.ArgDict((
+        ('name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='name', default=None)),
+        ('prompt', sgqlc.types.Arg(String, graphql_name='prompt', default=None)),
+        ('widget_type', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='widgetType', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    regenerate_workspace_widget = sgqlc.types.Field('RegenerateWorkspaceWidget', graphql_name='regenerateWorkspaceWidget', args=sgqlc.types.ArgDict((
+        ('widget_id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='widgetId', default=None)),
+))
+    )
+    update_workspace_widget = sgqlc.types.Field('UpdateWorkspaceWidget', graphql_name='updateWorkspaceWidget', args=sgqlc.types.ArgDict((
+        ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
+        ('position', sgqlc.types.Arg(Int, graphql_name='position', default=None)),
+        ('prompt', sgqlc.types.Arg(String, graphql_name='prompt', default=None)),
+        ('widget_id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='widgetId', default=None)),
+))
+    )
+    delete_workspace_widget = sgqlc.types.Field(DeleteWorkspaceWidget, graphql_name='deleteWorkspaceWidget', args=sgqlc.types.ArgDict((
+        ('widget_id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='widgetId', default=None)),
+))
+    )
+    reorder_workspace_widgets = sgqlc.types.Field('ReorderWorkspaceWidgets', graphql_name='reorderWorkspaceWidgets', args=sgqlc.types.ArgDict((
+        ('widget_order', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(Int)), graphql_name='widgetOrder', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    approve_action = sgqlc.types.Field(ApproveAction, graphql_name='approveAction', args=sgqlc.types.ArgDict((
+        ('approval_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='approvalId', default=None)),
+        ('session_allow_all', sgqlc.types.Arg(Boolean, graphql_name='sessionAllowAll', default=False)),
+))
+    )
+    reject_action = sgqlc.types.Field('RejectAction', graphql_name='rejectAction', args=sgqlc.types.ArgDict((
+        ('approval_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='approvalId', default=None)),
+))
+    )
+    respond_to_interrupt = sgqlc.types.Field('RespondToInterrupt', graphql_name='respondToInterrupt', args=sgqlc.types.ArgDict((
+        ('interrupt_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='interruptId', default=None)),
+        ('response_data', sgqlc.types.Arg(sgqlc.types.non_null(GenericScalar), graphql_name='responseData', default=None)),
+))
+    )
+    cancel_interrupt = sgqlc.types.Field(CancelInterrupt, graphql_name='cancelInterrupt', args=sgqlc.types.ArgDict((
+        ('interrupt_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='interruptId', default=None)),
+))
+    )
+    create_workspace_from_template = sgqlc.types.Field(CreateWorkspaceFromTemplate, graphql_name='createWorkspaceFromTemplate', args=sgqlc.types.ArgDict((
+        ('engagement_id', sgqlc.types.Arg(UUID, graphql_name='engagementId', default=None)),
+        ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('shell_id', sgqlc.types.Arg(UUID, graphql_name='shellId', default=None)),
+        ('template_slug', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='templateSlug', default=None)),
+        ('variables', sgqlc.types.Arg(sgqlc.types.non_null(GenericScalar), graphql_name='variables', default=None)),
+))
+    )
+    pause_workflow = sgqlc.types.Field('PauseWorkflow', graphql_name='pauseWorkflow', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    resume_workflow = sgqlc.types.Field('ResumeWorkflow', graphql_name='resumeWorkflow', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    cancel_workflow = sgqlc.types.Field(CancelWorkflow, graphql_name='cancelWorkflow', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    restart_workflow = sgqlc.types.Field('RestartWorkflow', graphql_name='restartWorkflow', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    restart_workflow_from_phase = sgqlc.types.Field('RestartWorkflowFromPhase', graphql_name='restartWorkflowFromPhase', args=sgqlc.types.ArgDict((
+        ('phase_key', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='phaseKey', default=None)),
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    advance_workflow_phase = sgqlc.types.Field(AdvanceWorkflowPhase, graphql_name='advanceWorkflowPhase', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    create_agentic_pentest = sgqlc.types.Field(CreateAgenticPentest, graphql_name='createAgenticPentest', args=sgqlc.types.ArgDict((
+        ('assessment_type', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='assessmentType', default=None)),
+        ('credential_ids', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='credentialIds', default=None)),
+        ('end_date', sgqlc.types.Arg(DateTime, graphql_name='endDate', default=None)),
+        ('model_tier', sgqlc.types.Arg(String, graphql_name='modelTier', default=None)),
+        ('name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='name', default=None)),
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('shell_id', sgqlc.types.Arg(UUID, graphql_name='shellId', default=None)),
+        ('start_date', sgqlc.types.Arg(DateTime, graphql_name='startDate', default=None)),
+        ('target', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='target', default=None)),
+))
+    )
+    create_agent_schedule = sgqlc.types.Field(CreateAgentSchedule, graphql_name='createAgentSchedule', args=sgqlc.types.ArgDict((
+        ('agent_id', sgqlc.types.Arg(String, graphql_name='agentId', default=None)),
+        ('context', sgqlc.types.Arg(GenericScalar, graphql_name='context', default=None)),
+        ('credentials_config', sgqlc.types.Arg(GenericScalar, graphql_name='credentialsConfig', default=None)),
+        ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
+        ('llm_model', sgqlc.types.Arg(Int, graphql_name='llmModel', default=None)),
+        ('max_runs', sgqlc.types.Arg(Int, graphql_name='maxRuns', default=None)),
+        ('name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='name', default=None)),
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('schedule_day_of_week', sgqlc.types.Arg(Int, graphql_name='scheduleDayOfWeek', default=None)),
+        ('schedule_frequency', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='scheduleFrequency', default=None)),
+        ('schedule_time', sgqlc.types.Arg(sgqlc.types.non_null(Time), graphql_name='scheduleTime', default=None)),
+        ('schedule_type', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='scheduleType', default=None)),
+        ('smart_mode', sgqlc.types.Arg(Boolean, graphql_name='smartMode', default=None)),
+        ('task_instructions', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='taskInstructions', default=None)),
+        ('task_title', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='taskTitle', default=None)),
+        ('task_type', sgqlc.types.Arg(String, graphql_name='taskType', default=None)),
+        ('timezone', sgqlc.types.Arg(String, graphql_name='timezone', default=None)),
+        ('workspace_id', sgqlc.types.Arg(UUID, graphql_name='workspaceId', default=None)),
+))
+    )
+    update_agent_schedule = sgqlc.types.Field('UpdateAgentSchedule', graphql_name='updateAgentSchedule', args=sgqlc.types.ArgDict((
+        ('agent_id', sgqlc.types.Arg(String, graphql_name='agentId', default=None)),
+        ('context', sgqlc.types.Arg(GenericScalar, graphql_name='context', default=None)),
+        ('credentials_config', sgqlc.types.Arg(GenericScalar, graphql_name='credentialsConfig', default=None)),
+        ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
+        ('llm_model', sgqlc.types.Arg(Int, graphql_name='llmModel', default=None)),
+        ('max_runs', sgqlc.types.Arg(Int, graphql_name='maxRuns', default=None)),
+        ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('schedule_day_of_week', sgqlc.types.Arg(Int, graphql_name='scheduleDayOfWeek', default=None)),
+        ('schedule_frequency', sgqlc.types.Arg(Int, graphql_name='scheduleFrequency', default=None)),
+        ('schedule_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='scheduleId', default=None)),
+        ('schedule_time', sgqlc.types.Arg(Time, graphql_name='scheduleTime', default=None)),
+        ('smart_mode', sgqlc.types.Arg(Boolean, graphql_name='smartMode', default=None)),
+        ('task_instructions', sgqlc.types.Arg(String, graphql_name='taskInstructions', default=None)),
+        ('task_title', sgqlc.types.Arg(String, graphql_name='taskTitle', default=None)),
+        ('task_type', sgqlc.types.Arg(String, graphql_name='taskType', default=None)),
+        ('timezone', sgqlc.types.Arg(String, graphql_name='timezone', default=None)),
+))
+    )
+    pause_agent_schedule = sgqlc.types.Field('PauseAgentSchedule', graphql_name='pauseAgentSchedule', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('schedule_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='scheduleId', default=None)),
+))
+    )
+    resume_agent_schedule = sgqlc.types.Field('ResumeAgentSchedule', graphql_name='resumeAgentSchedule', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('schedule_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='scheduleId', default=None)),
+))
+    )
+    delete_agent_schedule = sgqlc.types.Field(DeleteAgentSchedule, graphql_name='deleteAgentSchedule', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('schedule_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='scheduleId', default=None)),
+))
+    )
+    trigger_agent_schedule_now = sgqlc.types.Field('TriggerAgentScheduleNow', graphql_name='triggerAgentScheduleNow', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('schedule_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='scheduleId', default=None)),
+))
+    )
+    compile_agent_action = sgqlc.types.Field(CompileAgentAction, graphql_name='compileAgentAction', args=sgqlc.types.ArgDict((
+        ('action_id', sgqlc.types.Arg(UUID, graphql_name='actionId', default=None)),
+        ('context', sgqlc.types.Arg(GenericScalar, graphql_name='context', default=None)),
+        ('mode', sgqlc.types.Arg(String, graphql_name='mode', default=None)),
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('slug', sgqlc.types.Arg(String, graphql_name='slug', default=None)),
+        ('title', sgqlc.types.Arg(String, graphql_name='title', default=None)),
+        ('values', sgqlc.types.Arg(sgqlc.types.non_null(GenericScalar), graphql_name='values', default=None)),
+))
+    )
     create_thread = sgqlc.types.Field(CreateThread, graphql_name='createThread', args=sgqlc.types.ArgDict((
         ('agent_ids', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(String)), graphql_name='agentIds', default=None)),
         ('context', sgqlc.types.Arg(GenericScalar, graphql_name='context', default=None)),
         ('mode', sgqlc.types.Arg(String, graphql_name='mode', default=None)),
         ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('safety_mode', sgqlc.types.Arg(String, graphql_name='safetyMode', default='safe')),
+        ('shell_id', sgqlc.types.Arg(UUID, graphql_name='shellId', default=None)),
+        ('smart_mode', sgqlc.types.Arg(Boolean, graphql_name='smartMode', default=None)),
         ('title', sgqlc.types.Arg(String, graphql_name='title', default=None)),
 ))
     )
@@ -2580,6 +3609,34 @@ class Mutation(sgqlc.types.Type):
         ('input_text', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='inputText', default=None)),
         ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
         ('title', sgqlc.types.Arg(String, graphql_name='title', default=None)),
+))
+    )
+    cancel_run = sgqlc.types.Field(CancelRun, graphql_name='cancelRun', args=sgqlc.types.ArgDict((
+        ('run_id', sgqlc.types.Arg(UUID, graphql_name='runId', default=None)),
+        ('thread_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='threadId', default=None)),
+))
+    )
+    retry_run = sgqlc.types.Field('RetryRun', graphql_name='retryRun', args=sgqlc.types.ArgDict((
+        ('thread_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='threadId', default=None)),
+))
+    )
+    update_org_guardrail_config = sgqlc.types.Field('UpdateOrgGuardrailConfig', graphql_name='updateOrgGuardrailConfig', args=sgqlc.types.ArgDict((
+        ('config_override', sgqlc.types.Arg(GenericScalar, graphql_name='configOverride', default=None)),
+        ('enforcement_override', sgqlc.types.Arg(String, graphql_name='enforcementOverride', default=None)),
+        ('guardrail_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='guardrailId', default=None)),
+        ('is_enabled', sgqlc.types.Arg(Boolean, graphql_name='isEnabled', default=None)),
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
+    create_custom_guardrail = sgqlc.types.Field(CreateCustomGuardrail, graphql_name='createCustomGuardrail', args=sgqlc.types.ArgDict((
+        ('category', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='category', default=None)),
+        ('default_enforcement', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='defaultEnforcement', default=None)),
+        ('description', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='description', default=None)),
+        ('detection_config', sgqlc.types.Arg(GenericScalar, graphql_name='detectionConfig', default=None)),
+        ('detection_method', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='detectionMethod', default=None)),
+        ('display_name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='displayName', default=None)),
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('severity', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='severity', default=None)),
 ))
     )
     start_system_agent_chat = sgqlc.types.Field('StartSystemAgentChat', graphql_name='startSystemAgentChat', args=sgqlc.types.ArgDict((
@@ -2746,6 +3803,7 @@ class Mutation(sgqlc.types.Type):
     import_csv = sgqlc.types.Field(ImportSheetCSVMutation, graphql_name='importCsv', args=sgqlc.types.ArgDict((
         ('file', sgqlc.types.Arg(sgqlc.types.non_null(Upload), graphql_name='file', default=None)),
         ('import_override', sgqlc.types.Arg(Boolean, graphql_name='importOverride', default=None)),
+        ('merge_with', sgqlc.types.Arg(Boolean, graphql_name='mergeWith', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
         ('sheet_id', sgqlc.types.Arg(Int, graphql_name='sheetId', default=None)),
@@ -2755,6 +3813,11 @@ class Mutation(sgqlc.types.Type):
     download_csv_sheet = sgqlc.types.Field(DownloadSheetMutation, graphql_name='downloadCsvSheet', args=sgqlc.types.ArgDict((
         ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
         ('sheet_id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='sheetId', default=None)),
+))
+    )
+    download_sheets_xlsx = sgqlc.types.Field(DownloadSheetsXLSXMutation, graphql_name='downloadSheetsXlsx', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('work_book_id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='workBookId', default=None)),
 ))
     )
     create_draft = sgqlc.types.Field(CreateDraft, graphql_name='createDraft', args=sgqlc.types.ArgDict((
@@ -2773,6 +3836,7 @@ class Mutation(sgqlc.types.Type):
     create_automation_workflow = sgqlc.types.Field(CreateAutomationWorkflowMutation, graphql_name='createAutomationWorkflow', args=sgqlc.types.ArgDict((
         ('credential_manager_id', sgqlc.types.Arg(Int, graphql_name='credentialManagerId', default=None)),
         ('document_ids', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='documentIds', default=None)),
+        ('field_mappings', sgqlc.types.Arg(GenericScalar, graphql_name='fieldMappings', default=None)),
         ('group_by', sgqlc.types.Arg(String, graphql_name='groupBy', default=None)),
         ('hooks', sgqlc.types.Arg(GenericScalar, graphql_name='hooks', default=None)),
         ('ignore_weightage', sgqlc.types.Arg(Boolean, graphql_name='ignoreWeightage', default=None)),
@@ -2790,6 +3854,7 @@ class Mutation(sgqlc.types.Type):
         ('timezone', sgqlc.types.Arg(String, graphql_name='timezone', default=None)),
         ('tool', sgqlc.types.Arg(Int, graphql_name='tool', default=None)),
         ('tools', sgqlc.types.Arg(GenericScalar, graphql_name='tools', default=None)),
+        ('transform_template', sgqlc.types.Arg(String, graphql_name='transformTemplate', default=None)),
         ('triggers', sgqlc.types.Arg(GenericScalar, graphql_name='triggers', default=None)),
         ('weightage', sgqlc.types.Arg(Int, graphql_name='weightage', default=None)),
         ('workflow_mode', sgqlc.types.Arg(Int, graphql_name='workflowMode', default=None)),
@@ -2798,6 +3863,7 @@ class Mutation(sgqlc.types.Type):
     update_automation_workflow = sgqlc.types.Field('UpdateAutomationWorkflowMutation', graphql_name='updateAutomationWorkflow', args=sgqlc.types.ArgDict((
         ('credential_manager_id', sgqlc.types.Arg(Int, graphql_name='credentialManagerId', default=None)),
         ('document_ids', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='documentIds', default=None)),
+        ('field_mappings', sgqlc.types.Arg(GenericScalar, graphql_name='fieldMappings', default=None)),
         ('group_by', sgqlc.types.Arg(String, graphql_name='groupBy', default=None)),
         ('hooks', sgqlc.types.Arg(GenericScalar, graphql_name='hooks', default=None)),
         ('id', sgqlc.types.Arg(Int, graphql_name='id', default=None)),
@@ -2814,6 +3880,7 @@ class Mutation(sgqlc.types.Type):
         ('search_query', sgqlc.types.Arg(String, graphql_name='searchQuery', default=None)),
         ('timezone', sgqlc.types.Arg(String, graphql_name='timezone', default=None)),
         ('tools', sgqlc.types.Arg(GenericScalar, graphql_name='tools', default=None)),
+        ('transform_template', sgqlc.types.Arg(String, graphql_name='transformTemplate', default=None)),
         ('triggers', sgqlc.types.Arg(GenericScalar, graphql_name='triggers', default=None)),
         ('weightage', sgqlc.types.Arg(Int, graphql_name='weightage', default=None)),
         ('workflow_mode', sgqlc.types.Arg(Int, graphql_name='workflowMode', default=None)),
@@ -2837,6 +3904,11 @@ class Mutation(sgqlc.types.Type):
         ('module', sgqlc.types.Arg(Int, graphql_name='module', default=None)),
         ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
         ('use_queryset', sgqlc.types.Arg(Boolean, graphql_name='useQueryset', default=None)),
+))
+    )
+    generate_automation_with_ai = sgqlc.types.Field(GenerateAutomationWithAIMutation, graphql_name='generateAutomationWithAi', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('prompt', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='prompt', default=None)),
 ))
     )
     create_sla_rule = sgqlc.types.Field(CreateSLARuleMutation, graphql_name='createSlaRule', args=sgqlc.types.ArgDict((
@@ -2923,6 +3995,7 @@ class Mutation(sgqlc.types.Type):
     )
     add_widget = sgqlc.types.Field(CreateWidgetMutation, graphql_name='addWidget', args=sgqlc.types.ArgDict((
         ('aggregate_field', sgqlc.types.Arg(String, graphql_name='aggregateField', default=None)),
+        ('ai_prompt', sgqlc.types.Arg(String, graphql_name='aiPrompt', default=None)),
         ('annotated_fields', sgqlc.types.Arg(sgqlc.types.list_of(GenericScalar), graphql_name='annotatedFields', default=None)),
         ('assessment_search_query', sgqlc.types.Arg(String, graphql_name='assessmentSearchQuery', default=None)),
         ('asset_search_query', sgqlc.types.Arg(String, graphql_name='assetSearchQuery', default=None)),
@@ -2939,6 +4012,7 @@ class Mutation(sgqlc.types.Type):
         ('filter_field_name', sgqlc.types.Arg(String, graphql_name='filterFieldName', default=None)),
         ('function', sgqlc.types.Arg(String, graphql_name='function', default=None)),
         ('group_by_field', sgqlc.types.Arg(String, graphql_name='groupByField', default=None)),
+        ('markdown_content', sgqlc.types.Arg(String, graphql_name='markdownContent', default=None)),
         ('module', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='module', default=None)),
         ('name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='name', default=None)),
         ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
@@ -3061,6 +4135,30 @@ class Mutation(sgqlc.types.Type):
         ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
 ))
     )
+    add_ai_dashboard = sgqlc.types.Field(CreateAIDashboardMutation, graphql_name='addAiDashboard', args=sgqlc.types.ArgDict((
+        ('ai_prompt', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='aiPrompt', default=None)),
+        ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
+        ('name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='name', default=None)),
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
+    refresh_ai_dashboard = sgqlc.types.Field('RefreshAIDashboardMutation', graphql_name='refreshAiDashboard', args=sgqlc.types.ArgDict((
+        ('dashboard_id', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='dashboardId', default=None)),
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
+    request_dashboard_export = sgqlc.types.Field('RequestDashboardExportMutation', graphql_name='requestDashboardExport', args=sgqlc.types.ArgDict((
+        ('dashboard_id', sgqlc.types.Arg(Int, graphql_name='dashboardId', default=None)),
+        ('dashboard_url', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='dashboardUrl', default=None)),
+        ('format', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='format', default=None)),
+        ('options', sgqlc.types.Arg(JSONString, graphql_name='options', default=None)),
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
+    dashboard_export_status = sgqlc.types.Field(DashboardExportStatusQuery, graphql_name='dashboardExportStatus', args=sgqlc.types.ArgDict((
+        ('export_id', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='exportId', default=None)),
+))
+    )
     comment_update = sgqlc.types.Field('UpdateCommentMutation', graphql_name='commentUpdate', args=sgqlc.types.ArgDict((
         ('add_attachments', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='addAttachments', default=None)),
         ('bug_id', sgqlc.types.Arg(Int, graphql_name='bugId', default=None)),
@@ -3151,7 +4249,7 @@ class Mutation(sgqlc.types.Type):
     update_engagement = sgqlc.types.Field('UpdateEngagementMutation', graphql_name='updateEngagement', args=sgqlc.types.ArgDict((
         ('add_document_ids', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='addDocumentIds', default=None)),
         ('apply_assignees_to_assessments', sgqlc.types.Arg(Boolean, graphql_name='applyAssigneesToAssessments', default=False)),
-        ('apply_state_to_assessments', sgqlc.types.Arg(Boolean, graphql_name='applyStateToAssessments', default=False)),
+        ('apply_to_assessments', sgqlc.types.Arg(Boolean, graphql_name='applyToAssessments', default=False)),
         ('assessment_data', sgqlc.types.Arg(JSONString, graphql_name='assessmentData', default=None)),
         ('assignees', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='assignees', default=None)),
         ('comment', sgqlc.types.Arg(String, graphql_name='comment', default=None)),
@@ -3180,13 +4278,16 @@ class Mutation(sgqlc.types.Type):
 ))
     )
     bulk_update_engagements = sgqlc.types.Field(BulkUpdateEngagementsMutation, graphql_name='bulkUpdateEngagements', args=sgqlc.types.ArgDict((
-        ('apply_state_to_assessments', sgqlc.types.Arg(Boolean, graphql_name='applyStateToAssessments', default=False)),
+        ('apply_to_assessments', sgqlc.types.Arg(Boolean, graphql_name='applyToAssessments', default=False)),
+        ('assignees', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='assignees', default=None)),
         ('comment', sgqlc.types.Arg(String, graphql_name='comment', default=None)),
         ('comment_attachments', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='commentAttachments', default=None)),
         ('custom_status', sgqlc.types.Arg(Int, graphql_name='customStatus', default=None)),
+        ('delivery_date', sgqlc.types.Arg(Date, graphql_name='deliveryDate', default=None)),
         ('engagement_ids', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(UUID)), graphql_name='engagementIds', default=None)),
         ('fields', sgqlc.types.Arg(JSONString, graphql_name='fields', default=None)),
         ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('scheduled_date', sgqlc.types.Arg(Date, graphql_name='scheduledDate', default=None)),
         ('state', sgqlc.types.Arg(Int, graphql_name='state', default=None)),
 ))
     )
@@ -3198,6 +4299,7 @@ class Mutation(sgqlc.types.Type):
     )
     create_engagement = sgqlc.types.Field(CreateEngagementMutation, graphql_name='createEngagement', args=sgqlc.types.ArgDict((
         ('assessment_data', sgqlc.types.Arg(JSONString, graphql_name='assessmentData', default=None)),
+        ('credential_ids', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='credentialIds', default=None)),
         ('custom_status', sgqlc.types.Arg(Int, graphql_name='customStatus', default=None)),
         ('delivery_date', sgqlc.types.Arg(Date, graphql_name='deliveryDate', default=None)),
         ('document_ids', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='documentIds', default=None)),
@@ -3228,8 +4330,10 @@ class Mutation(sgqlc.types.Type):
     )
     add_engagements_field_settings_mutation = sgqlc.types.Field(AddEngagementsFieldSettingsMutation, graphql_name='addEngagementsFieldSettingsMutation', args=sgqlc.types.ArgDict((
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
+        ('extra_data', sgqlc.types.Arg(GenericScalar, graphql_name='extraData', default=None)),
         ('field_type', sgqlc.types.Arg(Int, graphql_name='fieldType', default=None)),
         ('is_required', sgqlc.types.Arg(Boolean, graphql_name='isRequired', default=None)),
+        ('is_system_field', sgqlc.types.Arg(Boolean, graphql_name='isSystemField', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('options', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='options', default=None)),
         ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
@@ -3243,8 +4347,10 @@ class Mutation(sgqlc.types.Type):
     update_engagement_field_settings_mutation = sgqlc.types.Field('UpdateEngagementFieldSettingsMutation', graphql_name='updateEngagementFieldSettingsMutation', args=sgqlc.types.ArgDict((
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('engagement_field_id', sgqlc.types.Arg(Int, graphql_name='engagementFieldId', default=None)),
+        ('extra_data', sgqlc.types.Arg(GenericScalar, graphql_name='extraData', default=None)),
         ('is_active', sgqlc.types.Arg(Boolean, graphql_name='isActive', default=None)),
         ('is_required', sgqlc.types.Arg(Boolean, graphql_name='isRequired', default=None)),
+        ('is_system_field', sgqlc.types.Arg(Boolean, graphql_name='isSystemField', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('new_selected_option', sgqlc.types.Arg(String, graphql_name='newSelectedOption', default=None)),
         ('old_selected_option', sgqlc.types.Arg(String, graphql_name='oldSelectedOption', default=None)),
@@ -3447,12 +4553,15 @@ class Mutation(sgqlc.types.Type):
 ))
     )
     bug_bulk_update = sgqlc.types.Field(BulkUpdateBugMutation, graphql_name='bugBulkUpdate', args=sgqlc.types.ArgDict((
-        ('attack_vector', sgqlc.types.Arg(String, graphql_name='attackVector', default=None)),
-        ('cvss', sgqlc.types.Arg(Float, graphql_name='cvss', default=None)),
+        ('cvss_v3', sgqlc.types.Arg(Float, graphql_name='cvssV3', default=None)),
+        ('cvss_v3_attack_vector', sgqlc.types.Arg(String, graphql_name='cvssV3AttackVector', default=None)),
+        ('cvss_v4', sgqlc.types.Arg(Float, graphql_name='cvssV4', default=None)),
+        ('cvss_v4_attack_vector', sgqlc.types.Arg(String, graphql_name='cvssV4AttackVector', default=None)),
         ('due_date', sgqlc.types.Arg(Date, graphql_name='dueDate', default=None)),
         ('group_by_field', sgqlc.types.Arg(String, graphql_name='groupByField', default=None)),
         ('group_by_value', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='groupByValue', default=None)),
         ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
+        ('risk_acceptance_due_date', sgqlc.types.Arg(Date, graphql_name='riskAcceptanceDueDate', default=None)),
         ('search_query', sgqlc.types.Arg(String, graphql_name='searchQuery', default=None)),
         ('severity', sgqlc.types.Arg(Int, graphql_name='severity', default=None)),
         ('state', sgqlc.types.Arg(Int, graphql_name='state', default=None)),
@@ -3573,8 +4682,10 @@ class Mutation(sgqlc.types.Type):
     )
     add_bug_settings_fields = sgqlc.types.Field(AddBugFieldSettingsMutation, graphql_name='addBugSettingsFields', args=sgqlc.types.ArgDict((
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
+        ('extra_data', sgqlc.types.Arg(GenericScalar, graphql_name='extraData', default=None)),
         ('field_type', sgqlc.types.Arg(Int, graphql_name='fieldType', default=None)),
         ('is_required', sgqlc.types.Arg(Boolean, graphql_name='isRequired', default=None)),
+        ('is_system_field', sgqlc.types.Arg(Boolean, graphql_name='isSystemField', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('options', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='options', default=None)),
         ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
@@ -3583,8 +4694,10 @@ class Mutation(sgqlc.types.Type):
     update_bug_settings_fields = sgqlc.types.Field('UpdateBugFieldSettingsMutation', graphql_name='updateBugSettingsFields', args=sgqlc.types.ArgDict((
         ('bug_field_id', sgqlc.types.Arg(Int, graphql_name='bugFieldId', default=None)),
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
+        ('extra_data', sgqlc.types.Arg(GenericScalar, graphql_name='extraData', default=None)),
         ('is_active', sgqlc.types.Arg(Boolean, graphql_name='isActive', default=None)),
         ('is_required', sgqlc.types.Arg(Boolean, graphql_name='isRequired', default=None)),
+        ('is_system_field', sgqlc.types.Arg(Boolean, graphql_name='isSystemField', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('new_selected_option', sgqlc.types.Arg(String, graphql_name='newSelectedOption', default=None)),
         ('old_selected_option', sgqlc.types.Arg(String, graphql_name='oldSelectedOption', default=None)),
@@ -3640,7 +4753,6 @@ class Mutation(sgqlc.types.Type):
     bug_create = sgqlc.types.Field(CreateBugMutation, graphql_name='bugCreate', args=sgqlc.types.ArgDict((
         ('asset_id', sgqlc.types.Arg(Int, graphql_name='assetId', default=None)),
         ('asset_search_query', sgqlc.types.Arg(String, graphql_name='assetSearchQuery', default=None)),
-        ('attack_vector', sgqlc.types.Arg(String, graphql_name='attackVector', default=None)),
         ('bug_attachment_list', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='bugAttachmentList', default=None)),
         ('bug_level', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='bugLevel', default=None)),
         ('cloud', sgqlc.types.Arg(JSONString, graphql_name='cloud', default=None)),
@@ -3649,7 +4761,10 @@ class Mutation(sgqlc.types.Type):
         ('config_id', sgqlc.types.Arg(Int, graphql_name='configId', default=None)),
         ('custom_fields', sgqlc.types.Arg(JSONString, graphql_name='customFields', default=None)),
         ('cve_list', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='cveList', default=None)),
-        ('cvss', sgqlc.types.Arg(Float, graphql_name='cvss', default=None)),
+        ('cvss_v3', sgqlc.types.Arg(Float, graphql_name='cvssV3', default=None)),
+        ('cvss_v3_attack_vector', sgqlc.types.Arg(String, graphql_name='cvssV3AttackVector', default=None)),
+        ('cvss_v4', sgqlc.types.Arg(Float, graphql_name='cvssV4', default=None)),
+        ('cvss_v4_attack_vector', sgqlc.types.Arg(String, graphql_name='cvssV4AttackVector', default=None)),
         ('cwe_list', sgqlc.types.Arg(sgqlc.types.list_of(Int), graphql_name='cweList', default=None)),
         ('description', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='description', default=None)),
         ('engagement_id', sgqlc.types.Arg(String, graphql_name='engagementId', default=None)),
@@ -3685,6 +4800,14 @@ class Mutation(sgqlc.types.Type):
     )
     bulk_test_with_nuclie_template = sgqlc.types.Field(BulkTestWithNuclieMutation, graphql_name='bulkTestWithNuclieTemplate', args=sgqlc.types.ArgDict((
         ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('search_query', sgqlc.types.Arg(String, graphql_name='searchQuery', default=None)),
+))
+    )
+    bulk_add_attachments = sgqlc.types.Field(BulkAddAttachmentsMutation, graphql_name='bulkAddAttachments', args=sgqlc.types.ArgDict((
+        ('attachment_list', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(Int)), graphql_name='attachmentList', default=None)),
+        ('group_by_field', sgqlc.types.Arg(String, graphql_name='groupByField', default=None)),
+        ('group_by_value', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='groupByValue', default=None)),
+        ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
         ('search_query', sgqlc.types.Arg(String, graphql_name='searchQuery', default=None)),
 ))
     )
@@ -3770,8 +4893,10 @@ class Mutation(sgqlc.types.Type):
     )
     add_asset_settings_fields = sgqlc.types.Field(AddAssetFieldSettingsMutation, graphql_name='addAssetSettingsFields', args=sgqlc.types.ArgDict((
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
+        ('extra_data', sgqlc.types.Arg(GenericScalar, graphql_name='extraData', default=None)),
         ('field_type', sgqlc.types.Arg(Int, graphql_name='fieldType', default=None)),
         ('is_required', sgqlc.types.Arg(Boolean, graphql_name='isRequired', default=None)),
+        ('is_system_field', sgqlc.types.Arg(Boolean, graphql_name='isSystemField', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('options', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='options', default=None)),
         ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
@@ -3780,8 +4905,10 @@ class Mutation(sgqlc.types.Type):
     update_asset_settings_fields = sgqlc.types.Field('UpdateAssetFieldSettingsMutation', graphql_name='updateAssetSettingsFields', args=sgqlc.types.ArgDict((
         ('asset_field_id', sgqlc.types.Arg(Int, graphql_name='assetFieldId', default=None)),
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
+        ('extra_data', sgqlc.types.Arg(GenericScalar, graphql_name='extraData', default=None)),
         ('is_active', sgqlc.types.Arg(Boolean, graphql_name='isActive', default=None)),
         ('is_required', sgqlc.types.Arg(Boolean, graphql_name='isRequired', default=None)),
+        ('is_system_field', sgqlc.types.Arg(Boolean, graphql_name='isSystemField', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('new_selected_option', sgqlc.types.Arg(String, graphql_name='newSelectedOption', default=None)),
         ('old_selected_option', sgqlc.types.Arg(String, graphql_name='oldSelectedOption', default=None)),
@@ -3936,7 +5063,7 @@ class OrganizationMembersPaginatedType(sgqlc.types.Type):
 
 class OrganizationMembersType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'user', 'organization', 'role', 'asset_search_query', 'permitted_apps', 'permitted_modules', 'default_page', 'default_asset_view', 'default_finding_view', 'permitted_dashboards', 'my_favorites', 'preset_set', 'approval_approved_by', 'approval_raised_by', 'assets', 'engagements', 'is_active', 'invitation_link', 'profile_picture_url', 'last_login', 'email')
+    __field_names__ = ('id', 'user', 'organization', 'role', 'asset_search_query', 'permitted_apps', 'permitted_modules', 'default_page', 'default_asset_view', 'default_finding_view', 'permitted_dashboards', 'my_favorites', 'preset_set', 'approval_approved_by', 'approval_raised_by', 'assets', 'engagements', 'is_active', 'invitation_link', 'last_login', 'email')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     user = sgqlc.types.Field(ApprovalUserType, graphql_name='user')
     organization = sgqlc.types.Field(sgqlc.types.non_null('TenantOrganizationType'), graphql_name='organization')
@@ -3956,7 +5083,6 @@ class OrganizationMembersType(sgqlc.types.Type):
     engagements = sgqlc.types.Field(Int, graphql_name='engagements')
     is_active = sgqlc.types.Field(Boolean, graphql_name='isActive')
     invitation_link = sgqlc.types.Field(String, graphql_name='invitationLink')
-    profile_picture_url = sgqlc.types.Field(String, graphql_name='profilePictureUrl')
     last_login = sgqlc.types.Field(DateTime, graphql_name='lastLogin')
     email = sgqlc.types.Field(String, graphql_name='email')
 
@@ -4056,6 +5182,19 @@ class PatchesType(sgqlc.types.Type):
     asset_name = sgqlc.types.Field(String, graphql_name='assetName')
     ticket_id = sgqlc.types.Field(String, graphql_name='ticketId')
     ticket_url = sgqlc.types.Field(String, graphql_name='ticketUrl')
+
+
+class PauseAgentSchedule(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('schedule', 'success')
+    schedule = sgqlc.types.Field(AgentScheduleType, graphql_name='schedule')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+
+
+class PauseWorkflow(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success',)
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
 
 
 class PortType(sgqlc.types.Type):
@@ -4218,25 +5357,79 @@ class PriorityRuleType(sgqlc.types.Type):
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
 
 
-class PulseArtifactType(sgqlc.types.Type):
+class PulseAgentDetailInfo(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'thread', 'run', 'name', 'description', 'artifact_type', 'language', 'status', 'content', 'content_size', 'error_message', 'metadata', 'created_at', 'updated_at', 'download_url', 'formatted_size')
-    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
-    thread = sgqlc.types.Field(sgqlc.types.non_null('PulseThreadType'), graphql_name='thread')
-    run = sgqlc.types.Field('PulseRunType', graphql_name='run')
-    name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
+    __field_names__ = ('id', 'name', 'description', 'role', 'capabilities', 'source', 'tools', 'organization_id', 'llm_model', 'avatar_url', 'required_credentials', 'modes_supported')
+    id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='id')
+    name = sgqlc.types.Field(String, graphql_name='name')
     description = sgqlc.types.Field(String, graphql_name='description')
-    artifact_type = sgqlc.types.Field(sgqlc.types.non_null(AppPulseArtifactArtifactTypeChoices), graphql_name='artifactType')
-    language = sgqlc.types.Field(String, graphql_name='language')
-    status = sgqlc.types.Field(sgqlc.types.non_null(AppPulseArtifactStatusChoices), graphql_name='status')
-    content = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='content')
-    content_size = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='contentSize')
-    error_message = sgqlc.types.Field(String, graphql_name='errorMessage')
-    metadata = sgqlc.types.Field(GenericScalar, graphql_name='metadata')
-    created_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='createdAt')
-    updated_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updatedAt')
-    download_url = sgqlc.types.Field(String, graphql_name='downloadUrl')
-    formatted_size = sgqlc.types.Field(String, graphql_name='formattedSize')
+    role = sgqlc.types.Field(String, graphql_name='role')
+    capabilities = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='capabilities')
+    source = sgqlc.types.Field(AgentSourceEnum, graphql_name='source')
+    tools = sgqlc.types.Field(sgqlc.types.list_of('ToolInfoType'), graphql_name='tools')
+    organization_id = sgqlc.types.Field(UUID, graphql_name='organizationId')
+    llm_model = sgqlc.types.Field(Int, graphql_name='llmModel')
+    avatar_url = sgqlc.types.Field(String, graphql_name='avatarUrl')
+    required_credentials = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='requiredCredentials')
+    modes_supported = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='modesSupported')
+
+
+class PulseAgentInfo(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'description', 'role', 'capabilities', 'source', 'tools', 'organization_id', 'llm_model', 'avatar_url')
+    id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='id')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    role = sgqlc.types.Field(String, graphql_name='role')
+    capabilities = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='capabilities')
+    source = sgqlc.types.Field(AgentSourceEnum, graphql_name='source')
+    tools = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='tools')
+    organization_id = sgqlc.types.Field(UUID, graphql_name='organizationId')
+    llm_model = sgqlc.types.Field(Int, graphql_name='llmModel')
+    avatar_url = sgqlc.types.Field(String, graphql_name='avatarUrl')
+
+
+class PulseApprovalType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'state', 'action_type', 'module', 'target_ids', 'payload', 'summary', 'thread_id', 'thread_title', 'workspace_id', 'workspace_name', 'run_id', 'created_at', 'approved_at', 'requested_by_name', 'approved_by_name', 'agent_name')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    state = sgqlc.types.Field(String, graphql_name='state')
+    action_type = sgqlc.types.Field(String, graphql_name='actionType')
+    module = sgqlc.types.Field(String, graphql_name='module')
+    target_ids = sgqlc.types.Field(GenericScalar, graphql_name='targetIds')
+    payload = sgqlc.types.Field(GenericScalar, graphql_name='payload')
+    summary = sgqlc.types.Field(String, graphql_name='summary')
+    thread_id = sgqlc.types.Field(UUID, graphql_name='threadId')
+    thread_title = sgqlc.types.Field(String, graphql_name='threadTitle')
+    workspace_id = sgqlc.types.Field(UUID, graphql_name='workspaceId')
+    workspace_name = sgqlc.types.Field(String, graphql_name='workspaceName')
+    run_id = sgqlc.types.Field(UUID, graphql_name='runId')
+    created_at = sgqlc.types.Field(DateTime, graphql_name='createdAt')
+    approved_at = sgqlc.types.Field(DateTime, graphql_name='approvedAt')
+    requested_by_name = sgqlc.types.Field(String, graphql_name='requestedByName')
+    approved_by_name = sgqlc.types.Field(String, graphql_name='approvedByName')
+    agent_name = sgqlc.types.Field(String, graphql_name='agentName')
+
+
+class PulseInterruptType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'state', 'interrupt_type', 'title', 'message', 'form_schema', 'context_data', 'response_data', 'thread_id', 'run_id', 'agent_id', 'agent_name', 'ttl_seconds', 'created_at', 'responded_at', 'responded_by_name')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    state = sgqlc.types.Field(String, graphql_name='state')
+    interrupt_type = sgqlc.types.Field(String, graphql_name='interruptType')
+    title = sgqlc.types.Field(String, graphql_name='title')
+    message = sgqlc.types.Field(String, graphql_name='message')
+    form_schema = sgqlc.types.Field(GenericScalar, graphql_name='formSchema')
+    context_data = sgqlc.types.Field(GenericScalar, graphql_name='contextData')
+    response_data = sgqlc.types.Field(GenericScalar, graphql_name='responseData')
+    thread_id = sgqlc.types.Field(UUID, graphql_name='threadId')
+    run_id = sgqlc.types.Field(UUID, graphql_name='runId')
+    agent_id = sgqlc.types.Field(String, graphql_name='agentId')
+    agent_name = sgqlc.types.Field(String, graphql_name='agentName')
+    ttl_seconds = sgqlc.types.Field(Int, graphql_name='ttlSeconds')
+    created_at = sgqlc.types.Field(DateTime, graphql_name='createdAt')
+    responded_at = sgqlc.types.Field(DateTime, graphql_name='respondedAt')
+    responded_by_name = sgqlc.types.Field(String, graphql_name='respondedByName')
 
 
 class PulseMessageType(sgqlc.types.Type):
@@ -4266,20 +5459,9 @@ class PulseParticipantType(sgqlc.types.Type):
     added_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='addedAt')
 
 
-class PulsePlanType(sgqlc.types.Type):
-    __schema__ = schema
-    __field_names__ = ('id', 'thread', 'run', 'title', 'created_at', 'updated_at')
-    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
-    thread = sgqlc.types.Field(sgqlc.types.non_null('PulseThreadType'), graphql_name='thread')
-    run = sgqlc.types.Field(sgqlc.types.non_null('PulseRunType'), graphql_name='run')
-    title = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='title')
-    created_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='createdAt')
-    updated_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updatedAt')
-
-
 class PulseRunType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'thread', 'status', 'selected_agents', 'started_at', 'ended_at', 'metrics', 'error_message', 'created_at')
+    __field_names__ = ('id', 'thread', 'status', 'selected_agents', 'started_at', 'ended_at', 'metrics', 'error_message', 'created_at', 'event_count', 'message_count')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     thread = sgqlc.types.Field(sgqlc.types.non_null('PulseThreadType'), graphql_name='thread')
     status = sgqlc.types.Field(sgqlc.types.non_null(AppPulseRunStatusChoices), graphql_name='status')
@@ -4289,28 +5471,13 @@ class PulseRunType(sgqlc.types.Type):
     metrics = sgqlc.types.Field(JSONString, graphql_name='metrics')
     error_message = sgqlc.types.Field(String, graphql_name='errorMessage')
     created_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='createdAt')
-
-
-class PulseTaskType(sgqlc.types.Type):
-    __schema__ = schema
-    __field_names__ = ('id', 'plan', 'task_id', 'agent_id', 'agent_name', 'title', 'status', 'progress', 'order', 'metadata', 'created_at', 'updated_at')
-    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
-    plan = sgqlc.types.Field(sgqlc.types.non_null(PulsePlanType), graphql_name='plan')
-    task_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='taskId')
-    agent_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='agentId')
-    agent_name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='agentName')
-    title = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='title')
-    status = sgqlc.types.Field(sgqlc.types.non_null(AppPulseTaskStatusChoices), graphql_name='status')
-    progress = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='progress')
-    order = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='order')
-    metadata = sgqlc.types.Field(JSONString, graphql_name='metadata')
-    created_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='createdAt')
-    updated_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updatedAt')
+    event_count = sgqlc.types.Field(Int, graphql_name='eventCount')
+    message_count = sgqlc.types.Field(Int, graphql_name='messageCount')
 
 
 class PulseThreadType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'organization', 'user', 'title', 'context', 'mode', 'archived', 'created_at', 'updated_at', 'organization_id', 'latest_run_status', 'is_background_mode')
+    __field_names__ = ('id', 'organization', 'user', 'title', 'context', 'mode', 'archived', 'created_at', 'updated_at', 'organization_id', 'latest_run_status', 'is_background_mode', 'is_setup_thread', 'is_skill_setup_thread', 'workspace_id', 'workspace_default_model_id', 'workspace_default_browser_config', 'skill_id', 'run_count', 'credits_consumed')
     id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
     organization = sgqlc.types.Field(sgqlc.types.non_null('TenantOrganizationType'), graphql_name='organization')
     user = sgqlc.types.Field(sgqlc.types.non_null(ApprovalUserType), graphql_name='user')
@@ -4323,11 +5490,19 @@ class PulseThreadType(sgqlc.types.Type):
     organization_id = sgqlc.types.Field(UUID, graphql_name='organizationId')
     latest_run_status = sgqlc.types.Field(String, graphql_name='latestRunStatus')
     is_background_mode = sgqlc.types.Field(Boolean, graphql_name='isBackgroundMode')
+    is_setup_thread = sgqlc.types.Field(Boolean, graphql_name='isSetupThread')
+    is_skill_setup_thread = sgqlc.types.Field(Boolean, graphql_name='isSkillSetupThread')
+    workspace_id = sgqlc.types.Field(UUID, graphql_name='workspaceId')
+    workspace_default_model_id = sgqlc.types.Field(Int, graphql_name='workspaceDefaultModelId')
+    workspace_default_browser_config = sgqlc.types.Field(GenericScalar, graphql_name='workspaceDefaultBrowserConfig')
+    skill_id = sgqlc.types.Field(UUID, graphql_name='skillId')
+    run_count = sgqlc.types.Field(Int, graphql_name='runCount')
+    credits_consumed = sgqlc.types.Field(Float, graphql_name='creditsConsumed')
 
 
 class Query(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('organization_members', 'all_apis', 'thread', 'threads', 'messages', 'plan', 'tasks', 'events', 'active_run', 'artifacts', 'available_system_agents', 'risk_playground_data', 'all_possible_duplicates', 'total_count', 'all_prefills', 'all_self_managed_service_categories', 'all_self_managed_services', 'all_workbooks', 'all_sheet_rows', 'all_sheets', 'list_drafts', 'all_engagements_fields', 'engagement_connectors', 'all_automation_worfklow_activities', 'all_automation_workflows', 'engagement_automation_workflows', 'all_configurations', 'all_patches', 'all_azure_devops_repositories', 'all_package_asset_count', 'all_tickets', 'all_docker_registry_images', 'all_ecr_images', 'all_sla_rules', 'search_query_exist', 'weightage_exist', 'all_presets', 'all_data_retention_settings', 'all_grouped_bugs', 'all_grouped_assets', 'all_asm_settings', 'all_asset_fields', 'all_bug_fields', 'all_vault_attachments', 'all_widgets_v2', 'all_dashboards_v2', 'all_veracode_projects', 'all_logs', 'all_action_logs', 'all_prerequisites', 'all_software_packages', 'all_packages', 'all_bitbucket_repositories', 'all_github_repositories', 'github_repository_branches', 'github_repository_branches_batch', 'all_black_duck_projects', 'all_engagements_comment_activities', 'all_attachments', 'all_assessments', 'all_custom_assessment_statuses', 'all_approvals', 'all_assigned_user_views', 'check_view_name', 'all_report_attachments', 'all_prioritization_rules', 'all_priority_rule_sets', 'all_bug_reports', 'download_report', 'preview_report', 'all_templates', 'list_github_branch_tags', 'list_github_branch_tree', 'default_templates', 'default_asset_summary_report_template', 'default_sast_summary_report_template', 'default_dast_summary_report_template', 'default_executive_summary_report_template', 'default_cloud_security_overview_report_template', 'default_network_security_overview_report_template', 'default_container_security_overview_report_template', 'template_name_exist', 'assets_distribution', 'remediation_summary', 'remediation_trend', 'dashboard_stats', 'scanner_metric_sast', 'scanner_metric_dast', 'scanner_metric_sca', 'scanner_metric_secret_scan', 'scanner_metric_vm_scan', 'scanner_metric_cloud_security', 'scanner_metric_container_security', 'scanner_metric_asm', 'scanner_metric_internal_pentest', 'scanner_metric_external_pentest', 'scanner_metric_bug_bounty', 'finding_analysis', 'sla_violations_summary', 'sla_violations_health_matrix', 'sla_violations_at_risk', 'sla_violations_avg_time', 'integration_status', 'threat_analysis', 'security_gaps', 'scanners_available', 'scanner_config', 'top_vulnerabilities', 'cve_trends', 'security_highlights', 'all_widgets', 'all_assets_bugs_count_widget', 'all_software_packages_assets_bugs_count_widget', 'all_dashboards', 'all_groups', 'get_current_tenant', 'all_engagements', 'all_engagement_activities', 'all_engagements_activities', 'all_engagement_assets', 'all_engagement_bugs', 'all_nist', 'all_owasp', 'all_cve', 'all_cwe', 'pentesters_involved', 'all_tests', 'engagement_compliance_count', 'all_assets', 'asset_relationships_for_asset', 'all_asset_relationships_in_org', 'asset', 'all_bugs', 'close_findings', 'revert_closed_findings')
+    __field_names__ = ('organization_members', 'all_apis', 'skill', 'skills', 'skill_content', 'skill_resources', 'skill_resource_download_url', 'workspace', 'workspaces', 'workspaces_paginated', 'workspace_chats', 'workspace_chats_paginated', 'workspace_tables', 'workspace_table_detail', 'workspace_tasks', 'workspace_background_tasks', 'workspace_stats', 'engagement_workspaces', 'workspace_approvals', 'organization_approvals', 'organization_approval_count', 'workspace_files', 'workspace_file_download_url', 'workspace_download_url', 'workspace_assets', 'workspace_findings', 'assessment_types', 'workflow_templates', 'workspace_workflow', 'workspace_skills', 'workspace_widgets', 'organization_credential_managers', 'agent_schedule', 'agent_schedules', 'agent_actions', 'agent_action', 'thread', 'threads', 'thread_count', 'messages', 'events', 'latest_events', 'active_run', 'thread_runs', 'run_events', 'thread_tasks', 'artifacts', 'thread_tables', 'thread_table_detail', 'thread_approvals', 'thread_interrupts', 'pending_interrupt_count', 'workspace_interrupts', 'organization_interrupts', 'organization_interrupt_count', 'available_llm_models', 'connected_browsers', 'available_guardrails', 'org_guardrail_configs', 'guardrail_violations', 'agent_logs', 'agent_log_detail', 'available_log_agents', 'available_log_event_types', 'agent_logs_export', 'available_system_agents', 'available_agents', 'available_tools', 'agent_details', 'risk_playground_data', 'all_possible_duplicates', 'total_count', 'all_prefills', 'all_self_managed_service_categories', 'all_self_managed_services', 'all_workbooks', 'all_sheet_rows', 'all_sheets', 'list_drafts', 'all_engagements_fields', 'engagement_connectors', 'all_automation_worfklow_activities', 'all_automation_workflows', 'engagement_automation_workflows', 'all_configurations', 'all_patches', 'all_azure_devops_repositories', 'all_package_asset_count', 'all_tickets', 'all_gar_images', 'all_docker_registry_images', 'all_ecr_images', 'all_sla_rules', 'search_query_exist', 'weightage_exist', 'all_presets', 'all_data_retention_settings', 'all_grouped_bugs', 'all_grouped_assets', 'all_asm_settings', 'all_asset_fields', 'all_bug_fields', 'all_vault_attachments', 'ai_suggest_widget_config', 'preview_widget', 'all_widgets_v2', 'all_dashboards_v2', 'ai_refresh_status', 'all_dashboard_exports', 'all_veracode_projects', 'all_logs', 'all_action_logs', 'all_prerequisites', 'all_software_packages', 'all_packages', 'all_bitbucket_repositories', 'all_github_repositories', 'github_repository_branches', 'github_repository_branches_batch', 'all_black_duck_projects', 'all_engagements_comment_activities', 'all_attachments', 'all_assessments', 'all_custom_assessment_statuses', 'all_approvals', 'all_assigned_user_views', 'check_view_name', 'all_report_attachments', 'all_prioritization_rules', 'all_priority_rule_sets', 'all_bug_reports', 'download_report', 'preview_report', 'all_templates', 'list_github_branch_tags', 'list_github_branch_tree', 'default_templates', 'default_asset_summary_report_template', 'default_sast_summary_report_template', 'default_dast_summary_report_template', 'default_executive_summary_report_template', 'default_cloud_security_overview_report_template', 'default_network_security_overview_report_template', 'default_container_security_overview_report_template', 'template_name_exist', 'assets_distribution', 'remediation_summary', 'remediation_trend', 'dashboard_stats', 'scanner_metric_sast', 'scanner_metric_dast', 'scanner_metric_sca', 'scanner_metric_secret_scan', 'scanner_metric_vm_scan', 'scanner_metric_cloud_security', 'scanner_metric_container_security', 'scanner_metric_asm', 'scanner_metric_internal_pentest', 'scanner_metric_external_pentest', 'scanner_metric_bug_bounty', 'finding_analysis', 'sla_violations_summary', 'sla_violations_health_matrix', 'sla_violations_at_risk', 'sla_violations_avg_time', 'integration_status', 'threat_analysis', 'security_gaps', 'scanners_available', 'scanner_config', 'top_vulnerabilities', 'cve_trends', 'security_highlights', 'ai_recommendations', 'all_widgets', 'all_assets_bugs_count_widget', 'all_software_packages_assets_bugs_count_widget', 'all_dashboards', 'all_groups', 'get_current_tenant', 'all_engagements', 'all_engagement_activities', 'all_engagements_activities', 'all_engagement_assets', 'all_engagement_bugs', 'all_nist', 'all_owasp', 'all_cve', 'all_cwe', 'pentesters_involved', 'all_tests', 'engagement_compliance_count', 'all_assets', 'asset_relationships_for_asset', 'all_asset_relationships_in_org', 'asset', 'all_bugs', 'close_findings', 'revert_closed_findings', 'similar_findings')
     organization_members = sgqlc.types.Field(OrganizationMembersPaginatedType, graphql_name='organizationMembers', args=sgqlc.types.ArgDict((
         ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
         ('search_query', sgqlc.types.Arg(String, graphql_name='searchQuery', default=None)),
@@ -4347,6 +5522,179 @@ class Query(sgqlc.types.Type):
         ('before', sgqlc.types.Arg(String, graphql_name='before', default=None)),
 ))
     )
+    skill = sgqlc.types.Field(AgentSkillType, graphql_name='skill', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(UUID, graphql_name='id', default=None)),
+        ('slug', sgqlc.types.Arg(String, graphql_name='slug', default=None)),
+        ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
+))
+    )
+    skills = sgqlc.types.Field(sgqlc.types.list_of(AgentSkillType), graphql_name='skills', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('status', sgqlc.types.Arg(String, graphql_name='status', default=None)),
+        ('skill_type', sgqlc.types.Arg(String, graphql_name='skillType', default=None)),
+        ('include_system', sgqlc.types.Arg(Boolean, graphql_name='includeSystem', default=True)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=50)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=0)),
+))
+    )
+    skill_content = sgqlc.types.Field('SkillContentType', graphql_name='skillContent', args=sgqlc.types.ArgDict((
+        ('skill_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='skillId', default=None)),
+))
+    )
+    skill_resources = sgqlc.types.Field(sgqlc.types.list_of('SkillResourceType'), graphql_name='skillResources', args=sgqlc.types.ArgDict((
+        ('skill_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='skillId', default=None)),
+))
+    )
+    skill_resource_download_url = sgqlc.types.Field(String, graphql_name='skillResourceDownloadUrl', args=sgqlc.types.ArgDict((
+        ('skill_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='skillId', default=None)),
+        ('resource_path', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='resourcePath', default=None)),
+))
+    )
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
+))
+    )
+    workspaces = sgqlc.types.Field(sgqlc.types.list_of(AgentWorkspaceType), graphql_name='workspaces', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('status', sgqlc.types.Arg(String, graphql_name='status', default=None)),
+        ('engagement_id', sgqlc.types.Arg(UUID, graphql_name='engagementId', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+))
+    )
+    workspaces_paginated = sgqlc.types.Field('WorkspaceConnectionType', graphql_name='workspacesPaginated', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('status', sgqlc.types.Arg(String, graphql_name='status', default=None)),
+        ('engagement_id', sgqlc.types.Arg(UUID, graphql_name='engagementId', default=None)),
+        ('search', sgqlc.types.Arg(String, graphql_name='search', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=50)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=0)),
+))
+    )
+    workspace_chats = sgqlc.types.Field(sgqlc.types.list_of('WorkspaceChatType'), graphql_name='workspaceChats', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    workspace_chats_paginated = sgqlc.types.Field('WorkspaceChatConnectionType', graphql_name='workspaceChatsPaginated', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=25)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=0)),
+))
+    )
+    workspace_tables = sgqlc.types.Field(sgqlc.types.list_of('WorkspaceTableType'), graphql_name='workspaceTables', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    workspace_table_detail = sgqlc.types.Field('WorkspaceTableDetailType', graphql_name='workspaceTableDetail', args=sgqlc.types.ArgDict((
+        ('table_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='tableId', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=100)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=0)),
+        ('filters', sgqlc.types.Arg(GenericScalar, graphql_name='filters', default=None)),
+))
+    )
+    workspace_tasks = sgqlc.types.Field(sgqlc.types.list_of('WorkspaceTaskType'), graphql_name='workspaceTasks', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+        ('status', sgqlc.types.Arg(String, graphql_name='status', default=None)),
+))
+    )
+    workspace_background_tasks = sgqlc.types.Field(sgqlc.types.list_of(BackgroundTaskType), graphql_name='workspaceBackgroundTasks', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+        ('status', sgqlc.types.Arg(String, graphql_name='status', default=None)),
+))
+    )
+    workspace_stats = sgqlc.types.Field('WorkspaceStatsType', graphql_name='workspaceStats', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    engagement_workspaces = sgqlc.types.Field(sgqlc.types.list_of(AgentWorkspaceType), graphql_name='engagementWorkspaces', args=sgqlc.types.ArgDict((
+        ('engagement_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='engagementId', default=None)),
+))
+    )
+    workspace_approvals = sgqlc.types.Field(sgqlc.types.list_of(PulseApprovalType), graphql_name='workspaceApprovals', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+        ('state', sgqlc.types.Arg(String, graphql_name='state', default=None)),
+))
+    )
+    organization_approvals = sgqlc.types.Field(sgqlc.types.list_of(PulseApprovalType), graphql_name='organizationApprovals', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('state', sgqlc.types.Arg(String, graphql_name='state', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=100)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=0)),
+))
+    )
+    organization_approval_count = sgqlc.types.Field(Int, graphql_name='organizationApprovalCount', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('state', sgqlc.types.Arg(String, graphql_name='state', default=None)),
+))
+    )
+    workspace_files = sgqlc.types.Field(sgqlc.types.list_of('WorkspaceFileType'), graphql_name='workspaceFiles', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+        ('path', sgqlc.types.Arg(String, graphql_name='path', default='')),
+        ('recursive', sgqlc.types.Arg(Boolean, graphql_name='recursive', default=False)),
+        ('search', sgqlc.types.Arg(String, graphql_name='search', default='')),
+))
+    )
+    workspace_file_download_url = sgqlc.types.Field(String, graphql_name='workspaceFileDownloadUrl', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+        ('path', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='path', default=None)),
+))
+    )
+    workspace_download_url = sgqlc.types.Field(String, graphql_name='workspaceDownloadUrl', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+        ('path', sgqlc.types.Arg(String, graphql_name='path', default='')),
+))
+    )
+    workspace_assets = sgqlc.types.Field(sgqlc.types.list_of('WorkspaceAssetType'), graphql_name='workspaceAssets', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    workspace_findings = sgqlc.types.Field(sgqlc.types.list_of('WorkspaceFindingType'), graphql_name='workspaceFindings', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    assessment_types = sgqlc.types.Field(sgqlc.types.list_of(AssessmentTypeGQL), graphql_name='assessmentTypes')
+    workflow_templates = sgqlc.types.Field(sgqlc.types.list_of('WorkflowTemplateType'), graphql_name='workflowTemplates')
+    workspace_workflow = sgqlc.types.Field('WorkflowInstanceType', graphql_name='workspaceWorkflow', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    workspace_skills = sgqlc.types.Field(sgqlc.types.list_of(AgentSkillType), graphql_name='workspaceSkills', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    workspace_widgets = sgqlc.types.Field(sgqlc.types.list_of('WorkspaceWidgetType'), graphql_name='workspaceWidgets', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+))
+    )
+    organization_credential_managers = sgqlc.types.Field(sgqlc.types.list_of(CredentialManagerListType), graphql_name='organizationCredentialManagers', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
+    agent_schedule = sgqlc.types.Field(AgentScheduleType, graphql_name='agentSchedule', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('schedule_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='scheduleId', default=None)),
+))
+    )
+    agent_schedules = sgqlc.types.Field(sgqlc.types.list_of(AgentScheduleType), graphql_name='agentSchedules', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('workspace_id', sgqlc.types.Arg(UUID, graphql_name='workspaceId', default=None)),
+        ('status', sgqlc.types.Arg(String, graphql_name='status', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+))
+    )
+    agent_actions = sgqlc.types.Field(sgqlc.types.list_of(AgentActionType), graphql_name='agentActions', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('include_system', sgqlc.types.Arg(Boolean, graphql_name='includeSystem', default=True)),
+        ('category', sgqlc.types.Arg(String, graphql_name='category', default=None)),
+))
+    )
+    agent_action = sgqlc.types.Field(AgentActionType, graphql_name='agentAction', args=sgqlc.types.ArgDict((
+        ('id', sgqlc.types.Arg(UUID, graphql_name='id', default=None)),
+        ('slug', sgqlc.types.Arg(String, graphql_name='slug', default=None)),
+        ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
+))
+    )
     thread = sgqlc.types.Field(PulseThreadType, graphql_name='thread', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='id', default=None)),
 ))
@@ -4354,8 +5702,15 @@ class Query(sgqlc.types.Type):
     threads = sgqlc.types.Field(sgqlc.types.list_of('ThreadSummaryType'), graphql_name='threads', args=sgqlc.types.ArgDict((
         ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
         ('archived', sgqlc.types.Arg(Boolean, graphql_name='archived', default=None)),
+        ('search', sgqlc.types.Arg(String, graphql_name='search', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+))
+    )
+    thread_count = sgqlc.types.Field(Int, graphql_name='threadCount', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('archived', sgqlc.types.Arg(Boolean, graphql_name='archived', default=None)),
+        ('search', sgqlc.types.Arg(String, graphql_name='search', default=None)),
 ))
     )
     messages = sgqlc.types.Field(sgqlc.types.list_of(PulseMessageType), graphql_name='messages', args=sgqlc.types.ArgDict((
@@ -4364,17 +5719,15 @@ class Query(sgqlc.types.Type):
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
 ))
     )
-    plan = sgqlc.types.Field(PulsePlanType, graphql_name='plan', args=sgqlc.types.ArgDict((
-        ('thread_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='threadId', default=None)),
-))
-    )
-    tasks = sgqlc.types.Field(sgqlc.types.list_of(PulseTaskType), graphql_name='tasks', args=sgqlc.types.ArgDict((
-        ('thread_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='threadId', default=None)),
-))
-    )
     events = sgqlc.types.Field(sgqlc.types.list_of(EventEnvelopeType), graphql_name='events', args=sgqlc.types.ArgDict((
         ('thread_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='threadId', default=None)),
         ('after_seq', sgqlc.types.Arg(Int, graphql_name='afterSeq', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
+))
+    )
+    latest_events = sgqlc.types.Field(sgqlc.types.list_of(EventEnvelopeType), graphql_name='latestEvents', args=sgqlc.types.ArgDict((
+        ('thread_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='threadId', default=None)),
+        ('before_seq', sgqlc.types.Arg(Int, graphql_name='beforeSeq', default=None)),
         ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
 ))
     )
@@ -4382,11 +5735,137 @@ class Query(sgqlc.types.Type):
         ('thread_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='threadId', default=None)),
 ))
     )
-    artifacts = sgqlc.types.Field(sgqlc.types.list_of(PulseArtifactType), graphql_name='artifacts', args=sgqlc.types.ArgDict((
+    thread_runs = sgqlc.types.Field(sgqlc.types.list_of(PulseRunType), graphql_name='threadRuns', args=sgqlc.types.ArgDict((
+        ('thread_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='threadId', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+))
+    )
+    run_events = sgqlc.types.Field(sgqlc.types.list_of(EventEnvelopeType), graphql_name='runEvents', args=sgqlc.types.ArgDict((
+        ('run_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='runId', default=None)),
+        ('after_seq', sgqlc.types.Arg(Int, graphql_name='afterSeq', default=None)),
+        ('before_seq', sgqlc.types.Arg(Int, graphql_name='beforeSeq', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=None)),
+        ('event_types', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='eventTypes', default=None)),
+        ('task_id', sgqlc.types.Arg(String, graphql_name='taskId', default=None)),
+))
+    )
+    thread_tasks = sgqlc.types.Field(sgqlc.types.list_of(GenericScalar), graphql_name='threadTasks', args=sgqlc.types.ArgDict((
         ('thread_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='threadId', default=None)),
 ))
     )
+    artifacts = sgqlc.types.Field(sgqlc.types.list_of(ArtifactFileType), graphql_name='artifacts', args=sgqlc.types.ArgDict((
+        ('thread_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='threadId', default=None)),
+        ('recursive', sgqlc.types.Arg(Boolean, graphql_name='recursive', default=True)),
+))
+    )
+    thread_tables = sgqlc.types.Field(sgqlc.types.list_of('WorkspaceTableType'), graphql_name='threadTables', args=sgqlc.types.ArgDict((
+        ('thread_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='threadId', default=None)),
+))
+    )
+    thread_table_detail = sgqlc.types.Field('WorkspaceTableDetailType', graphql_name='threadTableDetail', args=sgqlc.types.ArgDict((
+        ('table_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='tableId', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=100)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=0)),
+        ('filters', sgqlc.types.Arg(GenericScalar, graphql_name='filters', default=None)),
+))
+    )
+    thread_approvals = sgqlc.types.Field(sgqlc.types.list_of(PulseApprovalType), graphql_name='threadApprovals', args=sgqlc.types.ArgDict((
+        ('thread_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='threadId', default=None)),
+        ('state', sgqlc.types.Arg(String, graphql_name='state', default=None)),
+))
+    )
+    thread_interrupts = sgqlc.types.Field(sgqlc.types.list_of(PulseInterruptType), graphql_name='threadInterrupts', args=sgqlc.types.ArgDict((
+        ('thread_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='threadId', default=None)),
+        ('state', sgqlc.types.Arg(String, graphql_name='state', default=None)),
+))
+    )
+    pending_interrupt_count = sgqlc.types.Field(Int, graphql_name='pendingInterruptCount', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('workspace_id', sgqlc.types.Arg(UUID, graphql_name='workspaceId', default=None)),
+))
+    )
+    workspace_interrupts = sgqlc.types.Field(sgqlc.types.list_of(PulseInterruptType), graphql_name='workspaceInterrupts', args=sgqlc.types.ArgDict((
+        ('workspace_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='workspaceId', default=None)),
+        ('state', sgqlc.types.Arg(String, graphql_name='state', default=None)),
+))
+    )
+    organization_interrupts = sgqlc.types.Field(sgqlc.types.list_of(PulseInterruptType), graphql_name='organizationInterrupts', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('state', sgqlc.types.Arg(String, graphql_name='state', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=50)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=0)),
+))
+    )
+    organization_interrupt_count = sgqlc.types.Field(Int, graphql_name='organizationInterruptCount', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('state', sgqlc.types.Arg(String, graphql_name='state', default=None)),
+))
+    )
+    available_llm_models = sgqlc.types.Field(sgqlc.types.list_of(Int), graphql_name='availableLlmModels', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
+    connected_browsers = sgqlc.types.Field(GenericScalar, graphql_name='connectedBrowsers', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
+    available_guardrails = sgqlc.types.Field(sgqlc.types.list_of(GuardrailDefinitionType), graphql_name='availableGuardrails', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
+    org_guardrail_configs = sgqlc.types.Field(sgqlc.types.list_of(GuardrailConfigType), graphql_name='orgGuardrailConfigs', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
+    guardrail_violations = sgqlc.types.Field(sgqlc.types.list_of(GuardrailViolationType), graphql_name='guardrailViolations', args=sgqlc.types.ArgDict((
+        ('thread_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='threadId', default=None)),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=50)),
+))
+    )
+    agent_logs = sgqlc.types.Field(AgentLogsPaginatedType, graphql_name='agentLogs', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('filters', sgqlc.types.Arg(AgentLogFilterInput, graphql_name='filters', default=None)),
+        ('order_by', sgqlc.types.Arg(String, graphql_name='orderBy', default='-created_at')),
+        ('limit', sgqlc.types.Arg(Int, graphql_name='limit', default=50)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=0)),
+))
+    )
+    agent_log_detail = sgqlc.types.Field(AgentLogEntryType, graphql_name='agentLogDetail', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('event_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='eventId', default=None)),
+))
+    )
+    available_log_agents = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='availableLogAgents', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
+    available_log_event_types = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='availableLogEventTypes', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
+    agent_logs_export = sgqlc.types.Field(String, graphql_name='agentLogsExport', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('filters', sgqlc.types.Arg(AgentLogFilterInput, graphql_name='filters', default=None)),
+        ('format', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='format', default=None)),
+))
+    )
     available_system_agents = sgqlc.types.Field(sgqlc.types.list_of('SystemAgentInfo'), graphql_name='availableSystemAgents')
+    available_agents = sgqlc.types.Field(sgqlc.types.list_of(PulseAgentInfo), graphql_name='availableAgents', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
+    available_tools = sgqlc.types.Field(sgqlc.types.list_of('ToolInfoType'), graphql_name='availableTools', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('category', sgqlc.types.Arg(String, graphql_name='category', default=None)),
+        ('search', sgqlc.types.Arg(String, graphql_name='search', default=None)),
+))
+    )
+    agent_details = sgqlc.types.Field(PulseAgentDetailInfo, graphql_name='agentDetails', args=sgqlc.types.ArgDict((
+        ('agent_id', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='agentId', default=None)),
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
     risk_playground_data = sgqlc.types.Field(sgqlc.types.list_of('RiskPlaygroundAssetGroup'), graphql_name='riskPlaygroundData', args=sgqlc.types.ArgDict((
         ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
         ('asset_grouping', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(GroupingCriterionInput)), graphql_name='assetGrouping', default=None)),
@@ -4529,6 +6008,15 @@ class Query(sgqlc.types.Type):
         ('page_size', sgqlc.types.Arg(Int, graphql_name='pageSize', default=None)),
 ))
     )
+    all_gar_images = sgqlc.types.Field(GARImagesTypePaginatedType, graphql_name='allGarImages', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
+        ('cm_id', sgqlc.types.Arg(Int, graphql_name='cmId', default=None)),
+        ('location', sgqlc.types.Arg(String, graphql_name='location', default=None)),
+        ('image_name', sgqlc.types.Arg(String, graphql_name='imageName', default=None)),
+        ('page', sgqlc.types.Arg(Int, graphql_name='page', default=None)),
+        ('page_size', sgqlc.types.Arg(Int, graphql_name='pageSize', default=None)),
+))
+    )
     all_docker_registry_images = sgqlc.types.Field(DockerRegistryTypePaginatedType, graphql_name='allDockerRegistryImages', args=sgqlc.types.ArgDict((
         ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
         ('cm_id', sgqlc.types.Arg(Int, graphql_name='cmId', default=None)),
@@ -4618,6 +6106,32 @@ class Query(sgqlc.types.Type):
         ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='orderBy', default=None)),
 ))
     )
+    ai_suggest_widget_config = sgqlc.types.Field(GenericScalar, graphql_name='aiSuggestWidgetConfig', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('prompt', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='prompt', default=None)),
+))
+    )
+    preview_widget = sgqlc.types.Field(GenericScalar, graphql_name='previewWidget', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('chart_type', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='chartType', default=None)),
+        ('module', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='module', default=None)),
+        ('function', sgqlc.types.Arg(String, graphql_name='function', default=None)),
+        ('aggregate_field', sgqlc.types.Arg(String, graphql_name='aggregateField', default=None)),
+        ('group_by_field', sgqlc.types.Arg(String, graphql_name='groupByField', default=None)),
+        ('pivot_by_field', sgqlc.types.Arg(String, graphql_name='pivotByField', default=None)),
+        ('timeseries_field', sgqlc.types.Arg(String, graphql_name='timeseriesField', default=None)),
+        ('time_group', sgqlc.types.Arg(String, graphql_name='timeGroup', default=None)),
+        ('asset_search_query', sgqlc.types.Arg(String, graphql_name='assetSearchQuery', default=None)),
+        ('bug_search_query', sgqlc.types.Arg(String, graphql_name='bugSearchQuery', default=None)),
+        ('engagement_search_query', sgqlc.types.Arg(String, graphql_name='engagementSearchQuery', default=None)),
+        ('asset_view_id', sgqlc.types.Arg(Int, graphql_name='assetViewId', default=None)),
+        ('bug_view_id', sgqlc.types.Arg(Int, graphql_name='bugViewId', default=None)),
+        ('filter_field_name', sgqlc.types.Arg(String, graphql_name='filterFieldName', default=None)),
+        ('prefix', sgqlc.types.Arg(String, graphql_name='prefix', default=None)),
+        ('suffix', sgqlc.types.Arg(String, graphql_name='suffix', default=None)),
+        ('default_widget_slug', sgqlc.types.Arg(String, graphql_name='defaultWidgetSlug', default=None)),
+))
+    )
     all_widgets_v2 = sgqlc.types.Field('WidgetsV2Type', graphql_name='allWidgetsV2', args=sgqlc.types.ArgDict((
         ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
         ('search_query', sgqlc.types.Arg(String, graphql_name='searchQuery', default=None)),
@@ -4639,6 +6153,17 @@ class Query(sgqlc.types.Type):
         ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
         ('search_query', sgqlc.types.Arg(String, graphql_name='searchQuery', default=None)),
         ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='orderBy', default=None)),
+        ('page', sgqlc.types.Arg(Int, graphql_name='page', default=None)),
+        ('page_size', sgqlc.types.Arg(Int, graphql_name='pageSize', default=None)),
+))
+    )
+    ai_refresh_status = sgqlc.types.Field(AIRefreshStatusType, graphql_name='aiRefreshStatus', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
+    all_dashboard_exports = sgqlc.types.Field(DashboardExportPaginatedType, graphql_name='allDashboardExports', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('search_query', sgqlc.types.Arg(String, graphql_name='searchQuery', default=None)),
         ('page', sgqlc.types.Arg(Int, graphql_name='page', default=None)),
         ('page_size', sgqlc.types.Arg(Int, graphql_name='pageSize', default=None)),
 ))
@@ -4702,6 +6227,7 @@ class Query(sgqlc.types.Type):
         ('repo_name', sgqlc.types.Arg(String, graphql_name='repoName', default=None)),
         ('page', sgqlc.types.Arg(Int, graphql_name='page', default=None)),
         ('page_size', sgqlc.types.Arg(Int, graphql_name='pageSize', default=None)),
+        ('refresh', sgqlc.types.Arg(Boolean, graphql_name='refresh', default=None)),
 ))
     )
     all_github_repositories = sgqlc.types.Field(GithubRepositoriesTypePaginatedType, graphql_name='allGithubRepositories', args=sgqlc.types.ArgDict((
@@ -4995,6 +6521,10 @@ class Query(sgqlc.types.Type):
         ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
 ))
     )
+    ai_recommendations = sgqlc.types.Field(AIRecommendationsType, graphql_name='aiRecommendations', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+))
+    )
     all_widgets = sgqlc.types.Field('WidgetType', graphql_name='allWidgets', args=sgqlc.types.ArgDict((
         ('organization_id', sgqlc.types.Arg(UUID, graphql_name='organizationId', default=None)),
         ('widgets', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='widgets', default=None)),
@@ -5219,6 +6749,24 @@ class Query(sgqlc.types.Type):
         ('close_task_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='closeTaskId', default=None)),
 ))
     )
+    similar_findings = sgqlc.types.Field('SimilarFindingsResultType', graphql_name='similarFindings', args=sgqlc.types.ArgDict((
+        ('organization_id', sgqlc.types.Arg(sgqlc.types.non_null(UUID), graphql_name='organizationId', default=None)),
+        ('title', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='title', default=None)),
+        ('bug_level', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='bugLevel', default=None)),
+        ('bug_description', sgqlc.types.Arg(String, graphql_name='bugDescription', default=None)),
+        ('affected_endpoints', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='affectedEndpoints', default=None)),
+        ('file_name', sgqlc.types.Arg(String, graphql_name='fileName', default=None)),
+        ('start_line_number', sgqlc.types.Arg(String, graphql_name='startLineNumber', default=None)),
+        ('package_name', sgqlc.types.Arg(String, graphql_name='packageName', default=None)),
+        ('installed_version', sgqlc.types.Arg(String, graphql_name='installedVersion', default=None)),
+        ('port_number', sgqlc.types.Arg(Int, graphql_name='portNumber', default=None)),
+        ('aws_resource_id', sgqlc.types.Arg(String, graphql_name='awsResourceId', default=None)),
+        ('azure_resource', sgqlc.types.Arg(String, graphql_name='azureResource', default=None)),
+        ('gcp_project_id', sgqlc.types.Arg(String, graphql_name='gcpProjectId', default=None)),
+        ('asset_id', sgqlc.types.Arg(Int, graphql_name='assetId', default=None)),
+        ('page_size', sgqlc.types.Arg(Int, graphql_name='pageSize', default=None)),
+))
+    )
 
 
 class ReferenceType(sgqlc.types.Type):
@@ -5231,12 +6779,33 @@ class ReferenceType(sgqlc.types.Type):
     bug_references = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TestsType'))), graphql_name='bugReferences')
 
 
+class RefreshAIDashboardMutation(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success', 'remaining_refreshes', 'message')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+    remaining_refreshes = sgqlc.types.Field(Int, graphql_name='remainingRefreshes')
+    message = sgqlc.types.Field(String, graphql_name='message')
+
+
+class RegenerateWorkspaceWidget(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('widget',)
+    widget = sgqlc.types.Field('WorkspaceWidgetType', graphql_name='widget')
+
+
 class RegionType(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('code', 'label', 'count')
     code = sgqlc.types.Field(String, graphql_name='code')
     label = sgqlc.types.Field(String, graphql_name='label')
     count = sgqlc.types.Field(Int, graphql_name='count')
+
+
+class RejectAction(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success', 'approval')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+    approval = sgqlc.types.Field(PulseApprovalType, graphql_name='approval')
 
 
 class RemediationSummaryType(sgqlc.types.Type):
@@ -5256,6 +6825,25 @@ class RemediationTrendType(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('trend_data',)
     trend_data = sgqlc.types.Field(sgqlc.types.list_of('TrendDataPointType'), graphql_name='trendData')
+
+
+class RemoveWorkspaceCredential(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspace',)
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
+
+
+class RemoveWorkspaceSkills(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspace', 'removed_count')
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
+    removed_count = sgqlc.types.Field(Int, graphql_name='removedCount')
+
+
+class ReorderWorkspaceWidgets(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success',)
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
 
 
 class ReportAttachmentPaginatedType(sgqlc.types.Type):
@@ -5297,7 +6885,7 @@ class ReportPaginatedType(sgqlc.types.Type):
 
 class ReportType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'export_id', 'user', 'report_type', 'scan', 'report_name', 'report_path', 'file', 'created', 'status', 'bug_ids', 'asset_ids', 'organization', 'engagement', 'template', 'template_custom_data', 'exported_app', 'html_report', 'revised_from', 'original_report', 'self_revised_from', 'self_original_report', 'automationworkflows_set', 'has_password')
+    __field_names__ = ('id', 'export_id', 'user', 'report_type', 'scan', 'report_name', 'report_path', 'file', 'created', 'status', 'bug_ids', 'asset_ids', 'organization', 'engagement', 'template', 'template_custom_data', 'export_options', 'dashboard_id', 'expires_at', 'exported_app', 'html_report', 'revised_from', 'original_report', 'self_revised_from', 'self_original_report', 'automationworkflows_set', 'has_password')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     export_id = sgqlc.types.Field(UUID, graphql_name='exportId')
     user = sgqlc.types.Field(ApprovalUserType, graphql_name='user')
@@ -5314,6 +6902,9 @@ class ReportType(sgqlc.types.Type):
     engagement = sgqlc.types.Field(EngagementType, graphql_name='engagement')
     template = sgqlc.types.Field('TemplateType', graphql_name='template')
     template_custom_data = sgqlc.types.Field(GenericScalar, graphql_name='templateCustomData')
+    export_options = sgqlc.types.Field(JSONString, graphql_name='exportOptions')
+    dashboard_id = sgqlc.types.Field(Int, graphql_name='dashboardId')
+    expires_at = sgqlc.types.Field(DateTime, graphql_name='expiresAt')
     exported_app = sgqlc.types.Field(String, graphql_name='exportedApp')
     html_report = sgqlc.types.Field(String, graphql_name='htmlReport')
     revised_from = sgqlc.types.Field('ReportType', graphql_name='revisedFrom')
@@ -5324,10 +6915,81 @@ class ReportType(sgqlc.types.Type):
     has_password = sgqlc.types.Field(Boolean, graphql_name='hasPassword')
 
 
+class RequestDashboardExportMutation(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('export_id', 'status')
+    export_id = sgqlc.types.Field(String, graphql_name='exportId')
+    status = sgqlc.types.Field(String, graphql_name='status')
+
+
+class RequiredCredentialType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('key', 'display_name', 'agent_id', 'agent_name', 'ui_event_type', 'context_key')
+    key = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='key')
+    display_name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='displayName')
+    agent_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='agentId')
+    agent_name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='agentName')
+    ui_event_type = sgqlc.types.Field(String, graphql_name='uiEventType')
+    context_key = sgqlc.types.Field(String, graphql_name='contextKey')
+
+
+class ResetupWorkspace(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspace', 'setup_thread')
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
+    setup_thread = sgqlc.types.Field(PulseThreadType, graphql_name='setupThread')
+
+
+class RespondToInterrupt(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success', 'interrupt')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+    interrupt = sgqlc.types.Field(PulseInterruptType, graphql_name='interrupt')
+
+
+class RestartWorkflow(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success',)
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+
+
+class RestartWorkflowFromPhase(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success',)
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+
+
 class RestoreDefaultPriortizationRuleMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('rules',)
     rules = sgqlc.types.Field(PrioritizationType, graphql_name='rules')
+
+
+class ResumeAgentSchedule(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('schedule', 'success')
+    schedule = sgqlc.types.Field(AgentScheduleType, graphql_name='schedule')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+
+
+class ResumeWorkflow(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success',)
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+
+
+class RetryRun(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success', 'run')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+    run = sgqlc.types.Field(PulseRunType, graphql_name='run')
+
+
+class RetryWorkspaceTask(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success', 'task')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+    task = sgqlc.types.Field('WorkspaceTaskType', graphql_name='task')
 
 
 class RevertBulkUpdateActionMutation(sgqlc.types.Type):
@@ -5430,6 +7092,18 @@ class ScanLogPaginatedType(sgqlc.types.Type):
     has_next = sgqlc.types.Field(Boolean, graphql_name='hasNext')
     has_prev = sgqlc.types.Field(Boolean, graphql_name='hasPrev')
     objects = sgqlc.types.Field(sgqlc.types.list_of(AllScanLogType), graphql_name='objects')
+
+
+class ScanLogType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'task_id', 'config', 'finished', 'created_by', 'connector_name', 'connector_slug')
+    id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
+    task_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='taskId')
+    config = sgqlc.types.Field(String, graphql_name='config')
+    finished = sgqlc.types.Field(DateTime, graphql_name='finished')
+    created_by = sgqlc.types.Field(ApprovalUserType, graphql_name='createdBy')
+    connector_name = sgqlc.types.Field(String, graphql_name='connectorName')
+    connector_slug = sgqlc.types.Field(String, graphql_name='connectorSlug')
 
 
 class ScanType(sgqlc.types.Type):
@@ -5627,7 +7301,7 @@ class SheetRowDeleteMutation(sgqlc.types.Type):
 
 class SheetRowPaginatedType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('page', 'total_pages', 'page_size', 'total_count', 'has_next', 'has_prev', 'objects')
+    __field_names__ = ('page', 'total_pages', 'page_size', 'total_count', 'has_next', 'has_prev', 'objects', 'processing_status', 'updated')
     page = sgqlc.types.Field(Int, graphql_name='page')
     total_pages = sgqlc.types.Field(Int, graphql_name='totalPages')
     page_size = sgqlc.types.Field(Int, graphql_name='pageSize')
@@ -5635,6 +7309,8 @@ class SheetRowPaginatedType(sgqlc.types.Type):
     has_next = sgqlc.types.Field(Boolean, graphql_name='hasNext')
     has_prev = sgqlc.types.Field(Boolean, graphql_name='hasPrev')
     objects = sgqlc.types.Field(sgqlc.types.list_of('SheetRowType'), graphql_name='objects')
+    processing_status = sgqlc.types.Field(String, graphql_name='processingStatus')
+    updated = sgqlc.types.Field(DateTime, graphql_name='updated')
 
 
 class SheetRowType(sgqlc.types.Type):
@@ -5655,7 +7331,7 @@ class SheetRowUpdateMutation(sgqlc.types.Type):
 
 class SheetType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'state', 'organization', 'created_by', 'created', 'updated', 'workbook', 'rows')
+    __field_names__ = ('id', 'name', 'state', 'organization', 'created_by', 'created', 'updated', 'workbook', 'processing_status', 'rows')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     state = sgqlc.types.Field(JSONString, graphql_name='state')
@@ -5664,6 +7340,7 @@ class SheetType(sgqlc.types.Type):
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
     updated = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='updated')
     workbook = sgqlc.types.Field(sgqlc.types.non_null('WorkBookType'), graphql_name='workbook')
+    processing_status = sgqlc.types.Field(AppSheetProcessingStatusChoices, graphql_name='processingStatus')
     rows = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(SheetRowType))), graphql_name='rows')
 
 
@@ -5679,6 +7356,59 @@ class ShowReportPasswordMutation(sgqlc.types.Type):
     success = sgqlc.types.Field(Boolean, graphql_name='success')
     password = sgqlc.types.Field(String, graphql_name='password')
     message = sgqlc.types.Field(String, graphql_name='message')
+
+
+class SimilarFindingType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'title', 'severity', 'state', 'bug_level', 'match_reason', 'similarity_score', 'endpoint', 'asset', 'engagements', 'connector')
+    id = sgqlc.types.Field(Int, graphql_name='id')
+    title = sgqlc.types.Field(String, graphql_name='title')
+    severity = sgqlc.types.Field(Int, graphql_name='severity')
+    state = sgqlc.types.Field(Int, graphql_name='state')
+    bug_level = sgqlc.types.Field(Int, graphql_name='bugLevel')
+    match_reason = sgqlc.types.Field(String, graphql_name='matchReason')
+    similarity_score = sgqlc.types.Field(Float, graphql_name='similarityScore')
+    endpoint = sgqlc.types.Field(String, graphql_name='endpoint')
+    asset = sgqlc.types.Field(AssetType, graphql_name='asset')
+    engagements = sgqlc.types.Field(sgqlc.types.list_of(EngagementType), graphql_name='engagements')
+    connector = sgqlc.types.Field(ConnectorType, graphql_name='connector')
+
+
+class SimilarFindingsResultType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('objects', 'total_count')
+    objects = sgqlc.types.Field(sgqlc.types.list_of(SimilarFindingType), graphql_name='objects')
+    total_count = sgqlc.types.Field(Int, graphql_name='totalCount')
+
+
+class SkillContentType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('name', 'description', 'agents', 'instructions', 'raw_content', 'checksum', 'version')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    agents = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='agents')
+    instructions = sgqlc.types.Field(String, graphql_name='instructions')
+    raw_content = sgqlc.types.Field(String, graphql_name='rawContent')
+    checksum = sgqlc.types.Field(String, graphql_name='checksum')
+    version = sgqlc.types.Field(String, graphql_name='version')
+
+
+class SkillResourceType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('name', 'path', 'resource_type', 'size', 'last_modified', 'content_type')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    path = sgqlc.types.Field(String, graphql_name='path')
+    resource_type = sgqlc.types.Field(String, graphql_name='resourceType')
+    size = sgqlc.types.Field(Int, graphql_name='size')
+    last_modified = sgqlc.types.Field(DateTime, graphql_name='lastModified')
+    content_type = sgqlc.types.Field(String, graphql_name='contentType')
+
+
+class SkipWorkspaceSetup(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspace', 'success')
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
 
 
 class SoftwarePackagePaginatedType(sgqlc.types.Type):
@@ -5836,7 +7566,7 @@ class TeamType(sgqlc.types.Type):
     configuration_team = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(ConfigurationsFieldType))), graphql_name='configurationTeam')
     team = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('TestsType'))), graphql_name='team')
     activity_team = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(EngagementActivityType))), graphql_name='activityTeam')
-    comments_team = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(EngagementCommentType))), graphql_name='commentsTeam')
+    comments_team = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(CommentType))), graphql_name='commentsTeam')
 
 
 class TechnologyTagType(sgqlc.types.Type):
@@ -5886,7 +7616,7 @@ class TemplateType(sgqlc.types.Type):
 
 class TenantOrganizationType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('schema_name', 'id', 'name', 'is_primary', 'is_base_schema', 'industry', 'referer', 'members', 'image', 'employee_size', 'purpose_of_use', 'strobes_customer', 'account_details', 'billing_address', 'revenue', 'country', 'datacenter', 'managed_by', 'is_certin_required', 'created', 'updated', 'tenant_organization', 'organizationmember_set', 'asset_set', 'group_set', 'servicelevelagreementcustomrules_set', 'team_set', 'prioritizationrules_set', 'priorityruleset_set', 'port_set', 'subscribed_org', 'engagements_set', 'engagementsfield_set', 'softwarepackages_set', 'api_set', 'vault_set', 'prerequisites_organization', 'assetfield_set', 'dataretentionsettings_set', 'workbook_set', 'sheet_set', 'selfmanagedservicecategory_set', 'selfmanagedservice_set', 'prefills_set', 'customassessmentstatus_set', 'configuration_organization', 'export_org', 'report_attachment_org', 'tracking_rules_organization', 'credential_manager_org', 'bottask_organization', 'preset_organization', 'organization', 'agent_document_organization', 'bug_set', 'trackers_set', 'filterviews_set', 'reporttemplates_set', 'bugfield_set', 'patch_set', 'draft_set', 'allpossibleduplicates_set', 'pulse_threads', 'dashboards_set', 'widget_set', 'dashboardtags_set', 'asset_relationships', 'domain', 'is_verified')
+    __field_names__ = ('schema_name', 'id', 'name', 'is_primary', 'is_base_schema', 'industry', 'referer', 'members', 'image', 'employee_size', 'purpose_of_use', 'strobes_customer', 'account_details', 'billing_address', 'revenue', 'country', 'datacenter', 'managed_by', 'is_certin_required', 'created', 'updated', 'tenant_organization', 'organizationmember_set', 'asset_set', 'group_set', 'servicelevelagreementcustomrules_set', 'team_set', 'prioritizationrules_set', 'priorityruleset_set', 'port_set', 'subscribed_org', 'engagements_set', 'engagementsfield_set', 'softwarepackages_set', 'api_set', 'vault_set', 'prerequisites_organization', 'assetfield_set', 'dataretentionsettings_set', 'workbook_set', 'sheet_set', 'selfmanagedservicecategory_set', 'selfmanagedservice_set', 'prefills_set', 'customassessmentstatus_set', 'configuration_organization', 'export_org', 'report_attachment_org', 'tracking_rules_organization', 'credential_manager_org', 'bottask_organization', 'preset_organization', 'organization', 'agent_document_organization', 'bug_set', 'trackers_set', 'filterviews_set', 'reporttemplates_set', 'bugfield_set', 'patch_set', 'draft_set', 'allpossibleduplicates_set', 'pulse_threads', 'agent_schedules', 'workspaces', 'dashboards_set', 'widget_set', 'dashboardtags_set', 'asset_relationships', 'domain', 'is_verified')
     schema_name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='schemaName')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
@@ -5950,6 +7680,8 @@ class TenantOrganizationType(sgqlc.types.Type):
     draft_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(DraftType))), graphql_name='draftSet')
     allpossibleduplicates_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AllPossibleDuplicatesType))), graphql_name='allpossibleduplicatesSet')
     pulse_threads = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(PulseThreadType))), graphql_name='pulseThreads')
+    agent_schedules = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AgentScheduleType))), graphql_name='agentSchedules')
+    workspaces = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AgentWorkspaceType))), graphql_name='workspaces')
     dashboards_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(DashboardType))), graphql_name='dashboardsSet')
     widget_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('WidgetV2Type'))), graphql_name='widgetSet')
     dashboardtags_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(DashboardsTagType))), graphql_name='dashboardtagsSet')
@@ -6009,7 +7741,7 @@ class TestsType(sgqlc.types.Type):
 
 class ThreadSummaryType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'title', 'mode', 'status', 'participant_count', 'participants', 'message_count', 'last_message', 'created_at', 'updated_at')
+    __field_names__ = ('id', 'title', 'mode', 'status', 'participant_count', 'participants', 'message_count', 'last_message', 'user_name', 'created_at', 'updated_at')
     id = sgqlc.types.Field(String, graphql_name='id')
     title = sgqlc.types.Field(String, graphql_name='title')
     mode = sgqlc.types.Field(String, graphql_name='mode')
@@ -6018,6 +7750,7 @@ class ThreadSummaryType(sgqlc.types.Type):
     participants = sgqlc.types.Field(sgqlc.types.list_of(ParticipantSummaryType), graphql_name='participants')
     message_count = sgqlc.types.Field(Int, graphql_name='messageCount')
     last_message = sgqlc.types.Field(String, graphql_name='lastMessage')
+    user_name = sgqlc.types.Field(String, graphql_name='userName')
     created_at = sgqlc.types.Field(DateTime, graphql_name='createdAt')
     updated_at = sgqlc.types.Field(DateTime, graphql_name='updatedAt')
 
@@ -6062,6 +7795,19 @@ class TicketsPaginatedType(sgqlc.types.Type):
     has_next = sgqlc.types.Field(Boolean, graphql_name='hasNext')
     has_prev = sgqlc.types.Field(Boolean, graphql_name='hasPrev')
     objects = sgqlc.types.Field(sgqlc.types.list_of(TicketType), graphql_name='objects')
+
+
+class ToolInfoType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'label', 'description', 'category', 'icon', 'requires_approval', 'capabilities')
+    id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='id')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    label = sgqlc.types.Field(String, graphql_name='label')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    category = sgqlc.types.Field(String, graphql_name='category')
+    icon = sgqlc.types.Field(String, graphql_name='icon')
+    requires_approval = sgqlc.types.Field(Boolean, graphql_name='requiresApproval')
+    capabilities = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='capabilities')
 
 
 class TopVulnerabilitiesType(sgqlc.types.Type):
@@ -6124,16 +7870,42 @@ class TrendDataPointType(sgqlc.types.Type):
     group = sgqlc.types.Field(String, graphql_name='group')
 
 
+class TrendPointType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('date', 'count')
+    date = sgqlc.types.Field(String, graphql_name='date')
+    count = sgqlc.types.Field(Float, graphql_name='count')
+
+
+class TriggerAgentScheduleNow(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('success', 'message')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
+    message = sgqlc.types.Field(String, graphql_name='message')
+
+
 class TriggerAutomationWorkflowMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('automation_workflow',)
     automation_workflow = sgqlc.types.Field(AutomationWorkflowType, graphql_name='automationWorkflow')
 
 
+class UnlinkWorkspaceFromEngagement(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspace',)
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
+
+
 class UpdateASMSettingsMutations(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('settings',)
     settings = sgqlc.types.Field(ASMSettingsType, graphql_name='settings')
+
+
+class UpdateAgentSchedule(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('schedule',)
+    schedule = sgqlc.types.Field(AgentScheduleType, graphql_name='schedule')
 
 
 class UpdateAssessmentMutation(sgqlc.types.Type):
@@ -6186,6 +7958,12 @@ class UpdateCustomAssessmentStatusMutation(sgqlc.types.Type):
     custom_assessment_status = sgqlc.types.Field(CustomAssessmentStatusType, graphql_name='customAssessmentStatus')
 
 
+class UpdateCustomCredential(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspace',)
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
+
+
 class UpdateDashboardMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('dashboard',)
@@ -6214,6 +7992,13 @@ class UpdateGroupMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('groups',)
     groups = sgqlc.types.Field(sgqlc.types.list_of(GroupsType), graphql_name='groups')
+
+
+class UpdateOrgGuardrailConfig(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('config', 'success')
+    config = sgqlc.types.Field(GuardrailConfigType, graphql_name='config')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
 
 
 class UpdatePresetsMutation(sgqlc.types.Type):
@@ -6265,6 +8050,12 @@ class UpdateSelfManagedServiceMutation(sgqlc.types.Type):
     service = sgqlc.types.Field(SelfManagedServiceType, graphql_name='service')
 
 
+class UpdateSkill(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('skill',)
+    skill = sgqlc.types.Field(AgentSkillType, graphql_name='skill')
+
+
 class UpdateTemplateMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('templates',)
@@ -6275,6 +8066,31 @@ class UpdateWidgetMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('widgets',)
     widgets = sgqlc.types.Field(sgqlc.types.list_of('WidgetV2Type'), graphql_name='widgets')
+
+
+class UpdateWorkspace(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspace',)
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
+
+
+class UpdateWorkspaceCredentials(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspace',)
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
+
+
+class UpdateWorkspaceWidget(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('widget',)
+    widget = sgqlc.types.Field('WorkspaceWidgetType', graphql_name='widget')
+
+
+class UploadWorkspaceFile(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('file', 'success')
+    file = sgqlc.types.Field('WorkspaceFileType', graphql_name='file')
+    success = sgqlc.types.Field(Boolean, graphql_name='success')
 
 
 class UserPaginatedType(sgqlc.types.Type):
@@ -6291,7 +8107,7 @@ class UserPaginatedType(sgqlc.types.Type):
 
 class UserType(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('password', 'is_superuser', 'id', 'email', 'first_name', 'last_name', 'created', 'updated', 'is_superadmin', 'is_staff', 'is_ai_agent', 'is_active', 'activation_id', 'bio', 'profile_picture', 'cover_heading', 'linkedin_url', 'twitter_url', 'designation', 'phone_number', 'last_login', 'username', 'org_members', 'organizationmember_set', 'asset_set', 'group_set', 'created_priority_rule_sets', 'engagements_set', 'engagement_assignees', 'assessment_asset_assigned_to', 'vault_set', 'prerequisites_assigned_to', 'prerequisites_user', 'workbook_set', 'sheet_set', 'sheetrow_set', 'prefills_set', 'configurations_set', 'scanlog_set', 'exportreport_set', 'reportattachment_set', 'credentialmanager_set', 'bottask_set', 'automationworkflows_set', 'agentdocument_set', 'assigned_to', 'reported_by', 'attachment_set', 'activity_set', 'comment_set', 'filterviews_set', 'views_members', 'reporttemplates_set', 'draft_set', 'pulse_threads', 'dashboards_set', 'widget_set', 'created_asset_relationships')
+    __field_names__ = ('password', 'is_superuser', 'id', 'email', 'first_name', 'last_name', 'created', 'updated', 'is_superadmin', 'is_staff', 'is_ai_agent', 'is_active', 'activation_id', 'bio', 'profile_picture', 'cover_heading', 'linkedin_url', 'twitter_url', 'designation', 'phone_number', 'last_login', 'username', 'org_members', 'organizationmember_set', 'asset_set', 'group_set', 'created_priority_rule_sets', 'engagements_set', 'engagement_assignees', 'assessment_asset_assigned_to', 'vault_set', 'prerequisites_assigned_to', 'prerequisites_user', 'workbook_set', 'sheet_set', 'sheetrow_set', 'prefills_set', 'configurations_set', 'scanlog_set', 'exportreport_set', 'reportattachment_set', 'credentialmanager_set', 'bottask_set', 'automationworkflows_set', 'agentdocument_set', 'assigned_to', 'reported_by', 'attachment_set', 'activity_set', 'comment_set', 'filterviews_set', 'views_members', 'reporttemplates_set', 'draft_set', 'pulse_threads', 'created_agent_schedules', 'created_workspaces', 'created_workspace_tasks', 'dashboards_set', 'widget_set', 'created_asset_relationships')
     password = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='password')
     is_superuser = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isSuperuser')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
@@ -6341,12 +8157,15 @@ class UserType(sgqlc.types.Type):
     reported_by = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(TestsType))), graphql_name='reportedBy')
     attachment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AttachmentType))), graphql_name='attachmentSet')
     activity_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(EngagementActivityType))), graphql_name='activitySet')
-    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(EngagementCommentType))), graphql_name='commentSet')
+    comment_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(CommentType))), graphql_name='commentSet')
     filterviews_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(FilterViewsType))), graphql_name='filterviewsSet')
     views_members = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(FilterViewsType))), graphql_name='viewsMembers')
     reporttemplates_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(TemplateType))), graphql_name='reporttemplatesSet')
     draft_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(DraftType))), graphql_name='draftSet')
     pulse_threads = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(PulseThreadType))), graphql_name='pulseThreads')
+    created_agent_schedules = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AgentScheduleType))), graphql_name='createdAgentSchedules')
+    created_workspaces = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AgentWorkspaceType))), graphql_name='createdWorkspaces')
+    created_workspace_tasks = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('WorkspaceTaskType'))), graphql_name='createdWorkspaceTasks')
     dashboards_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(DashboardType))), graphql_name='dashboardsSet')
     widget_set = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('WidgetV2Type'))), graphql_name='widgetSet')
     created_asset_relationships = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(AssetRelationshipType))), graphql_name='createdAssetRelationships')
@@ -6433,7 +8252,7 @@ class WidgetType(sgqlc.types.Type):
 
 class WidgetV2Type(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'slug', 'description', 'is_default', 'tags', 'data', 'positional_data', 'organization', 'created_by', 'cloned_from', 'created', 'widgets', 'self_cloned_from', 'result')
+    __field_names__ = ('id', 'name', 'slug', 'description', 'is_default', 'tags', 'data', 'positional_data', 'organization', 'created_by', 'cloned_from', 'created', 'workspace', 'prompt', 'generation_status', 'last_generated_at', 'error_message', 'position', 'widgets', 'self_cloned_from', 'result')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(String, graphql_name='name')
     slug = sgqlc.types.Field(String, graphql_name='slug')
@@ -6446,6 +8265,12 @@ class WidgetV2Type(sgqlc.types.Type):
     created_by = sgqlc.types.Field(ApprovalUserType, graphql_name='createdBy')
     cloned_from = sgqlc.types.Field('WidgetV2Type', graphql_name='clonedFrom')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
+    workspace = sgqlc.types.Field(AgentWorkspaceType, graphql_name='workspace')
+    prompt = sgqlc.types.Field(String, graphql_name='prompt')
+    generation_status = sgqlc.types.Field(AppWidgetGenerationStatusChoices, graphql_name='generationStatus')
+    last_generated_at = sgqlc.types.Field(DateTime, graphql_name='lastGeneratedAt')
+    error_message = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='errorMessage')
+    position = sgqlc.types.Field(Int, graphql_name='position')
     widgets = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(DashboardType))), graphql_name='widgets')
     self_cloned_from = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('WidgetV2Type'))), graphql_name='selfClonedFrom')
     result = sgqlc.types.Field(GenericScalar, graphql_name='result')
@@ -6505,6 +8330,241 @@ class WorkBookUpdateMutation(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('work_book',)
     work_book = sgqlc.types.Field(WorkBookType, graphql_name='workBook')
+
+
+class WorkflowInstanceType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workflow_id', 'template_slug', 'template_version', 'status', 'current_phase_key', 'variables', 'phases', 'total_tasks', 'completed_tasks', 'started_at', 'completed_at', 'created_at')
+    workflow_id = sgqlc.types.Field(UUID, graphql_name='workflowId')
+    template_slug = sgqlc.types.Field(String, graphql_name='templateSlug')
+    template_version = sgqlc.types.Field(String, graphql_name='templateVersion')
+    status = sgqlc.types.Field(String, graphql_name='status')
+    current_phase_key = sgqlc.types.Field(String, graphql_name='currentPhaseKey')
+    variables = sgqlc.types.Field(GenericScalar, graphql_name='variables')
+    phases = sgqlc.types.Field(sgqlc.types.list_of('WorkflowPhaseType'), graphql_name='phases')
+    total_tasks = sgqlc.types.Field(Int, graphql_name='totalTasks')
+    completed_tasks = sgqlc.types.Field(Int, graphql_name='completedTasks')
+    started_at = sgqlc.types.Field(DateTime, graphql_name='startedAt')
+    completed_at = sgqlc.types.Field(DateTime, graphql_name='completedAt')
+    created_at = sgqlc.types.Field(DateTime, graphql_name='createdAt')
+
+
+class WorkflowPhaseType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('phase_key', 'phase_name', 'order', 'status', 'gate_type', 'failure_policy', 'tasks', 'started_at', 'completed_at')
+    phase_key = sgqlc.types.Field(String, graphql_name='phaseKey')
+    phase_name = sgqlc.types.Field(String, graphql_name='phaseName')
+    order = sgqlc.types.Field(Int, graphql_name='order')
+    status = sgqlc.types.Field(String, graphql_name='status')
+    gate_type = sgqlc.types.Field(String, graphql_name='gateType')
+    failure_policy = sgqlc.types.Field(String, graphql_name='failurePolicy')
+    tasks = sgqlc.types.Field(sgqlc.types.list_of('WorkflowTaskLinkType'), graphql_name='tasks')
+    started_at = sgqlc.types.Field(DateTime, graphql_name='startedAt')
+    completed_at = sgqlc.types.Field(DateTime, graphql_name='completedAt')
+
+
+class WorkflowTaskLinkType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('task_id', 'task_template_key', 'title', 'status', 'agent_type', 'started_at', 'completed_at')
+    task_id = sgqlc.types.Field(UUID, graphql_name='taskId')
+    task_template_key = sgqlc.types.Field(String, graphql_name='taskTemplateKey')
+    title = sgqlc.types.Field(String, graphql_name='title')
+    status = sgqlc.types.Field(String, graphql_name='status')
+    agent_type = sgqlc.types.Field(String, graphql_name='agentType')
+    started_at = sgqlc.types.Field(DateTime, graphql_name='startedAt')
+    completed_at = sgqlc.types.Field(DateTime, graphql_name='completedAt')
+
+
+class WorkflowTemplateType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('slug', 'name', 'description', 'icon', 'version', 'phase_count', 'required_variables')
+    slug = sgqlc.types.Field(String, graphql_name='slug')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    icon = sgqlc.types.Field(String, graphql_name='icon')
+    version = sgqlc.types.Field(String, graphql_name='version')
+    phase_count = sgqlc.types.Field(Int, graphql_name='phaseCount')
+    required_variables = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='requiredVariables')
+
+
+class WorkspaceAssetType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'type', 'type_label', 'target', 'sensitivity', 'sensitivity_label', 'created')
+    id = sgqlc.types.Field(Int, graphql_name='id')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    type = sgqlc.types.Field(Int, graphql_name='type')
+    type_label = sgqlc.types.Field(String, graphql_name='typeLabel')
+    target = sgqlc.types.Field(String, graphql_name='target')
+    sensitivity = sgqlc.types.Field(Int, graphql_name='sensitivity')
+    sensitivity_label = sgqlc.types.Field(String, graphql_name='sensitivityLabel')
+    created = sgqlc.types.Field(DateTime, graphql_name='created')
+
+
+class WorkspaceChatConnectionType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('chats', 'total_count')
+    chats = sgqlc.types.Field(sgqlc.types.list_of('WorkspaceChatType'), graphql_name='chats')
+    total_count = sgqlc.types.Field(Int, graphql_name='totalCount')
+
+
+class WorkspaceChatType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'title', 'is_setup_thread', 'message_count', 'mode', 'status', 'selected_agents', 'created_at', 'updated_at')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    title = sgqlc.types.Field(String, graphql_name='title')
+    is_setup_thread = sgqlc.types.Field(Boolean, graphql_name='isSetupThread')
+    message_count = sgqlc.types.Field(Int, graphql_name='messageCount')
+    mode = sgqlc.types.Field(String, graphql_name='mode')
+    status = sgqlc.types.Field(String, graphql_name='status')
+    selected_agents = sgqlc.types.Field(sgqlc.types.list_of(String), graphql_name='selectedAgents')
+    created_at = sgqlc.types.Field(DateTime, graphql_name='createdAt')
+    updated_at = sgqlc.types.Field(DateTime, graphql_name='updatedAt')
+
+
+class WorkspaceConnectionType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('workspaces', 'total_count')
+    workspaces = sgqlc.types.Field(sgqlc.types.list_of(AgentWorkspaceType), graphql_name='workspaces')
+    total_count = sgqlc.types.Field(Int, graphql_name='totalCount')
+
+
+class WorkspaceCredentialType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'type', 'is_expired', 'credential_data')
+    id = sgqlc.types.Field(Int, graphql_name='id')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    type = sgqlc.types.Field(String, graphql_name='type')
+    is_expired = sgqlc.types.Field(Boolean, graphql_name='isExpired')
+    credential_data = sgqlc.types.Field(GenericScalar, graphql_name='credentialData')
+
+
+class WorkspaceFileType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('name', 'path', 'is_folder', 'size', 'last_modified', 'content_type')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    path = sgqlc.types.Field(String, graphql_name='path')
+    is_folder = sgqlc.types.Field(Boolean, graphql_name='isFolder')
+    size = sgqlc.types.Field(Int, graphql_name='size')
+    last_modified = sgqlc.types.Field(DateTime, graphql_name='lastModified')
+    content_type = sgqlc.types.Field(String, graphql_name='contentType')
+
+
+class WorkspaceFindingType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'title', 'severity', 'severity_label', 'asset_id', 'asset_name', 'state', 'state_label', 'created')
+    id = sgqlc.types.Field(Int, graphql_name='id')
+    title = sgqlc.types.Field(String, graphql_name='title')
+    severity = sgqlc.types.Field(Int, graphql_name='severity')
+    severity_label = sgqlc.types.Field(String, graphql_name='severityLabel')
+    asset_id = sgqlc.types.Field(Int, graphql_name='assetId')
+    asset_name = sgqlc.types.Field(String, graphql_name='assetName')
+    state = sgqlc.types.Field(Int, graphql_name='state')
+    state_label = sgqlc.types.Field(String, graphql_name='stateLabel')
+    created = sgqlc.types.Field(DateTime, graphql_name='created')
+
+
+class WorkspaceShellType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'hostname', 'username')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    hostname = sgqlc.types.Field(String, graphql_name='hostname')
+    username = sgqlc.types.Field(String, graphql_name='username')
+
+
+class WorkspaceStatsType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('chat_count', 'document_count', 'file_count', 'table_count', 'task_count', 'active_task_count', 'completed_task_count', 'skill_count', 'learning_count', 'credits_consumed', 'asset_count', 'finding_count', 'trends')
+    chat_count = sgqlc.types.Field(Int, graphql_name='chatCount')
+    document_count = sgqlc.types.Field(Int, graphql_name='documentCount')
+    file_count = sgqlc.types.Field(Int, graphql_name='fileCount')
+    table_count = sgqlc.types.Field(Int, graphql_name='tableCount')
+    task_count = sgqlc.types.Field(Int, graphql_name='taskCount')
+    active_task_count = sgqlc.types.Field(Int, graphql_name='activeTaskCount')
+    completed_task_count = sgqlc.types.Field(Int, graphql_name='completedTaskCount')
+    skill_count = sgqlc.types.Field(Int, graphql_name='skillCount')
+    learning_count = sgqlc.types.Field(Int, graphql_name='learningCount')
+    credits_consumed = sgqlc.types.Field(Float, graphql_name='creditsConsumed')
+    asset_count = sgqlc.types.Field(Int, graphql_name='assetCount')
+    finding_count = sgqlc.types.Field(Int, graphql_name='findingCount')
+    trends = sgqlc.types.Field('WorkspaceTrendsType', graphql_name='trends')
+
+
+class WorkspaceTableDetailType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'description', 'schema', 'row_count', 'rows', 'created_at', 'updated_at')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    schema = sgqlc.types.Field(GenericScalar, graphql_name='schema')
+    row_count = sgqlc.types.Field(Int, graphql_name='rowCount')
+    rows = sgqlc.types.Field(sgqlc.types.list_of('WorkspaceTableRowType'), graphql_name='rows')
+    created_at = sgqlc.types.Field(DateTime, graphql_name='createdAt')
+    updated_at = sgqlc.types.Field(DateTime, graphql_name='updatedAt')
+
+
+class WorkspaceTableRowType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'data', 'created_at', 'updated_at')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    data = sgqlc.types.Field(GenericScalar, graphql_name='data')
+    created_at = sgqlc.types.Field(DateTime, graphql_name='createdAt')
+    updated_at = sgqlc.types.Field(DateTime, graphql_name='updatedAt')
+
+
+class WorkspaceTableType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'description', 'row_count', 'created_at', 'updated_at')
+    id = sgqlc.types.Field(UUID, graphql_name='id')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    row_count = sgqlc.types.Field(Int, graphql_name='rowCount')
+    created_at = sgqlc.types.Field(DateTime, graphql_name='createdAt')
+    updated_at = sgqlc.types.Field(DateTime, graphql_name='updatedAt')
+
+
+class WorkspaceTaskType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'title', 'instructions', 'task_type', 'agent_type', 'status', 'input_data', 'output_data', 'error_message', 'created_at', 'started_at', 'completed_at', 'duration_seconds', 'created_by_type')
+    id = sgqlc.types.Field(sgqlc.types.non_null(UUID), graphql_name='id')
+    title = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='title')
+    instructions = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='instructions')
+    task_type = sgqlc.types.Field(sgqlc.types.non_null(AppWorkspaceTaskTaskTypeChoices), graphql_name='taskType')
+    agent_type = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='agentType')
+    status = sgqlc.types.Field(sgqlc.types.non_null(AppWorkspaceTaskStatusChoices), graphql_name='status')
+    input_data = sgqlc.types.Field(sgqlc.types.non_null(JSONString), graphql_name='inputData')
+    output_data = sgqlc.types.Field(sgqlc.types.non_null(JSONString), graphql_name='outputData')
+    error_message = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='errorMessage')
+    created_at = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='createdAt')
+    started_at = sgqlc.types.Field(DateTime, graphql_name='startedAt')
+    completed_at = sgqlc.types.Field(DateTime, graphql_name='completedAt')
+    duration_seconds = sgqlc.types.Field(Int, graphql_name='durationSeconds')
+    created_by_type = sgqlc.types.Field(sgqlc.types.non_null(AppWorkspaceTaskCreatedByTypeChoices), graphql_name='createdByType')
+
+
+class WorkspaceTrendsType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('chats', 'runs', 'findings', 'assets', 'credits')
+    chats = sgqlc.types.Field(sgqlc.types.list_of(TrendPointType), graphql_name='chats')
+    runs = sgqlc.types.Field(sgqlc.types.list_of(TrendPointType), graphql_name='runs')
+    findings = sgqlc.types.Field(sgqlc.types.list_of(TrendPointType), graphql_name='findings')
+    assets = sgqlc.types.Field(sgqlc.types.list_of(TrendPointType), graphql_name='assets')
+    credits = sgqlc.types.Field(sgqlc.types.list_of(TrendPointType), graphql_name='credits')
+
+
+class WorkspaceWidgetType(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('id', 'name', 'widget_type', 'prompt', 'position', 'generation_status', 'last_generated_at', 'error_message', 'data', 'created')
+    id = sgqlc.types.Field(Int, graphql_name='id')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    widget_type = sgqlc.types.Field(String, graphql_name='widgetType')
+    prompt = sgqlc.types.Field(String, graphql_name='prompt')
+    position = sgqlc.types.Field(Int, graphql_name='position')
+    generation_status = sgqlc.types.Field(String, graphql_name='generationStatus')
+    last_generated_at = sgqlc.types.Field(DateTime, graphql_name='lastGeneratedAt')
+    error_message = sgqlc.types.Field(String, graphql_name='errorMessage')
+    data = sgqlc.types.Field(GenericScalar, graphql_name='data')
+    created = sgqlc.types.Field(DateTime, graphql_name='created')
 
 
 class ZeroDayItemType(sgqlc.types.Type):

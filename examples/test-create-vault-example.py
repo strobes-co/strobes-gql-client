@@ -76,7 +76,7 @@ def add_vault_document(file_path, engagement_id=None, is_prerequisite=False):
         
         # Make the request
         response = requests.post(
-            f"{client.app_url}api/graphql/",
+            f"{client.app_url}api/public/graphql/",
             headers={
                 'Authorization': f"token {enums.API_TOKEN}",
                 'user-agent': enums.USER_AGENT
