@@ -84,10 +84,15 @@ class StrobesGQLClient(BaseClient):
                     "created", "updated",
                 )
 
+            if mutation_name == "bug_bulk_update":
+                result.bugs.__fields__("id", "state", "severity")
+
             data = self.endpoint(op)
-            if data:
+            graphql_name = getattr(schema.Mutation, mutation_name).graphql_name
+            payload = (data.get("data") or {}).get(graphql_name) if data else None
+            if payload is not None:
                 self.logger.debug(f"{mutation_name} executed successfully.")
-                return data.get(mutation_name)
+                return payload
             else:
                 self.logger.error(
                     f"No data returned for {mutation_name} or an error occurred."

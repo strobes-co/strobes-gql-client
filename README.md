@@ -14,6 +14,18 @@ pip install -r requirements.txt
 python setup.py install
 ```
 
+## Development install
+
+If you're working on the client itself (editing files under `strobes_gql_client/`), install it in
+editable mode instead:
+
+```
+pip install -e .
+```
+
+This links the installed package straight to your local source tree, so any change you make takes
+effect immediately — no need to re-run `setup.py`/`pip install` after every edit.
+
 
 # Schema Types
 
