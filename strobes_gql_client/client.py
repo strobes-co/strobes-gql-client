@@ -93,6 +93,30 @@ BUG_FULL_FIELDS = (
     "content_object",
 )
 
+# Scalar fields the public CommentType exposes. The locally generated
+# schema.py carries the *internal* CommentType, which is a superset — the
+# public backend rejects the extra relation fields (bug, team, approval,
+# connector, connectorConfig, activity, automationWorkflow, ...), so pin the
+# selection to what the public surface actually returns.
+COMMENT_FIELDS = (
+    "id",
+    "comment",
+    "internal",
+    "bug_id",
+    "engagement_id",
+    "created",
+    "updated",
+)
+
+
+def _select_comment(result):
+    """Apply the public CommentType selection to a CommentType node."""
+    result.__fields__(*COMMENT_FIELDS)
+    result.commented_by.__fields__("id", "email", "first_name", "last_name")
+    result.attachments.__fields__(
+        "id", "attachment_name", "attachment_size", "caption", "url"
+    )
+
 
 class StrobesGQLClient(BaseClient):
     def __init__(self, host, api_token, verify=True):
@@ -134,6 +158,16 @@ class StrobesGQLClient(BaseClient):
                 result.objects.__fields__(*BUG_FULL_FIELDS)
                 result.objects.connector.__fields__("id", "name", "slug")
 
+            if query_name == "all_comments":
+                # Pagination/meta fields
+                result.page()
+                result.total_pages()
+                result.page_size()
+                result.total_count()
+                result.has_next()
+                result.has_prev()
+                _select_comment(result.objects)
+
             data = self.endpoint(op)
             if data:
                 self.logger.debug(f"{query_name} executed successfully.")
@@ -163,6 +197,9 @@ class StrobesGQLClient(BaseClient):
 
             if mutation_name == "bug_bulk_update":
                 result.bugs.__fields__("id", "state", "severity")
+
+            if mutation_name in ("add_bug_comment", "add_engagement_comment"):
+                _select_comment(result.comment)
 
             data = self.endpoint(op)
             graphql_name = getattr(schema.Mutation, mutation_name).graphql_name
