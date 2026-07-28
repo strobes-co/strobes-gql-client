@@ -1200,6 +1200,110 @@ for doc in attachments:
 
 [Watch the Video](https://app.arcade.software/share/0atq1gLJ1ttmIAtUXts9)
 
+## Comments
+
+Comments live on two objects: **findings** (bugs) and **engagements**. One query
+reads them, two mutations create them.
+
+### Fetch Comments on a Finding
+
+```python
+from strobes_gql_client.client import StrobesGQLClient
+from strobes_gql_client import enums
+
+client = StrobesGQLClient(host=enums.APP_HOST, api_token=enums.API_TOKEN)
+
+response = client.execute_query(
+    "all_comments",
+    organization_id=enums.ORGANIZATION_ID,
+    bug_id=12345,
+    page=1,
+    page_size=10,
+    order_by=["-created"],
+)
+result = response.get("data", {}).get("allComments", {})
+
+print(f"Total comments: {result.get('totalCount')}")
+for comment in result.get("objects", []):
+    author = comment.get("commentedBy") or {}
+    print(f"- [{comment['id']}] {comment['comment']} — {author.get('email')}")
+```
+
+### Fetch Comments on an Engagement
+
+```python
+response = client.execute_query(
+    "all_comments",
+    organization_id=enums.ORGANIZATION_ID,
+    engagement_id="0c5c2d61-4a3a-4a58-9b4b-4a1b9f0f2f11",
+)
+comments = response.get("data", {}).get("allComments", {}).get("objects", [])
+```
+
+Pass **either** `bug_id` **or** `engagement_id` — passing both is an error.
+Omitting both returns every comment on the findings and engagements you can see.
+
+### Filtering Comments
+
+| Argument | Type | Description |
+|---|---|---|
+| `organization_id` | UUID! | Required. Organization the comments belong to |
+| `bug_id` | Int | Only comments on this finding |
+| `engagement_id` | UUID | Only comments on this engagement |
+| `internal` | Boolean | `True` = internal-only, `False` = external-only, omit = both |
+| `search_query` | String | RQL search, e.g. `comment ~ "credentials"` |
+| `order_by` | [String] | e.g. `["-created"]` (default is newest first) |
+| `page` / `page_size` | Int | Offset pagination |
+
+### Add a Comment to a Finding
+
+```python
+result = client.execute_mutation(
+    "add_bug_comment",
+    organization_id=enums.ORGANIZATION_ID,
+    bug_id=12345,
+    comment="Retested — the fix holds. Closing.",
+    internal=False,          # optional, defaults to False
+    attachments=[10, 11],    # optional attachment ids
+)
+print(result["comment"]["id"])
+```
+
+`internal=True` is honoured only for organization **owners and managers**;
+for anyone else the comment is stored as an external comment, matching the
+behaviour of the Strobes UI.
+
+### Add a Comment to an Engagement
+
+```python
+result = client.execute_mutation(
+    "add_engagement_comment",
+    organization_id=enums.ORGANIZATION_ID,
+    engagement_id="0c5c2d61-4a3a-4a58-9b4b-4a1b9f0f2f11",
+    comment="Scope confirmed with the client — kickoff on Monday.",
+    attachments=[12],        # optional attachment ids
+)
+```
+
+Engagement comments fire the `ON_ENGAGEMENT_COMMENT` automation hook and the
+usual engagement comment notifications, exactly as a comment posted from the UI
+does.
+
+### Available Response Fields
+
+Both the query and the mutations return `CommentType`:
+
+- `id` (ID!) – Comment identifier
+- `comment` (String!) – Comment body
+- `internal` (Boolean!) – Whether the comment is internal-only
+- `bug_id` (Int) – Finding the comment belongs to (null for engagement comments)
+- `engagement_id` (UUID) – Engagement the comment belongs to (null for finding comments)
+- `commented_by` (UserType) – Author (`id`, `email`, `first_name`, `last_name`)
+- `attachments` ([AttachmentType]) – `id`, `attachment_name`, `attachment_size`, `caption`, `url`
+- `created` / `updated` (DateTime!) – Timestamps
+
+**Example File**: `examples/test-comments-example.py`
+
 ### Complete collection of videos
 
 Watch the complete video walkthrough covering configuration, examples, and usage:
