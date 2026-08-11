@@ -35,6 +35,10 @@ effect immediately — no need to re-run `setup.py`/`pip install` after every ed
   * [Query](#query)
   * [Mutation](#mutation)
   * [Objects](#objects)
+    * [AddBugCommentMutation](#addbugcommentmutation)
+    * [AddEngagementCommentMutation](#addengagementcommentmutation)
+    * [CommentPaginatedType](#commentpaginatedtype)
+    * [CommentType](#commenttype)
     * [AddBulkCommentsMutation](#addbulkcommentsmutation)
     * [AddGroupMutation](#addgroupmutation)
     * [AssetCursorPaginatedType](#assetcursorpaginatedtype)
@@ -206,6 +210,52 @@ effect immediately — no need to re-run `setup.py`/`pip install` after every ed
 <tr>
 <td colspan="2" align="right" valign="top">exportReportType</td>
 <td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<tr>
+<td colspan="2" valign="top"><strong>allComments</strong></td>
+<td valign="top"><a href="#commentpaginatedtype">CommentPaginatedType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">organizationId</td>
+<td valign="top"><a href="#uuid">UUID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">bugId</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">engagementId</td>
+<td valign="top"><a href="#uuid">UUID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">internal</td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">searchQuery</td>
+<td valign="top"><a href="#string">String</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">orderBy</td>
+<td valign="top">[<a href="#string">String</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">page</td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">pageSize</td>
+<td valign="top"><a href="#int">Int</a></td>
 <td></td>
 </tr>
 <tr>
@@ -603,6 +653,63 @@ effect immediately — no need to re-run `setup.py`/`pip install` after every ed
 <td></td>
 </tr>
 <tr>
+<tr>
+<td colspan="2" valign="top"><strong>addBugComment</strong></td>
+<td valign="top"><a href="#addbugcommentmutation">AddBugCommentMutation</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">attachments</td>
+<td valign="top">[<a href="#int">Int</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">bugId</td>
+<td valign="top"><a href="#int">Int</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">internal</td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">organizationId</td>
+<td valign="top"><a href="#uuid">UUID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<tr>
+<td colspan="2" valign="top"><strong>addEngagementComment</strong></td>
+<td valign="top"><a href="#addengagementcommentmutation">AddEngagementCommentMutation</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">attachments</td>
+<td valign="top">[<a href="#int">Int</a>]</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">comment</td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">engagementId</td>
+<td valign="top"><a href="#uuid">UUID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" align="right" valign="top">organizationId</td>
+<td valign="top"><a href="#uuid">UUID</a>!</td>
+<td></td>
+</tr>
+<tr>
 <td colspan="2" valign="top"><strong>addBulkComment</strong></td>
 <td valign="top"><a href="#addbulkcommentsmutation">AddBulkCommentsMutation</a></td>
 <td></td>
@@ -873,6 +980,152 @@ effect immediately — no need to re-run `setup.py`/`pip install` after every ed
 </table>
 
 ## Objects
+
+### AddBugCommentMutation
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>comment</strong></td>
+<td valign="top"><a href="#commenttype">CommentType</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### AddEngagementCommentMutation
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>comment</strong></td>
+<td valign="top"><a href="#commenttype">CommentType</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### CommentPaginatedType
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>page</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>totalPages</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>pageSize</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>totalCount</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>hasNext</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>hasPrev</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>objects</strong></td>
+<td valign="top">[<a href="#commenttype">CommentType</a>]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+### CommentType
+<table>
+<thead>
+<tr>
+<th align="left">Field</th>
+<th align="right">Argument</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2" valign="top"><strong>id</strong></td>
+<td valign="top"><a href="#id">ID</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>comment</strong></td>
+<td valign="top"><a href="#string">String</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>internal</strong></td>
+<td valign="top"><a href="#boolean">Boolean</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>created</strong></td>
+<td valign="top"><a href="#datetime">DateTime</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>updated</strong></td>
+<td valign="top"><a href="#datetime">DateTime</a>!</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>bugId</strong></td>
+<td valign="top"><a href="#int">Int</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>engagementId</strong></td>
+<td valign="top"><a href="#uuid">UUID</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>commentedBy</strong></td>
+<td valign="top"><a href="#usertype">UserType</a></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2" valign="top"><strong>attachments</strong></td>
+<td valign="top">[<a href="#attachmenttype">AttachmentType</a>]</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
 ### AddBulkCommentsMutation
 
