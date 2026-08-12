@@ -4,6 +4,7 @@ import mimetypes
 from strobes_gql_client.base_client import BaseClient
 from sgqlc.endpoint.requests import RequestsEndpoint
 from sgqlc.operation import Operation
+from sgqlc.types import Variable, non_null
 from strobes_gql_client import schema
 import requests
 
@@ -286,20 +287,21 @@ class StrobesGQLClient(BaseClient):
             )
             raise
 
-    def _execute_multipart_mutation(
-        self, query, variables, graphql_field, file_path, file_variable="file"
+    def _execute_multipart_operation(
+        self, op, graphql_field, file_path, file_variable="file"
     ):
-        """Execute a GraphQL mutation that takes an `Upload!` argument.
+        """Send an sgqlc-built Operation containing an `Upload!` variable.
 
         sgqlc's RequestsEndpoint (used by execute_mutation/execute_query) only
-        ever sends plain application/json, so mutations with a file argument
-        can't go through it. This sends a GraphQL multipart request
+        ever sends plain application/json, so an Operation with a file
+        argument can't go through it. This serializes `op`'s schema-checked
+        query text and sends it as a GraphQL multipart request
         (https://github.com/jaydenseric/graphql-multipart-request-spec)
-        directly, the same way examples/test-create-vault-example.py does.
+        directly, attaching the file as its own part.
         """
         operations = {
-            "query": query,
-            "variables": {**variables, file_variable: None},
+            "query": bytes(op).decode("utf-8"),
+            "variables": {file_variable: None},
         }
         map_ = {"0": [f"variables.{file_variable}"]}
 
@@ -328,25 +330,19 @@ class StrobesGQLClient(BaseClient):
 
     def upload_workspace_file(self, workspace_id, file_path, path=None):
         """Upload a file to a workspace's S3 storage via the `uploadWorkspaceFile` mutation."""
-        query = """
-            mutation UploadWorkspaceFile($workspaceId: UUID!, $file: Upload!, $path: String) {
-                uploadWorkspaceFile(workspaceId: $workspaceId, file: $file, path: $path) {
-                    success
-                    file {
-                        name
-                        path
-                        isFolder
-                        size
-                        lastModified
-                        contentType
-                    }
-                }
-            }
-        """
-        variables = {"workspaceId": str(workspace_id), "path": path}
-        return self._execute_multipart_mutation(
-            query, variables, "uploadWorkspaceFile", file_path
+        op = Operation(
+            schema.Mutation,
+            name="UploadWorkspaceFile",
+            variables={"file": non_null(schema.Upload)},
         )
+        result = op.upload_workspace_file(
+            workspace_id=str(workspace_id), file=Variable("file"), path=path
+        )
+        result.success()
+        result.file.__fields__(
+            "name", "path", "is_folder", "size", "last_modified", "content_type"
+        )
+        return self._execute_multipart_operation(op, "uploadWorkspaceFile", file_path)
 
     def import_csv(
         self,
@@ -359,55 +355,36 @@ class StrobesGQLClient(BaseClient):
         name=None,
     ):
         """Import a CSV into a sheet/workbook via the `importCsv` mutation."""
-        query = """
-            mutation ImportSheetCSV(
-                $file: Upload!
-                $organizationId: UUID!
-                $sheetId: Int
-                $workBookId: Int
-                $importOverride: Boolean
-                $mergeWith: Boolean
-                $name: String
-            ) {
-                importCsv(
-                    file: $file
-                    organizationId: $organizationId
-                    sheetId: $sheetId
-                    workBookId: $workBookId
-                    importOverride: $importOverride
-                    mergeWith: $mergeWith
-                    name: $name
-                ) {
-                    success
-                    message
-                }
-            }
-        """
-        variables = {
-            "organizationId": str(organization_id),
-            "sheetId": sheet_id,
-            "workBookId": work_book_id,
-            "importOverride": import_override,
-            "mergeWith": merge_with,
-            "name": name,
-        }
-        return self._execute_multipart_mutation(
-            query, variables, "importCsv", file_path
+        op = Operation(
+            schema.Mutation,
+            name="ImportSheetCSV",
+            variables={"file": non_null(schema.Upload)},
         )
+        result = op.import_csv(
+            file=Variable("file"),
+            organization_id=str(organization_id),
+            sheet_id=sheet_id,
+            work_book_id=work_book_id,
+            import_override=import_override,
+            merge_with=merge_with,
+            name=name,
+        )
+        result.success()
+        result.message()
+        return self._execute_multipart_operation(op, "importCsv", file_path)
 
     def update_bugs_fields_with_csv(self, file_path, organization_id):
         """Bulk-update finding custom fields from a CSV via the
         `updateBugsFieldsWithCsv` mutation."""
-        query = """
-            mutation UpdateBugsFieldsWithCsv($organizationId: UUID!, $file: Upload!) {
-                updateBugsFieldsWithCsv(organizationId: $organizationId, file: $file) {
-                    bug {
-                        id
-                    }
-                }
-            }
-        """
-        variables = {"organizationId": str(organization_id)}
-        return self._execute_multipart_mutation(
-            query, variables, "updateBugsFieldsWithCsv", file_path
+        op = Operation(
+            schema.Mutation,
+            name="UpdateBugsFieldsWithCsv",
+            variables={"file": non_null(schema.Upload)},
+        )
+        result = op.update_bugs_fields_with_csv(
+            organization_id=str(organization_id), file=Variable("file")
+        )
+        result.bug.__fields__("id")
+        return self._execute_multipart_operation(
+            op, "updateBugsFieldsWithCsv", file_path
         )
