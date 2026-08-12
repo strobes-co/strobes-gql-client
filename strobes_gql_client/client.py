@@ -1,4 +1,6 @@
+import json
 import logging
+import mimetypes
 from strobes_gql_client.base_client import BaseClient
 from sgqlc.endpoint.requests import RequestsEndpoint
 from sgqlc.operation import Operation
@@ -118,6 +120,49 @@ def _select_comment(result):
     )
 
 
+# Scalar fields the public TemplateType exposes. The locally generated
+# schema.py carries the *internal* TemplateType, which is a superset (org,
+# lock/co-editor/version-history relations) — pin the selection to what the
+# public surface actually returns.
+TEMPLATE_FIELDS = (
+    "id",
+    "template_name",
+    "mode",
+    "type",
+    "is_active",
+    "is_editable",
+    "created",
+    "updated",
+    "custom_fields",
+    "html",
+)
+
+# Scalar fields the public ReportType exposes. Same story as TEMPLATE_FIELDS
+# — the internal ReportType carries report_type/scan/bug_ids/organization/etc,
+# none of which the public surface exposes.
+REPORT_FIELDS = (
+    "id",
+    "report_name",
+    "status",
+    "created",
+    "export_id",
+    "file",
+    "has_password",
+)
+
+
+def _select_template(result):
+    """Apply the public TemplateType selection to a TemplateType node."""
+    result.__fields__(*TEMPLATE_FIELDS)
+    result.created_by.__fields__("id", "email", "first_name", "last_name")
+
+
+def _select_report(result):
+    """Apply the public ReportType selection to a ReportType node."""
+    result.__fields__(*REPORT_FIELDS)
+    result.template.__fields__("id", "template_name")
+
+
 class StrobesGQLClient(BaseClient):
     def __init__(self, host, api_token, verify=True):
         super().__init__(host=host, api_token=api_token)
@@ -168,6 +213,19 @@ class StrobesGQLClient(BaseClient):
                 result.has_prev()
                 _select_comment(result.objects)
 
+            if query_name == "all_templates":
+                # Pagination/meta fields
+                result.page()
+                result.total_pages()
+                result.page_size()
+                result.total_count()
+                result.has_next()
+                result.has_prev()
+                _select_template(result.objects)
+
+            if query_name == "download_report":
+                _select_report(result)
+
             data = self.endpoint(op)
             if data:
                 self.logger.debug(f"{query_name} executed successfully.")
@@ -201,6 +259,13 @@ class StrobesGQLClient(BaseClient):
             if mutation_name in ("add_bug_comment", "add_engagement_comment"):
                 _select_comment(result.comment)
 
+            if mutation_name == "add_report_template":
+                _select_template(result.templates)
+
+            if mutation_name == "generate_report":
+                result.reports()
+                result.password_required()
+
             data = self.endpoint(op)
             graphql_name = getattr(schema.Mutation, mutation_name).graphql_name
             payload = (data.get("data") or {}).get(graphql_name) if data else None
@@ -220,3 +285,129 @@ class StrobesGQLClient(BaseClient):
                 f"An error occurred while executing {mutation_name}: {str(e)}"
             )
             raise
+
+    def _execute_multipart_mutation(
+        self, query, variables, graphql_field, file_path, file_variable="file"
+    ):
+        """Execute a GraphQL mutation that takes an `Upload!` argument.
+
+        sgqlc's RequestsEndpoint (used by execute_mutation/execute_query) only
+        ever sends plain application/json, so mutations with a file argument
+        can't go through it. This sends a GraphQL multipart request
+        (https://github.com/jaydenseric/graphql-multipart-request-spec)
+        directly, the same way examples/test-create-vault-example.py does.
+        """
+        operations = {
+            "query": query,
+            "variables": {**variables, file_variable: None},
+        }
+        map_ = {"0": [f"variables.{file_variable}"]}
+
+        with open(file_path, "rb") as fh:
+            files = {
+                "0": (
+                    fh.name.split("/")[-1],
+                    fh,
+                    mimetypes.guess_type(file_path)[0] or "application/octet-stream",
+                )
+            }
+            response = requests.post(
+                self.graphql_url,
+                headers=self.headers,
+                data={"operations": json.dumps(operations), "map": json.dumps(map_)},
+                files=files,
+            )
+
+        response.raise_for_status()
+        result = response.json()
+        if result.get("errors"):
+            self.logger.error(f"GraphQL errors: {result['errors']}")
+            raise Exception(f"GraphQL errors: {result['errors']}")
+
+        return (result.get("data") or {}).get(graphql_field)
+
+    def upload_workspace_file(self, workspace_id, file_path, path=None):
+        """Upload a file to a workspace's S3 storage via the `uploadWorkspaceFile` mutation."""
+        query = """
+            mutation UploadWorkspaceFile($workspaceId: UUID!, $file: Upload!, $path: String) {
+                uploadWorkspaceFile(workspaceId: $workspaceId, file: $file, path: $path) {
+                    success
+                    file {
+                        name
+                        path
+                        isFolder
+                        size
+                        lastModified
+                        contentType
+                    }
+                }
+            }
+        """
+        variables = {"workspaceId": str(workspace_id), "path": path}
+        return self._execute_multipart_mutation(
+            query, variables, "uploadWorkspaceFile", file_path
+        )
+
+    def import_csv(
+        self,
+        file_path,
+        organization_id,
+        sheet_id=None,
+        work_book_id=None,
+        import_override=None,
+        merge_with=None,
+        name=None,
+    ):
+        """Import a CSV into a sheet/workbook via the `importCsv` mutation."""
+        query = """
+            mutation ImportSheetCSV(
+                $file: Upload!
+                $organizationId: UUID!
+                $sheetId: Int
+                $workBookId: Int
+                $importOverride: Boolean
+                $mergeWith: Boolean
+                $name: String
+            ) {
+                importCsv(
+                    file: $file
+                    organizationId: $organizationId
+                    sheetId: $sheetId
+                    workBookId: $workBookId
+                    importOverride: $importOverride
+                    mergeWith: $mergeWith
+                    name: $name
+                ) {
+                    success
+                    message
+                }
+            }
+        """
+        variables = {
+            "organizationId": str(organization_id),
+            "sheetId": sheet_id,
+            "workBookId": work_book_id,
+            "importOverride": import_override,
+            "mergeWith": merge_with,
+            "name": name,
+        }
+        return self._execute_multipart_mutation(
+            query, variables, "importCsv", file_path
+        )
+
+    def update_bugs_fields_with_csv(self, file_path, organization_id):
+        """Bulk-update finding custom fields from a CSV via the
+        `updateBugsFieldsWithCsv` mutation."""
+        query = """
+            mutation UpdateBugsFieldsWithCsv($organizationId: UUID!, $file: Upload!) {
+                updateBugsFieldsWithCsv(organizationId: $organizationId, file: $file) {
+                    bug {
+                        id
+                    }
+                }
+            }
+        """
+        variables = {"organizationId": str(organization_id)}
+        return self._execute_multipart_mutation(
+            query, variables, "updateBugsFieldsWithCsv", file_path
+        )
