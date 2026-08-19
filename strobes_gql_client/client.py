@@ -164,6 +164,76 @@ def _select_report(result):
     result.template.__fields__("id", "template_name")
 
 
+# Scalar fields the public ConfigurationsFieldType exposes. The locally
+# generated schema.py carries the *internal* ConfigurationsFieldType, which
+# also has reverse-relation sets (configurationsSet, scanlogSet, bugSet,
+# ...) that need their own subselection — pin to scalars here and select
+# connector/organization/createdBy separately.
+CONFIGURATION_FIELDS = (
+    "id",
+    "name",
+    "object_id",
+    "key",
+    "remote_access_id",
+    "remote_access_url",
+    "is_default",
+    "created",
+    "updated",
+    "extra",
+    "is_automated",
+    "auto_close_findings",
+    "auto_smart_merge_assets",
+    "send_csv_report_with_summary",
+    "enable_github_webhook",
+    "github_webhook_triggers",
+)
+
+# Scalar fields the public AllScanLogType exposes. Excludes the internal
+# type's reverse-relation/list fields (childTasks, assetSet, bugSet, ...)
+# and JSON blobs not needed for polling scan status — select config/
+# createdBy separately.
+SCAN_LOG_FIELDS = (
+    "id",
+    "task_id",
+    "finished",
+    "type",
+    "is_triangulum_scanner",
+    "task_retry_count",
+    "triangulum_task_finished",
+    "scanner_task_id",
+    "build_status",
+    "is_scheduled",
+    "external_scheduled_task",
+    "error_code",
+    "status",
+    "is_child_task",
+    "started",
+    "status_last_updated",
+    "error_info",
+    "asset",
+    "organization_id",
+    "connector_name",
+    "connector_slug",
+    "scan_arguments",
+    "events",
+)
+
+
+def _select_configuration(result):
+    """Apply the public ConfigurationsFieldType selection to a node."""
+    result.__fields__(*CONFIGURATION_FIELDS)
+    result.connector.__fields__("id", "name", "slug")
+    result.organization.__fields__("id", "name")
+    result.created_by.__fields__("id", "email", "first_name", "last_name")
+
+
+def _select_scan_log(result):
+    """Apply the public AllScanLogType selection to a node."""
+    result.__fields__(*SCAN_LOG_FIELDS)
+    result.config.__fields__("id", "name")
+    result.created_by.__fields__("id", "email", "first_name", "last_name")
+
+
 class StrobesGQLClient(BaseClient):
     def __init__(self, host, api_token, verify=True):
         super().__init__(host=host, api_token=api_token)
@@ -287,6 +357,58 @@ class StrobesGQLClient(BaseClient):
             )
             raise
 
+    def all_configurations(
+        self, organization_id, order_by=None, search_query=None, page=1, page_size=10
+    ):
+        """List an organization's connector configurations via the
+        `allConfigurations` query."""
+        op = Operation(schema.Query)
+        result = op.all_configurations(
+            organization_id=str(organization_id),
+            order_by=order_by,
+            search_query=search_query,
+            page=page,
+            page_size=page_size,
+        )
+        result.page()
+        result.total_pages()
+        result.page_size()
+        result.total_count()
+        result.has_next()
+        result.has_prev()
+        _select_configuration(result.objects)
+
+        data = self.endpoint(op)
+        return (data.get("data") or {}).get("allConfigurations") if data else None
+
+    def all_logs(
+        self, organization_id, search_query=None, order_by=None, page=1, page_size=10
+    ):
+        """List an organization's scan logs via the `allLogs` query.
+
+        Note: the public API's `allLogs` doesn't accept a `log_type` filter
+        (unlike the internal schema) — only organization_id/search_query/
+        order_by/page/page_size are supported.
+        """
+        op = Operation(schema.Query)
+        result = op.all_logs(
+            organization_id=str(organization_id),
+            search_query=search_query,
+            order_by=order_by,
+            page=page,
+            page_size=page_size,
+        )
+        result.page()
+        result.total_pages()
+        result.page_size()
+        result.total_count()
+        result.has_next()
+        result.has_prev()
+        _select_scan_log(result.objects)
+
+        data = self.endpoint(op)
+        return (data.get("data") or {}).get("allLogs") if data else None
+
     def _execute_multipart_operation(
         self, op, graphql_field, file_path, file_variable="file"
     ):
@@ -388,3 +510,21 @@ class StrobesGQLClient(BaseClient):
         return self._execute_multipart_operation(
             op, "updateBugsFieldsWithCsv", file_path
         )
+
+    def add_report_attachment(self, file_path, organization_id):
+        """Upload a file as a report attachment via the `addReportAttachment` mutation."""
+        op = Operation(
+            schema.Mutation,
+            name="AddReportAttachment",
+            variables={"file": non_null(schema.Upload)},
+        )
+        result = op.add_report_attachment(
+            organization_id=str(organization_id), file=Variable("file")
+        )
+        result.attachment.__fields__(
+            "id", "attachment", "attachment_name", "created", "updated", "url"
+        )
+        result.attachment.attached_by.__fields__(
+            "id", "email", "first_name", "last_name"
+        )
+        return self._execute_multipart_operation(op, "addReportAttachment", file_path)
