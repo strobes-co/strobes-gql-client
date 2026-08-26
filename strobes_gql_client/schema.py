@@ -963,7 +963,7 @@ class AssetType(sgqlc.types.Type):
     sensitivity_reasoning = sgqlc.types.Field(JSONString, graphql_name='sensitivityReasoning')
     exposure_reasoning = sgqlc.types.Field(JSONString, graphql_name='exposureReasoning')
     scan = sgqlc.types.Field(AllScanLogType, graphql_name='scan')
-    last_seen = sgqlc.types.Field('ScanLogType', graphql_name='lastSeen')
+    last_seen = sgqlc.types.Field(sgqlc.types.list_of('ScanLogType'), graphql_name='lastSeen')
     temp_id = sgqlc.types.Field(UUID, graphql_name='tempId')
     is_active = sgqlc.types.Field(sgqlc.types.non_null(Boolean), graphql_name='isActive')
     created = sgqlc.types.Field(sgqlc.types.non_null(DateTime), graphql_name='created')
