@@ -234,6 +234,116 @@ def _select_scan_log(result):
     result.created_by.__fields__("id", "email", "first_name", "last_name")
 
 
+# Scalar fields on AssetType. Deliberately excludes relation fields
+# (organization, created_by, connector, other_connectors, workspace,
+# linked_assets, linked_to, group_assets, asset_port, assessments_set,
+# asset_package, asset_apis, configuration_asset, bug_set, activity_set,
+# trackers_set, patch_set, source_relationships, target_relationships,
+# tags, apis, outgoing_relationships, incoming_relationships,
+# all_relationships) since those need their own subselection, and `scan`/
+# `last_seen`, which are selected separately in `_select_asset` below.
+ASSET_FULL_FIELDS = (
+    "id",
+    "name",
+    "target",
+    "exposed",
+    "type",
+    "cloud_type",
+    "disabled",
+    "sensitivity",
+    "keys",
+    "data",
+    "additional_info",
+    "sensitivity_reasoning",
+    "exposure_reasoning",
+    "temp_id",
+    "is_active",
+    "created",
+    "updated",
+    "location",
+    "scanner_raw_response",
+    "region",
+    "resource_id",
+    "account_id",
+    "fields",
+    "asset_region",
+    "dns_info",
+    "whois_info",
+    "asn",
+    "waf",
+    "cdn",
+    "asm_last_alive",
+    "ipaddress",
+    "hostname",
+    "mac_address",
+    "os",
+    "cpe",
+    "risk_score",
+    "dns_a",
+    "dns_ns",
+    "dns_soa",
+    "dns_aaaa",
+    "dns_axfr",
+    "dns_cname",
+    "domain_org",
+    "domain_city",
+    "domain_state",
+    "domain_dnssec",
+    "domain_emails",
+    "domain_status",
+    "domain_address",
+    "domain_country",
+    "domain_registrar",
+    "domain_name",
+    "domain_name_servers",
+    "domain_referral_url",
+    "domain_updated_date",
+    "domain_server",
+    "domain_expiration_date",
+    "domain_creation_date",
+    "domain_registrant_postal_code",
+    "port_addresses",
+    "package_count",
+    "webserver",
+    "technology_used",
+)
+
+# Scalar fields on ScanLogType, the type AssetType.lastSeen resolves to.
+ASSET_LAST_SEEN_FIELDS = (
+    "id",
+    "task_id",
+    "config",
+    "finished",
+    "connector_name",
+    "connector_slug",
+)
+
+# Scalar fields on ConnectorType, the type AssetType.connector /
+# otherConnectors resolve to.
+ASSET_CONNECTOR_FIELDS = (
+    "id",
+    "slug",
+    "name",
+    "type",
+    "scanner_type",
+    "is_internal",
+    "is_active",
+)
+
+
+def _select_asset(result):
+    """Apply the AssetType selection to a node, including lastSeen and
+    connector.
+
+    sgqlc's default auto-select depth doesn't reach far enough to pick up
+    these nested relation objects (several levels below the query root),
+    so they silently drop out of the response unless selected here.
+    """
+    result.__fields__(*ASSET_FULL_FIELDS)
+    result.last_seen.__fields__(*ASSET_LAST_SEEN_FIELDS)
+    result.connector.__fields__(*ASSET_CONNECTOR_FIELDS)
+
+
 class StrobesGQLClient(BaseClient):
     def __init__(self, host, api_token, verify=True):
         super().__init__(host=host, api_token=api_token)
@@ -293,6 +403,17 @@ class StrobesGQLClient(BaseClient):
                 result.has_next()
                 result.has_prev()
                 _select_template(result.objects)
+
+            if query_name == "all_assets":
+                # Pagination/meta fields
+                result.has_next()
+                result.has_previous()
+                result.last_cursor()
+                result.before_cursor()
+                _select_asset(result.objects)
+
+            if query_name == "asset":
+                _select_asset(result)
 
             if query_name == "download_report":
                 _select_report(result)
