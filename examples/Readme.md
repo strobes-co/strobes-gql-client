@@ -1304,6 +1304,172 @@ Both the query and the mutations return `CommentType`:
 
 **Example File**: `examples/test-comments-example.py`
 
+## Exporting Bugs and Assets (Async CSV)
+
+For a large organization, paginating `allBugs` or `allAssets` yourself can hit
+a gateway timeout. The client also exposes an **async, background export**
+flow: kick off an export, poll `downloadReport` until it finishes, then
+download the resulting CSV. This is the recommended way to pull "everything"
+out of an org.
+
+Both exports follow the same three steps:
+
+1. Start the export (`exportBugs` / `exportAssets` mutation) — returns an
+   `exportId` immediately, without waiting for the export to finish.
+2. Poll `downloadReport(organizationId, exportId)` until `status` is `"2"`
+   (Finished) or `"3"` (Failed).
+3. Download the CSV from the `file` URL on the finished report.
+
+`export_bugs_and_wait` / `export_assets_and_wait` do steps 2 and 3's polling
+for you; `export_bugs` / `export_assets` only do step 1, for callers who want
+their own polling loop.
+
+### Export Bugs
+
+**Example File**: `examples/test-export-bugs-example.py`
+
+Set your credentials and run the script:
+
+```bash
+export STROBES_API_TOKEN="<client-api-token>"
+export STROBES_ORGANIZATION_ID="<org-id>"
+python examples/test-export-bugs-example.py --out bugs-export.csv
+```
+
+Edit the `SEARCH_QUERY` variable near the top of the script to restrict the
+export to bugs matching an RQL query — leave it `None` to export every bug
+the token can see. See [Common Search Patterns](#common-search-patterns-1)
+in the Findings section above for the query syntax (bugs and findings are
+the same object).
+
+The simplest way to use the export from your own code is
+`export_bugs_and_wait`, which starts the export and polls for you:
+
+```python
+from strobes_gql_client.client import StrobesGQLClient
+from strobes_gql_client import enums
+
+client = StrobesGQLClient(host=enums.APP_HOST, api_token=enums.API_TOKEN)
+
+report = client.export_bugs_and_wait(
+    enums.ORGANIZATION_ID,
+    search_query=None,       # or an RQL query, e.g. 'severity = 4'
+    poll_interval=3.0,       # seconds between downloadReport polls
+    timeout=1800,            # give up after 30 minutes
+)
+print(report["file"])        # signed URL to the finished CSV
+```
+
+If you want your own polling cadence/backoff, or a progress indicator
+between polls, call `export_bugs` and `download_report` yourself instead —
+this is exactly the loop `export_bugs_and_wait` runs internally, spelled
+out step by step (the script's `--manual-poll` flag runs this same path):
+
+```python
+import time
+
+export = client.export_bugs(enums.ORGANIZATION_ID, search_query=None)
+export_id = export["exportId"]
+print(f"Export started: exportId={export_id} status={export['status']}")
+
+while True:
+    response = client.execute_query(
+        "download_report",
+        organization_id=enums.ORGANIZATION_ID,
+        export_id=export_id,
+    )
+    report = (response.get("data") or {}).get("downloadReport")
+    print(f"  polling... status={report['status']}")
+    if report["status"] == "2":
+        break
+    if report["status"] == "3":
+        raise RuntimeError(f"Export {export_id} failed.")
+    time.sleep(3)
+```
+
+```bash
+python examples/test-export-bugs-example.py --manual-poll
+```
+
+Once you have the finished `report`, download the CSV with a plain HTTP GET
+(the example script's `download_file` helper does exactly this):
+
+```python
+import requests
+
+resp = requests.get(report["file"], timeout=60)
+resp.raise_for_status()
+with open("bugs-export.csv", "wb") as f:
+    f.write(resp.content)
+```
+
+#### Arguments
+
+| Argument | Type | Description |
+|---|---|---|
+| `organization_id` | UUID! | Required. Organization to export from |
+| `search_query` | String | RQL search restricting which bugs are exported. Omit/`None` to export every bug the token can see |
+| `poll_interval` | float | `_and_wait` only. Seconds between `downloadReport` polls. Default `3.0` |
+| `timeout` | int | `_and_wait` only. Seconds to wait before raising `TimeoutError`. Default `1800` (30 minutes) |
+
+#### Available Response Fields
+
+`export_bugs` returns immediately with `exportId` and `status`.
+`export_bugs_and_wait` (and a finished `download_report` poll) return the
+full report dict (`ReportType`):
+
+- `id` (ID!) – Report identifier
+- `report_name` (String) – Generated report name
+- `status` (String!) – Raw `ExportReport` status code: `"0"`=Pending, `"1"`=In-Progress, `"2"`=Finished, `"3"`=Failed
+- `created` (DateTime!) – When the export was started
+- `export_id` (String) – The export id used to poll `downloadReport`
+- `file` (String) – Signed download URL, present once `status == "2"`
+- `has_password` (Boolean) – Whether the file is password protected
+- `template` – `id`, `template_name`
+
+### Export Assets
+
+**Example File**: `examples/test-export-assets-example.py`
+
+```bash
+export STROBES_API_TOKEN="<client-api-token>"
+export STROBES_ORGANIZATION_ID="<org-id>"
+python examples/test-export-assets-example.py --out assets-export.csv
+```
+
+Asset export works exactly like the bug export above, using
+`export_assets_and_wait` (or `export_assets` + `download_report` for a
+manual polling loop) in place of the bug versions:
+
+```python
+report = client.export_assets_and_wait(
+    enums.ORGANIZATION_ID,
+    search_query=None,   # or an RQL query, e.g. 'type = 1'
+)
+print(report["file"])
+```
+
+Edit `SEARCH_QUERY` near the top of the script to restrict the export to
+assets matching an RQL query — see
+[Common Search Patterns](#common-search-patterns) in the Assets section
+above for the query syntax.
+
+Each row in the CSV covers the asset's full metadata
+(`scanner_raw_response`, `dns_info`, `whois_info`, custom fields) plus every
+source (connector) that contributed to it — column "Imported Using" for the
+primary source, "Other Sources" for every additional one. The underlying
+platform merges/overwrites metadata in place when multiple sources report
+the same asset, so a field's value can't be attributed to one specific
+source — only which sources contributed is tracked. This is the most
+complete "metadata from each source" view currently available.
+
+#### Arguments and Response Fields
+
+Same shape as [Export Bugs](#export-bugs) above: `organization_id`,
+`search_query`, `poll_interval`, `timeout` as arguments, and the same
+`ReportType` fields (`id`, `report_name`, `status`, `created`, `export_id`,
+`file`, `has_password`, `template`) on the response.
+
 ### Complete collection of videos
 
 Watch the complete video walkthrough covering configuration, examples, and usage:
