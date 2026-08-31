@@ -1,7 +1,10 @@
+import contextlib
 import json
 import logging
 import mimetypes
+import time
 from strobes_gql_client.base_client import BaseClient
+from strobes_gql_client.exceptions import GraphQLRequestError
 from sgqlc.endpoint.requests import RequestsEndpoint
 from sgqlc.operation import Operation
 from sgqlc.types import Variable, non_null
@@ -332,16 +335,42 @@ ASSET_CONNECTOR_FIELDS = (
 
 
 def _select_asset(result):
-    """Apply the AssetType selection to a node, including lastSeen and
-    connector.
+    """Apply the AssetType selection to a node, including lastSeen,
+    connector, and otherConnectors.
 
     sgqlc's default auto-select depth doesn't reach far enough to pick up
     these nested relation objects (several levels below the query root),
     so they silently drop out of the response unless selected here.
+
+    `otherConnectors` is every additional source (beyond the primary
+    `connector`) that has also reported this asset — selecting it is what
+    makes an asset export carry metadata "from each one of the sources"
+    for assets discovered by more than one connector.
     """
     result.__fields__(*ASSET_FULL_FIELDS)
     result.last_seen.__fields__(*ASSET_LAST_SEEN_FIELDS)
     result.connector.__fields__(*ASSET_CONNECTOR_FIELDS)
+    result.other_connectors.__fields__(*ASSET_CONNECTOR_FIELDS)
+
+
+@contextlib.contextmanager
+def _quiet_transient_report_lookup():
+    """Silence sgqlc's own `logger.error('GraphQL query failed with %s
+    errors', ...)` (sgqlc.endpoint.base) around a `download_report` poll.
+
+    That log comes from sgqlc itself, before our code ever sees the
+    response, so our own quieter handling of the expected "row not created
+    yet" race in `execute_query` (see there) can't reach it. Callers here
+    already treat every `download_report` error during polling as
+    "not ready yet" and retry, so there's nothing this would be hiding.
+    """
+    sgqlc_logger = logging.getLogger("sgqlc.endpoint.base")
+    previous_level = sgqlc_logger.level
+    sgqlc_logger.setLevel(logging.CRITICAL)
+    try:
+        yield
+    finally:
+        sgqlc_logger.setLevel(previous_level)
 
 
 class StrobesGQLClient(BaseClient):
@@ -419,6 +448,31 @@ class StrobesGQLClient(BaseClient):
                 _select_report(result)
 
             data = self.endpoint(op)
+            if data and data.get("errors"):
+                # A gateway timeout or 5xx doesn't raise here — sgqlc's
+                # RequestsEndpoint converts it into {"data": None,
+                # "errors": [...]} and returns it like any other response.
+                # Raise so a caller (or _fetch_page_with_retry) can tell
+                # "this page failed" apart from "this page was empty".
+                #
+                # download_report briefly returns "Invalid export details."
+                # in the window between exportBugs/exportAssets returning an
+                # exportId and the backend task creating the row — callers
+                # (e.g. export_bugs_and_wait) treat that as "not ready yet"
+                # and retry, so log it quietly instead of as an error.
+                is_transient_report_lookup = query_name == "download_report" and any(
+                    "Invalid export details" in error.get("message", "")
+                    for error in data["errors"]
+                )
+                if is_transient_report_lookup:
+                    self.logger.debug(
+                        f"{query_name}: report not created yet ({data['errors']})"
+                    )
+                else:
+                    self.logger.error(
+                        f"GraphQL errors for {query_name}: {data['errors']}"
+                    )
+                raise GraphQLRequestError(query_name, data["errors"])
             if data:
                 self.logger.debug(f"{query_name} executed successfully.")
                 return data
@@ -429,6 +483,11 @@ class StrobesGQLClient(BaseClient):
                 return None
         except AttributeError:
             self.logger.error(f"Query '{query_name}' not found in schema.")
+            raise
+        except GraphQLRequestError:
+            # Already logged above at the appropriate level — avoid
+            # double-logging a full traceback for an error we've already
+            # reported (and, for download_report, may be expected/transient).
             raise
         except Exception as e:
             self.logger.exception(
@@ -459,6 +518,11 @@ class StrobesGQLClient(BaseClient):
                 result.password_required()
 
             data = self.endpoint(op)
+            if data and data.get("errors"):
+                self.logger.error(
+                    f"GraphQL errors for {mutation_name}: {data['errors']}"
+                )
+                raise GraphQLRequestError(mutation_name, data["errors"])
             graphql_name = getattr(schema.Mutation, mutation_name).graphql_name
             payload = (data.get("data") or {}).get(graphql_name) if data else None
             if payload is not None:
@@ -529,6 +593,339 @@ class StrobesGQLClient(BaseClient):
 
         data = self.endpoint(op)
         return (data.get("data") or {}).get("allLogs") if data else None
+
+    def _fetch_page_with_retry(
+        self,
+        query_name,
+        graphql_key,
+        variables,
+        page_size,
+        min_page_size,
+        max_retries,
+        initial_backoff,
+        max_backoff,
+    ):
+        """Run one page of a cursor-paginated query, retrying transient
+        failures (gateway timeouts, 5xx) with exponential backoff.
+
+        If a page still fails after `max_retries` attempts, halve
+        `page_size` (down to `min_page_size`) and start the retry count
+        over — a batch that's too large to complete inside the gateway's
+        timeout window will keep failing at a fixed size no matter how
+        many times it's retried, so shrinking it is what actually
+        resolves it, not more retries alone.
+
+        Returns `(payload, page_size)` — the page's data and the page
+        size that ended up succeeding, so the caller can keep using it for
+        the next page.
+        """
+        attempt = 0
+        while True:
+            try:
+                response = self.execute_query(
+                    query_name, page_size=page_size, **variables
+                )
+                payload = (response.get("data") or {}).get(graphql_key) or {}
+                return payload, page_size
+            except Exception as exc:
+                attempt += 1
+                if page_size <= min_page_size and attempt > max_retries:
+                    raise
+                if attempt > max_retries:
+                    page_size = max(min_page_size, page_size // 2)
+                    attempt = 0
+                    self.logger.warning(
+                        f"{query_name}: repeated failures ({exc}); "
+                        f"shrinking page_size to {page_size}"
+                    )
+                    continue
+                backoff = min(max_backoff, initial_backoff * (2 ** (attempt - 1)))
+                self.logger.warning(
+                    f"{query_name}: attempt {attempt} failed ({exc}); "
+                    f"retrying in {backoff:.1f}s"
+                )
+                time.sleep(backoff)
+
+    def _export_cursor_paginated(
+        self,
+        query_name,
+        graphql_key,
+        page_size,
+        min_page_size,
+        max_retries,
+        initial_backoff,
+        max_backoff,
+        **variables,
+    ):
+        """Page through a cursor-paginated query end to end, yielding each
+        page's `objects` list.
+
+        This is the recommended way to pull "everything" out of a
+        cursor-paginated endpoint like `allBugs`/`allAssets`: instead of
+        hand-rolling retry logic around `execute_query(...)` and guessing
+        at a batch size that won't hit the gateway timeout, start with
+        whatever `page_size` you'd like and let this shrink it on repeated
+        failures and grow it back up once a run of pages succeeds cleanly.
+        """
+        after = None
+        current_page_size = page_size
+        consecutive_successes = 0
+
+        while True:
+            payload, current_page_size = self._fetch_page_with_retry(
+                query_name,
+                graphql_key,
+                {**variables, "after": after},
+                current_page_size,
+                min_page_size,
+                max_retries,
+                initial_backoff,
+                max_backoff,
+            )
+            objects = payload.get("objects") or []
+            if objects:
+                yield objects
+
+            if current_page_size < page_size:
+                consecutive_successes += 1
+                if consecutive_successes >= 3:
+                    current_page_size = min(page_size, current_page_size * 2)
+                    consecutive_successes = 0
+
+            if not payload.get("hasNext") or not objects:
+                return
+            after = payload.get("lastCursor")
+            if not after:
+                return
+
+    def export_all_bugs(
+        self,
+        organization_id,
+        search_query=None,
+        order_by=None,
+        page_size=200,
+        min_page_size=25,
+        max_retries=5,
+        initial_backoff=2.0,
+        max_backoff=30.0,
+    ):
+        """Export every bug in an organization via `allBugs` cursor
+        pagination, yielding one list of bug objects per page.
+
+        Handles the batch-size-vs-gateway-timeout tradeoff for you:
+        transient failures are retried with backoff, and a batch that
+        keeps timing out gets progressively smaller instead of failing the
+        whole export (then grows back toward `page_size` once things
+        settle). Use this instead of driving `execute_query("all_bugs",
+        ...)` in a loop by hand.
+        """
+        yield from self._export_cursor_paginated(
+            "all_bugs",
+            "allBugs",
+            page_size,
+            min_page_size,
+            max_retries,
+            initial_backoff,
+            max_backoff,
+            organization_id=organization_id,
+            search_query=search_query,
+            order_by=order_by,
+        )
+
+    def export_all_assets(
+        self,
+        organization_id,
+        search_query=None,
+        page_size=200,
+        min_page_size=25,
+        max_retries=5,
+        initial_backoff=2.0,
+        max_backoff=30.0,
+    ):
+        """Export every asset in an organization via `allAssets` cursor
+        pagination, yielding one list of asset objects per page.
+
+        Each asset includes full metadata plus every source that reported
+        it (`connector` and `otherConnectors`, via `_select_asset`). Same
+        retry/backoff/adaptive-batching behavior as `export_all_bugs`.
+        """
+        yield from self._export_cursor_paginated(
+            "all_assets",
+            "allAssets",
+            page_size,
+            min_page_size,
+            max_retries,
+            initial_backoff,
+            max_backoff,
+            organization_id=organization_id,
+            search_query=search_query,
+        )
+
+    def export_bugs(self, organization_id, search_query=None):
+        """Kick off an async CSV export of every bug matching `search_query`
+        (or every bug the token can see, if omitted) and return immediately.
+
+        This is the recommended way to pull "everything" out of a large org
+        instead of paginating `allBugs` yourself: the export runs as a
+        background job on the server, so nothing about it can hit a gateway
+        timeout the way a large synchronous `allBugs` batch can.
+
+        Returns a dict with `exportId` (pass to `download_report` / to
+        `export_bugs_and_wait` to poll) and `status` (a raw ExportReport
+        status code: "0"=Pending, "1"=In-Progress, "2"=Finished, "3"=Failed).
+        """
+        result = self.execute_mutation(
+            "export_bugs",
+            organization_id=organization_id,
+            search_query=search_query,
+        )
+        if not result:
+            raise RuntimeError("exportBugs returned no data — check permissions.")
+        return result
+
+    def export_bugs_and_wait(
+        self,
+        organization_id,
+        search_query=None,
+        poll_interval=3.0,
+        timeout=1800,
+    ):
+        """`export_bugs`, then poll `downloadReport` until it finishes.
+
+        Returns the finished report dict (with a `file` URL) once
+        `status == "2"`. Raises `RuntimeError` if the export reaches
+        `status == "3"` (Failed), or `TimeoutError` if it doesn't finish
+        within `timeout` seconds.
+        """
+        export = self.export_bugs(organization_id, search_query=search_query)
+        export_id = export["exportId"]
+        deadline = time.monotonic() + timeout
+
+        while True:
+            try:
+                with _quiet_transient_report_lookup():
+                    response = self.execute_query(
+                        "download_report",
+                        organization_id=organization_id,
+                        export_id=export_id,
+                    )
+                report = (
+                    (response.get("data") or {}).get("downloadReport")
+                    if response
+                    else None
+                )
+            except GraphQLRequestError:
+                # downloadReport raises "Invalid export details." for the brief
+                # window between this call returning exportId and the backend
+                # task actually creating the row — expected and transient, not
+                # a real failure. Treat exactly like "not ready yet" below.
+                report = None
+
+            if not report:
+                if time.monotonic() >= deadline:
+                    raise TimeoutError(
+                        f"Bug export {export_id} did not finish within {timeout}s "
+                        f"(export not found yet)."
+                    )
+                time.sleep(poll_interval)
+                continue
+
+            status = report.get("status")
+            if status == "2":
+                return report
+            if status == "3":
+                raise RuntimeError(f"Bug export {export_id} failed (status=3).")
+
+            if time.monotonic() >= deadline:
+                raise TimeoutError(
+                    f"Bug export {export_id} did not finish within {timeout}s "
+                    f"(last status={status})."
+                )
+            time.sleep(poll_interval)
+
+    def export_assets(self, organization_id, search_query=None):
+        """Kick off an async CSV export of every asset matching
+        `search_query` (or every asset the token can see, if omitted) and
+        return immediately.
+
+        Each row covers the asset's full metadata (scanner_raw_response,
+        dns_info, whois_info, custom fields) plus every source (connector)
+        that contributed to it. Note: metadata itself is merged/overwritten
+        on ingestion when multiple sources report the same asset — there is
+        no way to attribute a specific field's value to a specific source,
+        only to see which sources contributed. This is the most complete
+        "metadata from each source" view the platform currently supports.
+
+        Returns a dict with `exportId` (pass to `download_report` / to
+        `export_assets_and_wait` to poll) and `status` (a raw ExportReport
+        status code: "0"=Pending, "1"=In-Progress, "2"=Finished, "3"=Failed).
+        """
+        result = self.execute_mutation(
+            "export_assets",
+            organization_id=organization_id,
+            search_query=search_query,
+        )
+        if not result:
+            raise RuntimeError("exportAssets returned no data — check permissions.")
+        return result
+
+    def export_assets_and_wait(
+        self,
+        organization_id,
+        search_query=None,
+        poll_interval=3.0,
+        timeout=1800,
+    ):
+        """`export_assets`, then poll `downloadReport` until it finishes.
+
+        Returns the finished report dict (with a `file` URL) once
+        `status == "2"`. Raises `RuntimeError` if the export reaches
+        `status == "3"` (Failed), or `TimeoutError` if it doesn't finish
+        within `timeout` seconds.
+        """
+        export = self.export_assets(organization_id, search_query=search_query)
+        export_id = export["exportId"]
+        deadline = time.monotonic() + timeout
+
+        while True:
+            try:
+                with _quiet_transient_report_lookup():
+                    response = self.execute_query(
+                        "download_report",
+                        organization_id=organization_id,
+                        export_id=export_id,
+                    )
+                report = (
+                    (response.get("data") or {}).get("downloadReport")
+                    if response
+                    else None
+                )
+            except GraphQLRequestError:
+                # See export_bugs_and_wait — same transient "row not created
+                # yet" race, not a real failure.
+                report = None
+
+            if not report:
+                if time.monotonic() >= deadline:
+                    raise TimeoutError(
+                        f"Asset export {export_id} did not finish within {timeout}s "
+                        f"(export not found yet)."
+                    )
+                time.sleep(poll_interval)
+                continue
+
+            status = report.get("status")
+            if status == "2":
+                return report
+            if status == "3":
+                raise RuntimeError(f"Asset export {export_id} failed (status=3).")
+
+            if time.monotonic() >= deadline:
+                raise TimeoutError(
+                    f"Asset export {export_id} did not finish within {timeout}s "
+                    f"(last status={status})."
+                )
+            time.sleep(poll_interval)
 
     def _execute_multipart_operation(
         self, op, graphql_field, file_path, file_variable="file"
