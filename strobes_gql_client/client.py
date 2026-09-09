@@ -118,10 +118,58 @@ COMMENT_FIELDS = (
 def _select_comment(result):
     """Apply the public CommentType selection to a CommentType node."""
     result.__fields__(*COMMENT_FIELDS)
-    result.commented_by.__fields__("id", "email", "first_name", "last_name")
-    result.attachments.__fields__(
-        "id", "attachment_name", "attachment_size", "caption", "url"
-    )
+
+
+# Scalar fields on EngagementType. Deliberately excludes relation fields
+# (organization, vendor, documents, credentials, assignees,
+# engagementAssessment, prerequisitesEngagement, workBooks,
+# exportreportSet, bugEngagements, activityEngagement, commentsEngagement,
+# workspaces) since those need their own subselection.
+ENGAGEMENT_FULL_FIELDS = (
+    "id",
+    "engagement_custom_id",
+    "name",
+    "security_posture",
+    "scheduled_date",
+    "delivery_date",
+    "subscribed_services",
+    "checked_terms_and_conditions",
+    "executive_summary",
+    "credits_estimated",
+    "credits",
+    "is_self_managed_engagement",
+    "is_agentic_assessment",
+    "created",
+    "updated",
+    "is_active",
+    "plans",
+    "fields",
+    "state",
+    "assessments_count",
+    "engagement_completion",
+    "assessments_per_service",
+    "total_hours_spent",
+    "prerequisites_completion",
+    "state_id",
+    "parent_state",
+)
+
+# Scalar fields on CustomAssessmentStatusType, the type
+# EngagementType.customStatus resolves to.
+ENGAGEMENT_CUSTOM_STATUS_FIELDS = (
+    "id",
+    "parent_state",
+    "status",
+    "description",
+    "created",
+    "updated",
+)
+
+
+def _select_engagement(result):
+    """Apply the EngagementType selection to a node, including customStatus."""
+    result.__fields__(*ENGAGEMENT_FULL_FIELDS)
+    result.custom_status.__fields__(*ENGAGEMENT_CUSTOM_STATUS_FIELDS)
 
 
 # Scalar fields the public TemplateType exposes. The locally generated
@@ -509,6 +557,12 @@ class StrobesGQLClient(BaseClient):
 
             if mutation_name in ("add_bug_comment", "add_engagement_comment"):
                 _select_comment(result.comment)
+
+            if mutation_name == "update_engagement":
+                _select_engagement(result.engagement)
+
+            if mutation_name == "bulk_update_engagements":
+                _select_engagement(result.engagements)
 
             if mutation_name == "add_report_template":
                 _select_template(result.templates)
