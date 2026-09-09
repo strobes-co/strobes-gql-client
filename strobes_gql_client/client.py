@@ -118,6 +118,10 @@ COMMENT_FIELDS = (
 def _select_comment(result):
     """Apply the public CommentType selection to a CommentType node."""
     result.__fields__(*COMMENT_FIELDS)
+    result.commented_by.__fields__("id", "email", "first_name", "last_name")
+    result.attachments.__fields__(
+        "id", "attachment_name", "attachment_size", "caption", "url"
+    )
 
 
 # Scalar fields on EngagementType. Deliberately excludes relation fields
