@@ -559,6 +559,11 @@ class StrobesGQLClient(BaseClient):
             if mutation_name == "bug_bulk_update":
                 result.bugs.__fields__("id", "state", "severity")
 
+            if mutation_name == "bug_bulk_update_mitigation_description":
+                result.bugs.__fields__(
+                    "id", "description", "mitigation", "evidence", "steps_to_reproduce"
+                )
+
             if mutation_name in ("add_bug_comment", "add_engagement_comment"):
                 _select_comment(result.comment)
 
@@ -1085,6 +1090,37 @@ class StrobesGQLClient(BaseClient):
         result.bug.__fields__("id")
         return self._execute_multipart_operation(
             op, "updateBugsFieldsWithCsv", file_path
+        )
+
+    def update_bug_mitigation_description(
+        self,
+        organization_id,
+        search_query,
+        description=None,
+        mitigation=None,
+        evidence=None,
+        steps_to_reproduce=None,
+        group_by_field=None,
+        group_by_value=None,
+    ):
+        """Bulk-update findings' description/mitigation/evidence/steps-to-reproduce
+        via the `bugBulkUpdateMitigationDescription` mutation.
+
+        Findings are targeted with `search_query` (or `group_by_field`/
+        `group_by_value`), not by ID directly — scope `search_query` tightly
+        enough to match a single bug if that's the intent. Returns the list
+        of updated bugs.
+        """
+        return self.execute_mutation(
+            "bug_bulk_update_mitigation_description",
+            organization_id=str(organization_id),
+            search_query=search_query,
+            description=description,
+            mitigation=mitigation,
+            evidence=evidence,
+            steps_to_reproduce=steps_to_reproduce,
+            group_by_field=group_by_field,
+            group_by_value=group_by_value,
         )
 
     def add_report_attachment(self, file_path, organization_id):
