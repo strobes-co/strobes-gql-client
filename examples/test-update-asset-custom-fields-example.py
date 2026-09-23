@@ -19,9 +19,10 @@ from strobes_gql_client.enums import API_TOKEN, APP_HOST, ORGANIZATION_ID
 # EDIT THESE — the only things you should need to change
 # =============================================================================
 
-# RQL selecting the assets to update. Keep it narrow: `id = "<uuid>"` for one
-# asset, or e.g. `type = 7 and name ~ 'my-repo'` for a group.
-SEARCH_QUERY = 'id = "914db797-f6e7-439b-8af0-54da5f96d609"'
+# RQL selecting the assets to update. Keep it narrow: `id = 1234` for one
+# asset, or e.g. `type = 7 and name ~ 'my-repo'` for a group. Asset `id` is
+# an integer in RQL, so do not quote it.
+SEARCH_QUERY = "id = 1234"
 
 # Custom-field slug -> value. Slugs are lowercase with underscores (the slug
 # Strobes generated when the field was created, e.g. "Last Hotfix Release"
