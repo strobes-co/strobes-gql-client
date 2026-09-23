@@ -108,3 +108,8 @@ Args: `organizationId: UUID!`, `searchQuery: String!` (RQL, must be non-empty),
 `fields: GenericScalar!` (slug -> value). Up to 100 matching assets are updated
 inline and returned; above that the backend queues a Celery task and returns an
 empty `asset` list.
+
+Follow-up: `fields` is now sent as a GraphQL variable (`$fields: GenericScalar!`)
+rather than inlined into the query. Inlining a dict produced JSON-quoted object
+keys, which the GraphQL parser rejects with "Expected Name, found String".
+The dedicated method no longer routes through `execute_mutation`.

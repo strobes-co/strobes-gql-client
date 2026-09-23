@@ -568,9 +568,6 @@ class StrobesGQLClient(BaseClient):
             if mutation_name == "bulk_update_engagements":
                 _select_engagement(result.engagements)
 
-            if mutation_name == "bulk_update_asset_custom_field_mutation":
-                result.asset.__fields__("id", "name", "type", "fields")
-
             if mutation_name == "add_report_template":
                 _select_template(result.templates)
 
@@ -674,11 +671,33 @@ class StrobesGQLClient(BaseClient):
             raise ValueError("search_query must be a non-empty RQL string")
         if not isinstance(fields, dict) or not fields:
             raise ValueError("fields must be a non-empty dict of slug -> value")
-        return self.execute_mutation(
-            "bulk_update_asset_custom_field_mutation",
+        # `fields` must travel as a GraphQL variable. Inlining a Python dict
+        # into the query string renders JSON-quoted keys ({"slug": ...}),
+        # which GraphQL rejects ("Expected Name, found String").
+        op = Operation(
+            schema.Mutation,
+            name="BulkUpdateAssetCustomFields",
+            variables={"fields": non_null(schema.GenericScalar)},
+        )
+        mutation = op.bulk_update_asset_custom_field_mutation(
             organization_id=str(organization_id),
             search_query=search_query,
-            fields=fields,
+            fields=Variable("fields"),
+        )
+        mutation.asset.__fields__("id", "name", "type", "fields")
+
+        data = self.endpoint(op, variables={"fields": fields})
+        if data and data.get("errors"):
+            self.logger.error(
+                f"GraphQL errors for bulk_update_asset_custom_field_mutation: {data['errors']}"
+            )
+            raise GraphQLRequestError(
+                "bulk_update_asset_custom_field_mutation", data["errors"]
+            )
+        return (
+            (data.get("data") or {}).get("bulkUpdateAssetCustomFieldMutation")
+            if data
+            else None
         )
 
     def _fetch_page_with_retry(
