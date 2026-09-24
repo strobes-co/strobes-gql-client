@@ -652,6 +652,54 @@ class StrobesGQLClient(BaseClient):
         data = self.endpoint(op)
         return (data.get("data") or {}).get("allLogs") if data else None
 
+    def bulk_update_asset_custom_fields(self, organization_id, search_query, fields):
+        """Set custom-field values on every asset matching `search_query`
+        via the public `bulkUpdateAssetCustomFieldMutation`.
+
+        `fields` maps custom-field slug -> value, e.g.
+        `{"last_hotfix_release": "2026-09-18", "hotfix_released_by": "jane"}`.
+        Slugs are the org's AssetField slugs (lowercase, underscores). Values
+        are validated server-side against the field type; unknown slugs are
+        ignored. Requires a non-empty `search_query` (an empty one would
+        otherwise match every asset in the org).
+
+        Returns the mutation payload: `{"asset": [{id, name, type, fields}, ...]}`.
+        When more than 100 assets match, the backend hands the update to a
+        background task and `asset` comes back as an empty list.
+        """
+        if not search_query or not str(search_query).strip():
+            raise ValueError("search_query must be a non-empty RQL string")
+        if not isinstance(fields, dict) or not fields:
+            raise ValueError("fields must be a non-empty dict of slug -> value")
+        # `fields` must travel as a GraphQL variable. Inlining a Python dict
+        # into the query string renders JSON-quoted keys ({"slug": ...}),
+        # which GraphQL rejects ("Expected Name, found String").
+        op = Operation(
+            schema.Mutation,
+            name="BulkUpdateAssetCustomFields",
+            variables={"fields": non_null(schema.GenericScalar)},
+        )
+        mutation = op.bulk_update_asset_custom_field_mutation(
+            organization_id=str(organization_id),
+            search_query=search_query,
+            fields=Variable("fields"),
+        )
+        mutation.asset.__fields__("id", "name", "type", "fields")
+
+        data = self.endpoint(op, variables={"fields": fields})
+        if data and data.get("errors"):
+            self.logger.error(
+                f"GraphQL errors for bulk_update_asset_custom_field_mutation: {data['errors']}"
+            )
+            raise GraphQLRequestError(
+                "bulk_update_asset_custom_field_mutation", data["errors"]
+            )
+        return (
+            (data.get("data") or {}).get("bulkUpdateAssetCustomFieldMutation")
+            if data
+            else None
+        )
+
     def _fetch_page_with_retry(
         self,
         query_name,

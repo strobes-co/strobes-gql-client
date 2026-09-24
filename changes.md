@@ -87,3 +87,29 @@ Fixed in the `strobes` repo (separate PR from this client):
 
 Needs a backend restart to pick up the new resolvers before re-running
 `examples/test-update-engagement-state-example.py`.
+---
+
+## Asset custom-field updates (bulkUpdateAssetCustomFieldMutation)
+
+Added `StrobesGQLClient.bulk_update_asset_custom_fields(organization_id,
+search_query, fields)` plus `examples/test-update-asset-custom-fields-example.py`.
+
+Background: the public endpoint only had `createAsset`; there was no way to
+change custom-field values on assets that already exist. The backend forked
+the internal `BulkUpdateAssetCustomFields` mutation into
+`strobes/graphql/public/assets/mutations.py` under the **same GraphQL name and
+return field as the internal one** (`bulkUpdateAssetCustomFieldMutation`,
+returning `asset: [AssetType]`), so this client's generated `schema.py` (built
+from the internal schema) already described it and needed no regeneration.
+`"bulkUpdateAssetCustomFieldMutation"` was also added to the
+`MasterKeyAccessPermission` allowlist.
+
+Args: `organizationId: UUID!`, `searchQuery: String!` (RQL, must be non-empty),
+`fields: GenericScalar!` (slug -> value). Up to 100 matching assets are updated
+inline and returned; above that the backend queues a Celery task and returns an
+empty `asset` list.
+
+Follow-up: `fields` is now sent as a GraphQL variable (`$fields: GenericScalar!`)
+rather than inlined into the query. Inlining a dict produced JSON-quoted object
+keys, which the GraphQL parser rejects with "Expected Name, found String".
+The dedicated method no longer routes through `execute_mutation`.
