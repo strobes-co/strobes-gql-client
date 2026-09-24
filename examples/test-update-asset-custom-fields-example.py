@@ -26,10 +26,10 @@ SEARCH_QUERY = "id = 1234"
 
 # Custom-field slug -> value. Slugs are lowercase with underscores (the slug
 # Strobes generated when the field was created, e.g. "Last Hotfix Release"
-# -> "last_hotfix_release"). Dates as YYYY-MM-DD, numbers as ints.
+# -> "last_hotfix_date"). Dates as YYYY-MM-DD, numbers as ints.
 FIELDS = {
-    "last_hotfix_release": "2026-09-18",
-    "hotfix_released_by": "jane.doe",
+    "last_hotfix_date": "2026-09-18",
+    "last_hotfix_by": "jane.doe",
 }
 
 # =============================================================================
