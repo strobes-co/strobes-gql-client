@@ -425,6 +425,71 @@ def _quiet_transient_report_lookup():
         sgqlc_logger.setLevel(previous_level)
 
 
+
+# ---------------------------------------------------------------------------
+# AI workspace & agent (pulse) selections.
+#
+# These ops are served on the public endpoint by RE-EXPOSING the internal
+# workspace/pulse/system-agent types (see strobes.graphql.public.agents), so
+# this client's schema.py (generated from the internal schema) is an exact
+# match for them. We still pin selections because sgqlc's auto-select would
+# otherwise descend into heavy nested relations (stats, chats, tables, ...).
+# ---------------------------------------------------------------------------
+WORKSPACE_SCALARS = (
+    "id", "name", "description", "icon", "status", "workspace_type",
+    "custom_instructions", "supervisor_mode", "template_slug", "created_at",
+    "updated_at", "organization_id", "engagement_id", "engagement_name",
+    "created_by_name", "created_by_email",
+)
+WORKSPACE_STATS_SCALARS = (
+    "chat_count", "document_count", "file_count", "table_count", "task_count",
+    "active_task_count", "completed_task_count", "skill_count",
+    "learning_count", "credits_consumed", "asset_count", "finding_count",
+)
+TASK_SCALARS = (
+    "id", "title", "instructions", "task_type", "agent_type", "status",
+    "error_message", "created_at", "started_at", "completed_at",
+    "duration_seconds", "created_by_type",
+)
+MESSAGE_SCALARS = (
+    "id", "author", "agent_id", "agent_name", "blocks", "status", "created_at",
+    "updated_at",
+)
+AGENT_INFO_SCALARS = (
+    "id", "name", "description", "role", "source", "capabilities",
+)
+WORKSPACE_FINDING_SCALARS = (
+    "id", "title", "severity", "severity_label", "asset_id", "asset_name",
+    "state", "state_label", "created",
+)
+WORKSPACE_ASSET_SCALARS = (
+    "id", "name", "type", "type_label", "target", "sensitivity",
+    "sensitivity_label", "created",
+)
+WORKSPACE_FILE_SCALARS = (
+    "name", "path", "is_folder", "size", "last_modified", "content_type",
+)
+WORKFLOW_TEMPLATE_SCALARS = (
+    "slug", "name", "description", "icon", "version", "phase_count",
+    "required_variables",
+)
+WORKFLOW_INSTANCE_SCALARS = (
+    "workflow_id", "template_slug", "template_version", "status",
+    "current_phase_key", "variables", "total_tasks", "completed_tasks",
+    "started_at", "completed_at", "created_at",
+)
+WORKFLOW_PHASE_SCALARS = (
+    "phase_key", "phase_name", "order", "status", "gate_type",
+    "failure_policy", "started_at", "completed_at",
+)
+
+
+def _select_workspace(result, with_stats=False):
+    result.__fields__(*WORKSPACE_SCALARS)
+    if with_stats:
+        result.stats.__fields__(*WORKSPACE_STATS_SCALARS)
+
+
 class StrobesGQLClient(BaseClient):
     def __init__(self, host, api_token, verify=True):
         super().__init__(host=host, api_token=api_token)
@@ -498,6 +563,30 @@ class StrobesGQLClient(BaseClient):
 
             if query_name == "download_report":
                 _select_report(result)
+
+            if query_name == "workspaces":
+                _select_workspace(result, with_stats=False)
+            if query_name == "workspace":
+                _select_workspace(result, with_stats=True)
+            if query_name == "workspace_tasks":
+                result.__fields__(*TASK_SCALARS)
+            if query_name == "workspace_stats":
+                result.__fields__(*WORKSPACE_STATS_SCALARS)
+            if query_name == "available_agents":
+                result.__fields__(*AGENT_INFO_SCALARS)
+            if query_name == "workspace_task_messages":
+                result.__fields__(*MESSAGE_SCALARS)
+            if query_name == "workspace_findings":
+                result.__fields__(*WORKSPACE_FINDING_SCALARS)
+            if query_name == "workspace_assets":
+                result.__fields__(*WORKSPACE_ASSET_SCALARS)
+            if query_name == "workspace_files":
+                result.__fields__(*WORKSPACE_FILE_SCALARS)
+            if query_name == "workflow_templates":
+                result.__fields__(*WORKFLOW_TEMPLATE_SCALARS)
+            if query_name == "workspace_workflow":
+                result.__fields__(*WORKFLOW_INSTANCE_SCALARS)
+                result.phases.__fields__(*WORKFLOW_PHASE_SCALARS)
 
             data = self.endpoint(op)
             if data and data.get("errors"):
@@ -574,6 +663,24 @@ class StrobesGQLClient(BaseClient):
             if mutation_name == "generate_report":
                 result.reports()
                 result.password_required()
+
+            if mutation_name == "create_workspace":
+                result.workspace.__fields__(*WORKSPACE_SCALARS)
+                result.setup_thread.__fields__("id")
+            if mutation_name == "archive_workspace":
+                result.success()
+                result.workspace.__fields__("id", "status")
+            if mutation_name == "create_workspace_task":
+                result.task.__fields__(*TASK_SCALARS)
+            if mutation_name in ("cancel_workspace_task", "retry_workspace_task"):
+                result.success()
+                result.task.__fields__("id", "status")
+            if mutation_name == "create_workspace_from_template":
+                result.workspace.__fields__(*WORKSPACE_SCALARS)
+                result.setup_thread.__fields__("id")
+            if mutation_name in ("pause_workflow", "resume_workflow",
+                                 "cancel_workflow"):
+                result.success()
 
             data = self.endpoint(op)
             if data and data.get("errors"):
