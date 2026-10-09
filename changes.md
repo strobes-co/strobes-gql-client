@@ -113,3 +113,48 @@ Follow-up: `fields` is now sent as a GraphQL variable (`$fields: GenericScalar!`
 rather than inlined into the query. Inlining a dict produced JSON-quoted object
 keys, which the GraphQL parser rejects with "Expected Name, found String".
 The dedicated method no longer routes through `execute_mutation`.
+
+## AI workspaces & agents (public)
+
+Added pinned selections in `client.py` for the AI workspace / agent (pulse)
+operations now exposed on the public endpoint by `strobes.graphql.public.agents`
+(re-exposing the internal workspace/pulse/system-agent resolvers under MasterKey
+auth). `schema.py` already carried these types/fields (generated from the
+internal schema), so only selection pinning was needed.
+
+New operations:
+- Queries: `workspaces`, `workspace`, `workspace_stats`, `workspace_tasks`,
+  `available_agents`, `threads`, `thread`, `messages`, `active_run`.
+- Mutations: `create_workspace`, `archive_workspace`, `create_workspace_task`,
+  `cancel_workspace_task`, `retry_workspace_task`, `create_thread`,
+  `send_message`, `cancel_run`, `start_background_run`.
+
+See `examples/test-agents-workspaces-example.py`. Consumed by `strobes-agents-mcp`.
+
+### Update: workspace outputs & workflow control
+
+Added pinned selections + `schema.py` arg fixes for more public agent ops:
+- Queries: `workspace_findings`, `workspace_assets` (exposed as PLAIN LISTS on
+  the public endpoint to match this client; `schema.py` args extended with
+  page/page_size/search/severity|type/state), `workspace_files`,
+  `workspace_file_download_url`, `workspace_download_url`, `workspace_chats`,
+  `workflow_templates`, `workspace_workflow`.
+- Mutations: `create_workspace_from_template`, `pause_workflow`,
+  `resume_workflow`, `cancel_workflow`.
+
+### Final surface (simplification)
+
+The agent surface was consolidated to a task-centric model (chat == tasks). The
+standalone thread/chat/run ops (`threads`, `thread`, `messages`, `active_run`,
+`workspace_chats`, `create_thread`, `send_message`, `cancel_run`,
+`start_background_run`) were removed from the public endpoint and this client in
+favour of a single new query **`workspace_task_messages(workspace_id, task_id,
+limit, offset)`** (a task's run-thread messages). Final client-pinned agent ops:
+- Queries: `workspaces`, `workspace`, `workspace_stats`, `workspace_tasks`,
+  `workspace_task_messages`, `workspace_findings`, `workspace_assets`,
+  `workspace_files`, `workspace_file_download_url`, `workspace_download_url`,
+  `workflow_templates`, `workspace_workflow`, `available_agents`.
+- Mutations: `create_workspace`, `archive_workspace`,
+  `create_workspace_from_template`, `create_workspace_task`,
+  `cancel_workspace_task`, `retry_workspace_task`, `pause_workflow`,
+  `resume_workflow`, `cancel_workflow`.
